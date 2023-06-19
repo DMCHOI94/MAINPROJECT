@@ -1,0 +1,18 @@
+-- css
+1. css는 adminCommon과 userCommon 두 개로 나뉨. 더 이상 파일 만들 필요 없음
+2. 태그 속성은 class로 css 활용하면 되고, jsp 에서 import 로 css 불러오면 됨. (일반적으로 id, name 속성으로 css를 먹이진 않음)
+
+-- mybatis
+1. typeAlias 에다가 vo를 등록해야 mapper.xml 에서 vo를 사용할 수 있음
+2. alias 는 별명이라고 생각하면 됨
+
+-- root-context.xml
+1. sqlSessionFactory 에 bean을 등록해줘야 mybatis든 mapper.xml이든 사용 가능함
+2. bean 등록 안 해주면 사용 불가능하니까 설정 필수
+3. <!-- sqlSessionFactory --> 부분을 설명하자면, mybatis-config.xml
+       등록했고, 밑에 mapperLocations로 모든 Mapper.xml 사용하겠다라고 등록하는 것임.
+       
+-- memberMapper.xml
+1. <mapper namespace="com.shoppingmall.none.user.dao.UserDao">
+   xml mapper 태그에 dao 클래스 경로를 적어줘야 함. userDao 에서 선언했던
+       메소드를 사용하겠다라고 생각하면 됨.  

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="UserJoinDao">
+<!-- 회원가입 -->
+	<insert id="userInfo" parameterType="userJoinVo">
+		insert into MEMBER(userSeq, userId, userPw, userName, userAddr,
+		userAddrDetail, userAddrPostal, userGender, userBirth, useYN)
+		values(userSeq.NEXTVAL, #{userId}, #{userPw}, #{userName}, #{userAddrPostal},
+		#{userAddr}, #{userAddrDetail}, #{userGender}, #{userBirth}, #{useYN}
+		)
+	</insert>
+	
+<!-- 회원가입 전 아이디 중복검사 -->	
+	<select id="userIdChecking" parameterType="String" resultType="java.lang.String">
+  SELECT * FROM member WHERE userId = #{userId}
+	</select>
+
+<!-- 로그인 -->
+	<select id="login" parameterType="String" resultType="java.lang.String">
+		SELECT userId FROM member WHERE userId = #{userId} AND userPw = #{userPw}
+	</select>
+	
+<!-- 아이디 찾기 -->
+	<select id="findIdConfirm" parameterType="String" resultType="java.lang.String">
+		SELECT userId FROM member WHERE userPw = #{userPw} AND userName = #{userName} AND userBirth = #{userBirth} 
+	</select>
+			<!-- (정완설명) 밑에 보면 select 보면 resultType으로 객체선언해서 SQL 결과값을 다시 SERVICE로 전달해주는거임  -->
+
+<!-- 
+	<select id="login" parameterType="userJoinVo" resultType="userJoinVo">
+		select *
+		from MEMBER where 
+		userSeq=#{userSeq} and
+		userId=#{userId} and 
+		userPw=#{userPw} and
+		userName=#{userName} and 
+		userAddr=#{userAddr} and
+		userAddrDetail=#{userAddrDetail} and 
+		userAddrPostal=#{userAddrPostal} and
+		userGender=#{userGender} and 
+		userBirth=#{userBirth} and
+		useYN=#{useYN}
+	</select>
+
+	<select id="checkid" parameterType="String" resultType="int">
+		SELECT
+		COUNT(*) FROM member WHERE userId=#{userId}
+	</select>
+ -->
+</mapper>
