@@ -72,7 +72,10 @@ public class UserLoginController {
 		System.out
 				.println("controller userLoginService.loginInfo(userLoginVo)" + userLoginService.findIdConfirm(userFindIdVo));
 		System.out.println("findIdResult : " + findIdResult);
-		model.addAttribute("findIdResult", findIdResult);
+		String userId = request.getParameter("findIdResult");
+		model.addAttribute("userId", userId);
+		System.out.println(model.addAttribute("findIdResult", findIdResult));
+		System.out.println("userId : ----->" + userId);
 
 		return findIdResult;
 	}

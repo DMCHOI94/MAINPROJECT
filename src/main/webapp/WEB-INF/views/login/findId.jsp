@@ -26,6 +26,7 @@ function validation() {
 	let month = $('#month').val();
 	let day = $('#day').val();
 	let userBirth = year + '-' + month + '-' + day;
+	ler userId = $('#userId').val();
 	const userNameTxt = document.querySelector(".userName span");
 	const userPwTxt = document.querySelector(".userPw span");
 	const userBirthTxt = document.querySelector(".userBirth span");
@@ -54,12 +55,13 @@ function validation() {
 		userBirthTxt.style.color = "black";
 	}
 	
-	if(userName !== '' && userPw !== '' && year !== '----' && month !== '--' && day !== '--') {
+	if(userName !== '' && userPw !== '' && year !== '----' && month !== '--' && day !== '--' && findIdResult) {
 		alert("login ajax");
 		let params = {
 				userName: userName,
 				userPw: userPw,
-				userBirth: userBirth
+				userBirth: userBirth,
+				userId: userId
       };
 		
     	$.ajax({
@@ -69,7 +71,7 @@ function validation() {
     		success: function(findIdResult) {
           if (findIdResult) {
           	console.log("jsp의 findIdResult : " + findIdResult);
-          	alert("아이디찾기 완료");
+          	alert("아이디찾기 완료" + "  /" + findIdResult);
             window.location.href = '/findIdConfirm?findIdResult=' + findIdResult;
           } else {
               alert("정보가 일치하지 않습니다.");
@@ -121,6 +123,7 @@ function validation() {
 						</select>일
 					</td>
 				</tr>
+				<div class="userId" type="hidden"></div>
 			</table>
 			
 			<button type="button" id="request" class="form-group" onclick="validation()">확인</button>

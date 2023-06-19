@@ -7,7 +7,7 @@
 		<div class="user">
 			<table class="userTable">
 				<tr>
-					<th class="userId"><span>아이디</span> : ${findIdResult}</th>
+					<th class="userId"><span>아이디</span> : ${userId}</th>
 				</tr>
 			</table>
 			<div type="submit" class="form-group">
