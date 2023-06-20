@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.shoppingmall.none.user.login.vo.UserFindIdVo;
+import com.shoppingmall.none.user.login.vo.UserFindPwVo;
 import com.shoppingmall.none.user.login.vo.UserLoginVo;
 
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,12 @@ public class UserLoginDao {
 	public String findIdConfirm(UserFindIdVo userFindIdVo) {
 		System.out.println("아이디 찾기 dao 의 userFindIdVo = " + userFindIdVo);
 		return sql.selectOne("UserJoinDao.findIdConfirm", userFindIdVo);
+	}
+
+	// 비밀번호 찾기 정보 전달
+	public String findPwConfirm(UserFindPwVo userFindPwVo) {
+		System.out.println("비밀번호 찾기 dao 의 userFindPwVo = " + userFindPwVo);
+		return sql.selectOne("UserJoinDao.findPwConfirm", userFindPwVo);
 	}
 
 }

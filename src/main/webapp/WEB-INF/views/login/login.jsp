@@ -3,13 +3,12 @@
 	pageEncoding="UTF-8"%>
 
 <script>
-/*
-$(document).ready(function(){
-	$('#login').click(function() {
-		fncLogin();
-	});
+//엔터 키 이벤트 처리
+$(document).keypress(function(e) {
+  if (e.which === 13) { // 엔터 키 코드
+      validation(); // 확인 버튼 작동
+  }
 });
-*/
 
 //밸리데이션 체크 및 ajax
 function validation() {

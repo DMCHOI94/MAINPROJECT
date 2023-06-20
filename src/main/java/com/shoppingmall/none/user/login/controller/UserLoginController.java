@@ -1,18 +1,21 @@
 package com.shoppingmall.none.user.login.controller;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.shoppingmall.none.user.login.dao.UserLoginDao;
 import com.shoppingmall.none.user.login.service.UserLoginService;
 import com.shoppingmall.none.user.login.vo.UserFindIdVo;
+import com.shoppingmall.none.user.login.vo.UserFindPwVo;
 import com.shoppingmall.none.user.login.vo.UserLoginVo;
 
 import lombok.RequiredArgsConstructor;
@@ -66,18 +69,55 @@ public class UserLoginController {
 	// 아이디 찾기에 필요한 이름, 비밀번호, 생년월일 정보 전달
 	@PostMapping("/findIdConfirm")
 	@ResponseBody
-	public String findIdConfirm(@ModelAttribute UserFindIdVo userFindIdVo, HttpServletRequest request, Model model) {
+	public HashMap<String, String> findIdConfirm(@ModelAttribute UserFindIdVo userFindIdVo, HttpServletRequest request) {
+		HashMap<String, String> map = new HashMap<String, String>();
 
-		String findIdResult = userLoginDao.findIdConfirm(userFindIdVo);
-		System.out
-				.println("controller userLoginService.loginInfo(userLoginVo)" + userLoginService.findIdConfirm(userFindIdVo));
-		System.out.println("findIdResult : " + findIdResult);
-		String userId = request.getParameter("findIdResult");
-		model.addAttribute("userId", userId);
-		System.out.println(model.addAttribute("findIdResult", findIdResult));
-		System.out.println("userId : ----->" + userId);
+		String userId = userLoginDao.findIdConfirm(userFindIdVo);
+		System.out.println("userId : " + userId);
+		map.put("findId", userId);
 
-		return findIdResult;
+		return map;
+	}
+
+	// 아이디 찾기 페이지에 아이디 보여주기
+	@GetMapping("/findIdConfirm")
+	public ModelAndView findIdConfirm(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("login/findIdConfirm.user");
+
+		System.out.println("아이디 결과 : " + request.getParameter("findId"));
+		String findId = request.getParameter("findId");
+		mav.addObject("findId", findId);
+		return mav;
+	}
+
+	// 비밀번호 찾기 페이지
+	@GetMapping("/findPw")
+	public String findPw() {
+		return "login/findPw.user";
+	}
+
+	// 비밀번호 찾기에 필요한 아이디, 이름, 생년월일 정보 전달
+	@PostMapping("/findPwConfirm")
+	@ResponseBody
+	public HashMap<String, String> findPwConfirm(@ModelAttribute UserFindPwVo userFindPwVo, HttpServletRequest request) {
+		HashMap<String, String> map = new HashMap<String, String>();
+
+		String userPw = userLoginDao.findPwConfirm(userFindPwVo);
+		System.out.println("userPw : " + userPw);
+		map.put("findPw", userPw);
+
+		return map;
+	}
+
+	// 비밀번호 찾기 페이지에서 비밀번호 보여주기
+	@GetMapping("/findPwConfirm")
+	public ModelAndView findPwConfirm(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("login/findPwConfirm.user");
+
+		System.out.println("아이디 결과 : " + request.getParameter("findPw"));
+		String findPw = request.getParameter("findPw");
+		mav.addObject("findPw", findPw);
+		return mav;
 	}
 
 //	@ResponseBody
@@ -90,20 +130,5 @@ public class UserLoginController {
 //
 //		return map;
 //	}
-
-	@GetMapping("/findIdConfirm")
-	public String findIdConfirm() {
-		return "login/findIdConfirm.user";
-	}
-
-	@GetMapping("/findPw")
-	public String findPw() {
-		return "login/findPw.user";
-	}
-
-	@GetMapping("/findPwConfirm")
-	public String findPwConfirm() {
-		return "login/findPwConfirm.user";
-	}
 
 }

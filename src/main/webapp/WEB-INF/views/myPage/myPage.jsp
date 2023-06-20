@@ -3,7 +3,7 @@
 	pageEncoding="UTF-8"%>
 
 <div class="container">
-	<form action="????????" method="POST">
+	<form action="" method="POST">
 		<h2>마 이 페 이 지</h2>
 		<div class="user">
 			<a href="update" class="update">

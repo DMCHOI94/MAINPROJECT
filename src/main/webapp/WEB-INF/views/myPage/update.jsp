@@ -1,106 +1,228 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
+<script>
+//엔터 키 이벤트 처리
+$(document).keypress(function(e) {
+  if (e.which === 13) { // 엔터 키 코드
+      validation(); // 확인 버튼 작동
+  }
+});
+
+// 밸리데이션 관련된 변수 선언
+let pwCheck = 'N';
+let pwConfirmCheck = 'N';
+let idCheck = 'N';
+
+//아이디 중복체크
+function userIdCheck() {
+	let userId = $('#userId').val();
+	const userIdTxt = document.querySelector(".userId span");
 	
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js">
-window.onload = function() {
-	document
-		.getElementById("addr")
-		.addEventListener(
-			"click",
-			function() { //주소입력칸을 클릭하면
-				//카카오 지도 발생
-				new daum.Postcode(
-					{
-						oncomplete : function(data) { //선택시 입력값 세팅
-							document.getElementById("userAddr").value = data.roadAddress; // 주소 넣기
-							document.getElementById("userAddrPostal").value = data.zonecode; // 우편번호 넣기
-							document.querySelector("input[name=userAddrDetail]")
-									.focus(); //상세입력 포커싱
-					}
-				}).open();
-		});
+	if(userId == '') {
+		alert('아이디를 입력하세요.');
+		userIdTxt.style.color = "red";
+		return false;
+	} else {
+		userIdTxt.style.color = "black";
+	}
+	
+	let params = {
+      userId: userId
+  };
+	
+	$.ajax({
+    type: 'POST',
+    url: '/userIdCheck',
+    data: params,
+    success: function(response) {
+      if (response == '') {
+      	alert('사용 가능한 아이디입니다.');
+      	idCheck = 'Y';
+      } else {
+      	alert('이미 사용 중인 아이디입니다.');
+      	idCheck = 'N';
+      }
+    },
+    error: function(response) {
+      alert('아이디 중복 체크에 실패했습니다.');
+    }
+  });
+}
+
+// 비밀번호 정규식
+function userPwCheck() {
+  let userPw = $('#userPw').val();
+  let regExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/;
+  const userPwTxt = document.querySelector(".userPw span");
+  const userPwErrorTxt = document.querySelector(".userPwError span");
+  
+  if (!userPw.match(regExp) || userPw === '') {
+    $('#userPwError').val('숫자+문자+특수문자를 조합하여 8~16자를 입력해주세요.').show();
+    userPwTxt.style.color = "red";
+    userPwError.style.color = "red";
+    pwCheck = 'N';
+    return false;
+  } else {
+    $('#userPwError').hide();
+    userPwTxt.style.color = "black";
+    pwCheck = 'Y';
+  }
+};
+
+// 비밀번호 === 비밀번호 확인
+function userConfirmPwCheck() {
+	let userPw = $('#userPw').val();
+	let userConfirmPw = $('#userConfirmPw').val();
+	const userConfirmPwTxt = document.querySelector(".userConfirmPw span");
+
+	if (userPw !== userConfirmPw) {
+		$('#userConfirmPwE').val('비밀번호가 일치하지 않습니다').show();
+  	userConfirmPwTxt.style.color = "red";
+  	pwConfirmCheck = 'N';
+  	return false;
+  } else {
+  	$('#userConfirmPwE').hide();
+  	userConfirmPwTxt.style.color = "black";
+  	pwConfirmCheck = 'Y';
+  }
+}
+
+//주소
+function execDaumPostcode() {
+	daum.postcode.load(function(){
+		new daum.Postcode({
+			oncomplete: function(data) {
+				// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+        $('#userAddrPostal').val(data.zonecode);
+        $('#userAddr').val(data.roadAddress);
+      }
+    }).open();
+	});
+}
+
+// 생년월일
+$(document).ready(
+    function () {
+        for (let i = 2023; i > 1920; i--) {
+            $('#year').append('<option value="' + i + '">' + i + '</option>');
+        }
+        for (let i = 1; i < 13; i++) {
+            $('#month').append('<option value="' + i + '">' + i + '</option>');
+        }
+        for (let i = 1; i < 32; i++) {
+            $('#day').append('<option value="' + i + '">' + i + '</option>');
+        }
+    }
+);
+
+// 밸리데이션 체크 및 ajax
+function validation() {
+	let userPw = $('#userPw').val();
+	let userConfirmPw = $('#userConfirmPw').val();
+	let userName = $('#userName').val();
+	let userAddrPostal = $('#userAddrPostal').val();
+	let userAddr = $('#userAddr').val();
+	let userAddrDetail = $('#userAddrDetail').val();
+
+	const userConfirmPwTxt = document.querySelector(".userConfirmPw span");
+	const userNameTxt = document.querySelector(".userName span");
+	const userAddrPostalTxt = document.querySelector(".userAddrPostal span");
+	const userAddrTxt = document.querySelector(".userAddr span");
+	const userAddrDetailTxt = document.querySelector(".userAddrDetail span");
+	
+	if(userPw !== '') {
+		alert('비밀번호 확인을 입력하세요.');
+		userConfirmPwTxt.style.color = "red";
+		return false;
+	} else {
+		userConfirmPwTxt.style.color = "black";
+	}
+	
+		let params = {
+        userPw: userPw,
+        userName: userName,
+        userAddrPostal: userAddrPostal,
+        userAddr: userAddr,
+        userAddrDetail: userAddrDetail,
+      };
+		
+    	$.ajax({
+    		type : 'POST',
+    		url : '/joinInfo',
+    		data : params,	
+    		success: function(result) {
+          if (result) {
+              alert("회원가입 완료");
+              window.location.href = '/login';
+          } else {
+              alert("전송된 값 없음");
+          }
+      },
+     	 	error : function(request,status,error) {
+     	 	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+     	 	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+    		}
+    	});
 }
 </script>
-
 <div class="container">
-	<form action="????????" method="POST">
+	<form action="join" method="POST">
 		<h2>정 보 수 정</h2>
 		<div class="user">
-			<table class="user_table">
+			<table class="userTable">
 				<tr>
-					<th class="text">아이디</th>
+					<th class="userPw"><span>비밀번호</span></th>
 					<td>
-						<input id="user_id" name="user_id" type="text" readonly>
+						<input id="userPw" name="userPw" type="password" onchange="userPwCheck()">
+						<div class="userPwError" id="userPwError">숫자+문자+특수문자를 조합하여 8~16자를 입력해주세요.</div>
 					</td>
 				</tr>
 				
 				<tr>
-					<th class="text">비밀번호</th>
+					<th class="userConfirmPw"><span>비밀번호 확인</span></th>
 					<td>
-						<input id="user_pw" name="user_pw" type="password">
-					</td>
-				</tr>
-				
-				<tr>
-					<th class="text">비밀번호 확인</th>
-					<td>
-						<input id="user_confirmPw" name="user_confirmPw" type="password">
+						<input id="userConfirmPw" name="userConfirmPw" type="password" onchange="userConfirmPwCheck()">
+						<div class="userConfirmPwE" id="userConfirmPwE">비밀번호가 일치하지 않습니다.</div>
 					</td>
 				</tr><br>
 				
 				<tr>
-					<th class="text">이름</th>
+					<th class="userName"><span>이름</span></th>
 					<td>
-						<input id="user_name" name="user_name" type="text" readonly>
+						<input id="userName" name="userName" type="text">
 					</td>
 				</tr><br>
 
 				<tr>
-					<th class="text">주소</th>
+					<th class="userAddrPostal"><span>우편번호</span></th>
+					<td>
+						<input id="userAddrPostal" type="text" name="userAddrPostal" readonly />
+					</td>
+					<td>
+						<input type='button' id='postCode' value="주소입력" onclick="execDaumPostcode()">
+					</td>
+				</tr>
+				
+				<tr>
+					<th class="userAddr"><span>주소</span></th>
 					<td>
 						<input id="userAddr" type="text" name="userAddr" readonly />
 					</td>
-					<td>
-						<button type="button" class="postCode" onclick="execDaumPostcode()">주소입력</button>
-					</td>
 				</tr>
 				
 				<tr>
-					<th class="text">상세 주소</th>
+					<th class="userAddrDetail"><span>상세 주소</span></th>
 					<td>
 						<input id="userAddrDetail" type="text" name="userAddrDetail" />
 					</td>
 				</tr>
-				
-				<tr>
-					<th class="text">우편번호</th>
-					<td>
-						<input id="userAddrPostal" type="text" name="userAddrPostal" readonly />
-					</td>
-				</tr>
 
-				<tr>
-					<th class="gender">성별</th>
-					<td>
-						<input id="genderM" type="radio" name="genderM" value="M" readonly><label for="genderM">남자</label> 
-						<input id="genderW" type="radio" name="genderW" value="W" readonly><label for="genderW">여자</label>
-					</td>
-				</tr>
-
-				<tr>
-					<th class="birth">생년월일</th>
-					<td>
-						<input class="birth_text1" type="text" maxlength="4" placeholder="ex)1900" readonly>&nbsp년&nbsp&nbsp&nbsp
-						<input class="birth_text2" type="text" maxlength="2" placeholder="ex)01" readonly>&nbsp월&nbsp&nbsp&nbsp
-						<input class="birth_text3" type="text" maxlength="2" placeholder="ex)01" readonly>&nbsp일
-					</td>
-				</tr>
 			</table>
-			
-			<div type="submit" class="form-group">
-				<a href="myPage" class="user_btn">수정하기</a>
-			</div>
 		</div>
+		<button type="button" id="request" class="form-group" onclick="validation()">수정하기</button>
 	</form>
 </div>
+<br>
+</body>

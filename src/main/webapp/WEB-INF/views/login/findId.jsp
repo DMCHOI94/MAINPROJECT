@@ -3,6 +3,13 @@
 	pageEncoding="UTF-8"%>
 
 <script>
+//엔터 키 이벤트 처리
+$(document).keypress(function(e) {
+  if (e.which === 13) { // 엔터 키 코드
+      validation(); // 확인 버튼 작동
+  }
+});
+
 //생년월일
 $(document).ready(
     function () {
@@ -26,7 +33,6 @@ function validation() {
 	let month = $('#month').val();
 	let day = $('#day').val();
 	let userBirth = year + '-' + month + '-' + day;
-	ler userId = $('#userId').val();
 	const userNameTxt = document.querySelector(".userName span");
 	const userPwTxt = document.querySelector(".userPw span");
 	const userBirthTxt = document.querySelector(".userBirth span");
@@ -55,26 +61,28 @@ function validation() {
 		userBirthTxt.style.color = "black";
 	}
 	
-	if(userName !== '' && userPw !== '' && year !== '----' && month !== '--' && day !== '--' && findIdResult) {
+	if(userName !== '' && userPw !== '' && year !== '----' && month !== '--' && day !== '--') {
 		alert("login ajax");
 		let params = {
 				userName: userName,
 				userPw: userPw,
-				userBirth: userBirth,
-				userId: userId
+				userBirth: userBirth
       };
 		
     	$.ajax({
     		type : 'POST',
     		url : '/findIdConfirm',
     		data : params,
-    		success: function(findIdResult) {
-          if (findIdResult) {
-          	console.log("jsp의 findIdResult : " + findIdResult);
-          	alert("아이디찾기 완료" + "  /" + findIdResult);
-            window.location.href = '/findIdConfirm?findIdResult=' + findIdResult;
+    		dataType : 'json',
+    		success: function(data) {
+    			console.log(data);
+    			var findId = data.findId;
+          if (findId != null) {
+          	console.log("jsp의 findId : " + findId);
+          	alert("아이디 찾기 완료");
+            window.location.href = '/findIdConfirm?findId=' + findId;
           } else {
-              alert("정보가 일치하지 않습니다.");
+        		alert("정보가 일치하지 않습니다.");
           }
       	},
      	 	error : function(request,status,error) {
@@ -93,7 +101,7 @@ function validation() {
 	<form action="findIdConfirm" method="POST">
 		<h2>아 이 디 찾 기</h2>
 		<div class="user">
-			<table class="usertable">
+			<table class="userTable">
 				<tr>
 					<th class="userName"><span>이름</span></th>
 					<td>
@@ -123,7 +131,6 @@ function validation() {
 						</select>일
 					</td>
 				</tr>
-				<div class="userId" type="hidden"></div>
 			</table>
 			
 			<button type="button" id="request" class="form-group" onclick="validation()">확인</button>

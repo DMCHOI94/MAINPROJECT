@@ -12,5 +12,9 @@
 		<typeAlias type="com.shoppingmall.none.user.login.service.UserLoginService" alias="userLoginService" />
 		<typeAlias type="com.shoppingmall.none.user.login.vo.UserLoginVo" alias="userLoginVo" />		
 		<typeAlias type="com.shoppingmall.none.user.login.dao.UserLoginDao" alias="userLoginDao" />
+	<!-- findId -->	
+		<typeAlias type="com.shoppingmall.none.user.login.vo.UserLoginVo" alias="userFindIdVo" />
+	<!-- findPw -->
+		<typeAlias type="com.shoppingmall.none.user.login.vo.UserLoginVo" alias="userFindPwVo" />
 	</typeAliases>
 </configuration>

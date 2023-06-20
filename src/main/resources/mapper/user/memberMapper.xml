@@ -25,6 +25,11 @@
 	<select id="findIdConfirm" parameterType="String" resultType="java.lang.String">
 		SELECT userId FROM member WHERE userPw = #{userPw} AND userName = #{userName} AND userBirth = #{userBirth} 
 	</select>
+	
+<!-- 비밀번호 찾기 -->
+	<select id="findPwConfirm" parameterType="String" resultType="java.lang.String">
+		SELECT userPw FROM member WHERE userId = #{userId} AND userName = #{userName} AND userBirth = #{userBirth} 
+	</select>
 			<!-- (정완설명) 밑에 보면 select 보면 resultType으로 객체선언해서 SQL 결과값을 다시 SERVICE로 전달해주는거임  -->
 
 <!-- 

@@ -3,6 +3,13 @@
 	pageEncoding="UTF-8"%>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
 <script>
+//엔터 키 이벤트 처리
+$(document).keypress(function(e) {
+  if (e.which === 13) { // 엔터 키 코드
+      validation(); // 확인 버튼 작동
+  }
+});
+
 // 밸리데이션 관련된 변수 선언
 let pwCheck = 'N';
 let pwConfirmCheck = 'N';
