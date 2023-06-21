@@ -16,5 +16,10 @@
 		<typeAlias type="com.shoppingmall.none.user.login.vo.UserLoginVo" alias="userFindIdVo" />
 	<!-- findPw -->
 		<typeAlias type="com.shoppingmall.none.user.login.vo.UserLoginVo" alias="userFindPwVo" />
+	<!-- myPage -->
+		<typeAlias type="com.shoppingmall.none.user.myPage.controller.UserMyPageController" alias="userMyPageController" />
+		<typeAlias type="com.shoppingmall.none.user.myPage.service.UserMyPageService" alias="userMyPageService" />
+		<typeAlias type="com.shoppingmall.none.user.myPage.vo.UserMyPageVo" alias="userMyPageVo" />
+		<typeAlias type="com.shoppingmall.none.user.myPage.dao.UserMyPageDao" alias="userMyPageDao" />
 	</typeAliases>
 </configuration>

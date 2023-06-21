@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<c:set var="userId" value="${sessionScope.userId}" />
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
 <script>
 //엔터 키 이벤트 처리
@@ -11,9 +12,7 @@ $(document).keypress(function(e) {
 });
 
 // 밸리데이션 관련된 변수 선언
-let pwCheck = 'N';
 let pwConfirmCheck = 'N';
-let idCheck = 'N';
 
 //아이디 중복체크
 function userIdCheck() {
@@ -119,6 +118,7 @@ $(document).ready(
 
 // 밸리데이션 체크 및 ajax
 function validation() {
+	let userId = $('#userId').val();
 	let userPw = $('#userPw').val();
 	let userConfirmPw = $('#userConfirmPw').val();
 	let userName = $('#userName').val();
@@ -132,7 +132,7 @@ function validation() {
 	const userAddrTxt = document.querySelector(".userAddr span");
 	const userAddrDetailTxt = document.querySelector(".userAddrDetail span");
 	
-	if(userPw !== '') {
+	if(userPw !== '' && userConfirmPw == '') {
 		alert('비밀번호 확인을 입력하세요.');
 		userConfirmPwTxt.style.color = "red";
 		return false;
@@ -141,6 +141,7 @@ function validation() {
 	}
 	
 		let params = {
+				userId: userId,
         userPw: userPw,
         userName: userName,
         userAddrPostal: userAddrPostal,
@@ -150,7 +151,7 @@ function validation() {
 		
     	$.ajax({
     		type : 'POST',
-    		url : '/joinInfo',
+    		url : '/updateInfo',
     		data : params,	
     		success: function(result) {
           if (result) {
@@ -172,6 +173,13 @@ function validation() {
 		<h2>정 보 수 정</h2>
 		<div class="user">
 			<table class="userTable">
+			<tr>
+					<th class="userId"><span>아이디</span></th>
+					<td>
+						<input id="userId" name="userId" type="text" value="${sessionScope.userId}" readonly>
+					</td>
+				</tr>
+			
 				<tr>
 					<th class="userPw"><span>비밀번호</span></th>
 					<td>

@@ -454,9 +454,14 @@ select#day {
 }
 
 /* myPage */
+.user a {
+	width: 100px;
+	height: 100px;
+}
+
 .user .img {
 	width: 100px;
-	display: flex;
+	display: block;
 	margin-left: auto;
 	margin-right: auto;
 }

@@ -44,6 +44,8 @@ public class UserLoginController {
 
 		if (loginResult) {
 			session.setAttribute("loggedIn", true);
+			session.setAttribute("userId", userLoginVo.getUserId());
+			System.out.println("userId : " + userLoginVo.getUserId());
 			System.out.println("controller의 true 타고 있음");
 			return true;
 		} else {

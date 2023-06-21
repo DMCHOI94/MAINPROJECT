@@ -32,6 +32,17 @@
 	</select>
 			<!-- (정완설명) 밑에 보면 select 보면 resultType으로 객체선언해서 SQL 결과값을 다시 SERVICE로 전달해주는거임  -->
 
+<!-- 회원 정보 수정 -->
+	<update id="updateInfo" parameterType="String">
+		UPDATE member SET
+			userPw = #{userPw},
+			userName = #{userName},
+			userAddrPostal = #{userAddrPostal},
+			userAddr = #{userAddr},
+			userAddrDetail = #{userAddrDetail}
+		WHERE userId = #{userId}
+	</update>
+
 <!-- 
 	<select id="login" parameterType="userJoinVo" resultType="userJoinVo">
 		select *
