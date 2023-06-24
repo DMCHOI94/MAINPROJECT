@@ -15,15 +15,11 @@ public class UserLoginService {
 	private final UserLoginDao userLoginDao;
 
 	// 로그인 service
-	public boolean loginInfo(UserLoginVo userLoginVo) {
+	public UserLoginVo loginInfo(UserLoginVo userLoginVo) {
 		System.out.println("로그인 service의 userloginVo = " + userLoginVo);
-		String loginData = userLoginDao.loginInfo(userLoginVo);
+		UserLoginVo loginData = userLoginDao.loginInfo(userLoginVo);
 		System.out.println("loginData : " + loginData);
-		if (loginData != null) {
-			return true;
-		} else {
-			return false;
-		}
+		return loginData;
 	}
 
 	// 아이디 찾기 service

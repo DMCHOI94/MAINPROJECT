@@ -37,17 +37,29 @@ public class UserLoginController {
 	// 로그인 정보 전달하는 메소드
 	@PostMapping("/loginInfo")
 	@ResponseBody
-	public boolean loginInfo(@ModelAttribute UserLoginVo userLoginVo, HttpSession session) {
-		boolean loginResult = userLoginService.loginInfo(userLoginVo);
+	public boolean loginInfo(@ModelAttribute UserLoginVo userLoginVo, HttpSession session, String userId, String userPw) {
+		System.out.println("---------------로그인메소드--------------------");
+		UserLoginVo loginResult = userLoginService.loginInfo(userLoginVo);
 		System.out.println("controller userLoginService.loginInfo(userLoginVo)" + userLoginService.loginInfo(userLoginVo));
 		System.out.println("loginResult : " + loginResult);
 
-		if (loginResult) {
+		if (loginResult != null) {
 			session.setAttribute("loggedIn", true);
-			session.setAttribute("userId", userLoginVo.getUserId());
-			System.out.println("userId : " + userLoginVo.getUserId());
-			System.out.println("controller의 true 타고 있음");
-			return true;
+			session.setAttribute("userId", loginResult.getUserId());
+			session.setAttribute("userPw", loginResult.getUserPw());
+			session.setAttribute("userName", loginResult.getUserName());
+			session.setAttribute("userAddrPostal", loginResult.getUserAddrPostal());
+			session.setAttribute("userAddr", loginResult.getUserAddr());
+			session.setAttribute("userAddrDetail", loginResult.getUserAddrDetail());
+			System.out.println("loginResult.getUseYN() : " + loginResult.getUseYN());
+			if ("Y".equals(loginResult.getUseYN())) {
+				System.out.println("로그인 가능한 회원임");
+				return true;
+			} else {
+				session.setAttribute("loggedIn", false);
+				System.out.println("탈퇴한 회원임");
+				return false;
+			}
 		} else {
 			session.setAttribute("loggedIn", false);
 			System.out.println("controller의 else를 타고 있음");

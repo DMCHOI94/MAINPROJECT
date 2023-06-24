@@ -132,7 +132,8 @@ function validation() {
 	let day = $('#day').val();
 	let userBirth = year + '-' + month + '-' + day;
 	let useYN = $('#useYN').val();
-
+	let adminYN = $('#adminYN').val();
+	
 	const userIdTxt = document.querySelector(".userId span");
 	const userPwTxt = document.querySelector(".userPw span");
 	const userConfirmPwTxt = document.querySelector(".userConfirmPw span");
@@ -225,7 +226,8 @@ function validation() {
         userAddrDetail: userAddrDetail,
         userGender: userGender,
         userBirth: userBirth,
-        useYN: useYN
+        useYN: useYN,
+        adminYN: adminYN
       };
 		
     	$.ajax({
@@ -351,6 +353,7 @@ function validation() {
 			</table>
 		</div>
 		<input type="hidden" id="useYN" name="useYN" value="Y"/>
+		<input type="hidden" id="adminYN" name="adminYN" value="N"/>
 		<button type="button" id="request" class="form-group" onclick="validation()">제출하기</button>
 	</form>
 </div>

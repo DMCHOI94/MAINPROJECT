@@ -8,9 +8,9 @@ public class UserLoginVo {
 	private String userId;
 	private String userPw;
 	private String userName;
+	private String userAddrPostal;
 	private String userAddr;
 	private String userAddrDetail;
-	private String userAddrPostal;
 	private String userGender;
 	private String userBirth;
 	private String useYN;

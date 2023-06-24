@@ -20,52 +20,61 @@
 	<div class="container">
 		<!-- header -->
 		<div class="header">
-			<div class="menu">
-				<c:choose>
-    			<c:when test="${loggedIn}">
-	    		</c:when>
-	    		<c:otherwise>
-	        	<!-- 로그아웃 상태일 때 -->
-	        	<a href="join">회원가입</a>
-	    		</c:otherwise>
-				</c:choose>
+		
+			<div class="tel">
+				<ul>
+					<li class="tel">C/S CENTER 070-0070-0070</li>
+				</ul>
 			</div>
-			<div class="menu">
-				<c:choose>
-    			<c:when test="${loggedIn}">
-	        	<!-- 로그인 상태일 때 -->
-	        	<a href="logout">로그아웃</a>
-	    		</c:when>
-	    		<c:otherwise>
-	        	<!-- 로그아웃 상태일 때 -->
-	        	<a href="login">로그인</a>
-	    		</c:otherwise>
-				</c:choose>
-			</div>
-			<div class="menu">
-				<c:choose>
-    			<c:when test="${loggedIn}">
-	        	<!-- 로그인 상태일 때 -->
-	        	<a href="myPage">마이페이지</a>
-	    		</c:when>
-	    		<c:otherwise>
-	    		</c:otherwise>
-				</c:choose>
-			</div>
+		
+			<ul>
+				<li class="join">
+					<c:choose>
+	    			<c:when test="${loggedIn}"></c:when>
+		    		<c:otherwise>
+		        	<!-- 로그아웃 상태일 때 -->
+		        	<a href="join">회원가입</a>
+		    		</c:otherwise>
+					</c:choose>
+				</li>
+				
+				<li class="login">
+					<c:choose>
+	    			<c:when test="${loggedIn}">
+		        	<!-- 로그인 상태일 때 -->
+		        	<a href="logout">로그아웃</a>
+		    		</c:when>
+		    		<c:otherwise>
+		        	<!-- 로그아웃 상태일 때 -->
+		        	<a href="login">로그인</a>
+		    		</c:otherwise>
+					</c:choose>
+				</li>
+				
+				<li class="myPage">
+					<c:choose>
+	    			<c:when test="${loggedIn}">
+		        	<!-- 로그인 상태일 때 -->
+		        	<a href="myPage">마이페이지</a>
+		    		</c:when>
+		    		<c:otherwise>
+		    		</c:otherwise>
+					</c:choose>
+				</li>
+				
+			</ul>
 		</div>
-		<hr>
 
 		<!-- nav -->
 		<div class="nav">
 			<div class="img">
-				<a href="/"> <img class="logo" src="/resources/img/logo.png">
-				</a>
+				<a href="/"> <img class="logo" src="/resources/img/logo.png"></a>
 			</div>
-			<div class="menu">
-				<a href="product">빵보러가기</a> <a href="/">게시판</a>
-			</div>
+			<ul>
+				<li class="bread"><a href="product">빵보러가기</a></li>
+				<li class="board"><a href="/">게시판</a></li>
+			</ul>
 		</div>
-		<hr style="margin-bottom: 50px;">
 	</div>
 </body>
 </html>

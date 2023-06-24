@@ -6,7 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.shoppingmall.none.user.myPage.vo.UserMyPageVo;
+import com.shoppingmall.none.user.myPage.vo.UserUpdateVo;
+import com.shoppingmall.none.user.myPage.vo.UserWithdrawalVo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,8 +21,15 @@ public class UserMyPageDao {
 
 	private final SqlSessionTemplate sql;
 
-	public int updateInfo(UserMyPageVo userMyPageVo) {
-		System.out.println("정보전달 dao의 userMyPageVo : " + userMyPageVo);
-		return sql.update("UserJoinDao.updateInfo", userMyPageVo);
+	// 회원정보 수정 전달
+	public int updateInfo(UserUpdateVo userUpdateVo) {
+		System.out.println("정보전달 dao의 userUpdateVo : " + userUpdateVo);
+		System.out.println("------updateDAo 중간점검 --------");
+		return sql.update("UserJoinDao.updateInfo", userUpdateVo);
+	}
+
+	public int withdrawalInfo(UserWithdrawalVo userWithdrawalVo) {
+		System.out.println("회원탈퇴의 dao에 들어옴");
+		return sql.delete("UserJoinDao.withdrawalInfo", userWithdrawalVo);
 	}
 }

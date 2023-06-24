@@ -9,9 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.shoppingmall.none.user.myPage.service.UserMyPageService;
-import com.shoppingmall.none.user.myPage.vo.UserMyPageVo;
+import com.shoppingmall.none.user.myPage.vo.UserUpdateVo;
+import com.shoppingmall.none.user.myPage.vo.UserWithdrawalVo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,24 +31,60 @@ public class UserMyPageController {
 
 	// 정보수정
 	@GetMapping("/update")
-	public String update(HttpSession session) {
+	public String update(UserUpdateVo userUpdateeVo, HttpSession session) {
+		System.out.println("----------------update-----------------");
 		String userId = (String) session.getAttribute("userId");
+		String userPw = (String) session.getAttribute("userPw");
+		String userName = (String) session.getAttribute("userName");
+		String userAddrPostal = (String) session.getAttribute("userAddrPostal");
+		String userAddr = (String) session.getAttribute("userAddr");
+		String userAddrDetail = (String) session.getAttribute("userAddrDetail");
 		System.out.println("userId : " + userId);
+		System.out.println("userPw : " + userPw);
+		System.out.println("userName : " + userName);
+		System.out.println("userAddrPostal : " + userAddrPostal);
+		System.out.println("userAddr : " + userAddr);
+		System.out.println("userAddrDetail : " + userAddrDetail);
+		System.out.println("----update페이지로이동한다----");
+
 		return "myPage/update.user";
 	}
 
 	// 정보수정 정보 전달
 	@PostMapping("/updateInfo")
-	public Map<String, Object> updateInfo(@ModelAttribute UserMyPageVo userMyPageVo) {
-		System.out.println("userMyPageVo / userPw : " + userMyPageVo.getUserPw() + "userName : "
-				+ userMyPageVo.getUserName() + "userAddrPostal : " + userMyPageVo.getUserAddrPostal() + "userAddr : "
-				+ userMyPageVo.getUserAddr() + "userAddrDetail : " + userMyPageVo.getUserAddrDetail());
+	@ResponseBody
+	public Map<String, Object> updateInfo(@ModelAttribute UserUpdateVo userUpdateVo) {
+		System.out.println("userMyPageVo / userPw : " + userUpdateVo.getUserPw() + "userName : "
+				+ userUpdateVo.getUserName() + "userAddrPostal : " + userUpdateVo.getUserAddrPostal() + "userAddr : "
+				+ userUpdateVo.getUserAddr() + "userAddrDetail : " + userUpdateVo.getUserAddrDetail());
 
-		int updateResult = userMyPageService.updateInfo(userMyPageVo);
+		int updateResult = userMyPageService.updateInfo(userUpdateVo);
+		System.out.println("--거의다왔다 updateResult : " + updateResult);
 
 		Map<String, Object> result = new HashMap<>();
 		result.put("updateResult", updateResult);
 		System.out.println("controller result : " + result);
+		return result;
+	}
+
+	// 회원탈퇴
+	@GetMapping("/withdrawal")
+	public String withdrawal() {
+		System.out.println("회원탈퇴ㅎㅇ");
+		return "myPage/withdrawal.user";
+	}
+
+	// 회원탈퇴 정보 전달
+	@PostMapping("/withdrawalInfo")
+	@ResponseBody
+	public int withdrawalInfo(@ModelAttribute UserWithdrawalVo userWithdrawalVo, HttpSession session) {
+		System.out.println("widthdrawalInfo controller 에 들어왔다");
+		int result = userMyPageService.withdrawalInfo(userWithdrawalVo);
+		if (result == 1) {
+			session.invalidate();
+		} else {
+
+		}
 		return result;
 	}
 }

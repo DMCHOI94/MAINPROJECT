@@ -1,54 +1,19 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<c:set var="userId" value="${sessionScope.userId}" />
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
 <script>
 //엔터 키 이벤트 처리
 $(document).keypress(function(e) {
   if (e.which === 13) { // 엔터 키 코드
-      validation(); // 확인 버튼 작동
+  	alert("엔터누름");
+		validation(); // 확인 버튼 작동
   }
 });
 
 // 밸리데이션 관련된 변수 선언
+let pwCheck = 'N';
 let pwConfirmCheck = 'N';
-
-//아이디 중복체크
-function userIdCheck() {
-	let userId = $('#userId').val();
-	const userIdTxt = document.querySelector(".userId span");
-	
-	if(userId == '') {
-		alert('아이디를 입력하세요.');
-		userIdTxt.style.color = "red";
-		return false;
-	} else {
-		userIdTxt.style.color = "black";
-	}
-	
-	let params = {
-      userId: userId
-  };
-	
-	$.ajax({
-    type: 'POST',
-    url: '/userIdCheck',
-    data: params,
-    success: function(response) {
-      if (response == '') {
-      	alert('사용 가능한 아이디입니다.');
-      	idCheck = 'Y';
-      } else {
-      	alert('이미 사용 중인 아이디입니다.');
-      	idCheck = 'N';
-      }
-    },
-    error: function(response) {
-      alert('아이디 중복 체크에 실패했습니다.');
-    }
-  });
-}
 
 // 비밀번호 정규식
 function userPwCheck() {
@@ -101,23 +66,9 @@ function execDaumPostcode() {
 	});
 }
 
-// 생년월일
-$(document).ready(
-    function () {
-        for (let i = 2023; i > 1920; i--) {
-            $('#year').append('<option value="' + i + '">' + i + '</option>');
-        }
-        for (let i = 1; i < 13; i++) {
-            $('#month').append('<option value="' + i + '">' + i + '</option>');
-        }
-        for (let i = 1; i < 32; i++) {
-            $('#day').append('<option value="' + i + '">' + i + '</option>');
-        }
-    }
-);
-
 // 밸리데이션 체크 및 ajax
 function validation() {
+	alert("밸리데이션 들어옴");
 	let userId = $('#userId').val();
 	let userPw = $('#userPw').val();
 	let userConfirmPw = $('#userConfirmPw').val();
@@ -126,13 +77,22 @@ function validation() {
 	let userAddr = $('#userAddr').val();
 	let userAddrDetail = $('#userAddrDetail').val();
 
+	const userPwTxt = document.querySelector(".userPw span");
 	const userConfirmPwTxt = document.querySelector(".userConfirmPw span");
 	const userNameTxt = document.querySelector(".userName span");
 	const userAddrPostalTxt = document.querySelector(".userAddrPostal span");
 	const userAddrTxt = document.querySelector(".userAddr span");
 	const userAddrDetailTxt = document.querySelector(".userAddrDetail span");
+
+	if(userPw == '') {
+		alert('비밀번호를 입력하세요.');
+		userPwTxt.style.color = "red";
+		return false;
+	} else {
+		userPwTxt.style.color = "black";
+	}
 	
-	if(userPw !== '' && userConfirmPw == '') {
+	if(userConfirmPw == '') {
 		alert('비밀번호 확인을 입력하세요.');
 		userConfirmPwTxt.style.color = "red";
 		return false;
@@ -140,6 +100,39 @@ function validation() {
 		userConfirmPwTxt.style.color = "black";
 	}
 	
+	if(userName == '') {
+		alert('이름을 입력하세요.');
+		userNameTxt.style.color = "red";
+		return false;
+	} else {
+		userNameTxt.style.color = "black";
+	}
+
+	if(userAddrPostal == '') {
+		alert('우편번호를 입력하세요.');
+		userAddrPostalTxt.style.color = "red";
+		return false;
+	} else {
+		userAddrPostalTxt.style.color = "black";
+	}
+	
+	if(userAddr == '') {
+		alert('주소를 입력하세요.');
+		userAddrTxt.style.color = "red";
+		return false;
+	} else {
+		userAddrTxt.style.color = "black";
+	}
+	
+	if(userAddrDetail == '') {
+		alert('주소를 입력하세요.');
+		userAddrDetailTxt.style.color = "red";
+		return false;
+	} else {
+		userAddrDetailTxt.style.color = "black";
+	}
+	console.log("pwCheck : " + pwCheck + "--- / " + "pwConfirmCheck : " + pwConfirmCheck	)
+	if(pwCheck === 'Y' && pwConfirmCheck === 'Y') {
 		let params = {
 				userId: userId,
         userPw: userPw,
@@ -152,11 +145,13 @@ function validation() {
     	$.ajax({
     		type : 'POST',
     		url : '/updateInfo',
-    		data : params,	
+    		data : params,
+    		dataType: 'json',
     		success: function(result) {
+    			console.log(result);
           if (result) {
-              alert("회원가입 완료");
-              window.location.href = '/login';
+              alert("정보수정 완료");
+              window.location.href = '/myPage';
           } else {
               alert("전송된 값 없음");
           }
@@ -166,10 +161,23 @@ function validation() {
      	 	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
     		}
     	});
+    	
+	} else if(pwConfirmCheck === 'N') {
+		alert("비밀번호와 비밀번호 확인을 일치시켜주세요!");
+		return false;
+		
+	} else if(pwCheck === 'N') {
+		alert("비밀번호를 확인해주세요!");
+		return false;
+		
+	} else {
+		alert("회원가입이 불가합니다.");
+		return false;
+	} 
 }
 </script>
 <div class="container">
-	<form action="join" method="POST">
+	<form method="POST">
 		<h2>정 보 수 정</h2>
 		<div class="user">
 			<table class="userTable">
@@ -199,14 +207,14 @@ function validation() {
 				<tr>
 					<th class="userName"><span>이름</span></th>
 					<td>
-						<input id="userName" name="userName" type="text">
+						<input id="userName" name="userName" value="${sessionScope.userName}" type="text">
 					</td>
 				</tr><br>
 
 				<tr>
 					<th class="userAddrPostal"><span>우편번호</span></th>
 					<td>
-						<input id="userAddrPostal" type="text" name="userAddrPostal" readonly />
+						<input id="userAddrPostal" type="text" value="${sessionScope.userAddrPostal}" name="userAddrPostal" readonly />
 					</td>
 					<td>
 						<input type='button' id='postCode' value="주소입력" onclick="execDaumPostcode()">
@@ -216,14 +224,14 @@ function validation() {
 				<tr>
 					<th class="userAddr"><span>주소</span></th>
 					<td>
-						<input id="userAddr" type="text" name="userAddr" readonly />
+						<input id="userAddr" type="text" value="${sessionScope.userAddr}" name="userAddr" readonly />
 					</td>
 				</tr>
 				
 				<tr>
 					<th class="userAddrDetail"><span>상세 주소</span></th>
 					<td>
-						<input id="userAddrDetail" type="text" name="userAddrDetail" />
+						<input id="userAddrDetail" type="text" value="${sessionScope.userAddrDetail}" name="userAddrDetail" />
 					</td>
 				</tr>
 

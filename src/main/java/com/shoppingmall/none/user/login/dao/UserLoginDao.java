@@ -22,7 +22,7 @@ public class UserLoginDao {
 	private final SqlSessionTemplate sql;
 
 	// 회원가입 정보 전달
-	public String loginInfo(UserLoginVo userLoginVo) {
+	public UserLoginVo loginInfo(UserLoginVo userLoginVo) {
 		System.out.println("로그인 dao의 userLoginVo = " + userLoginVo);
 		return sql.selectOne("UserJoinDao.login", userLoginVo);
 	}
@@ -38,5 +38,4 @@ public class UserLoginDao {
 		System.out.println("비밀번호 찾기 dao 의 userFindPwVo = " + userFindPwVo);
 		return sql.selectOne("UserJoinDao.findPwConfirm", userFindPwVo);
 	}
-
 }
