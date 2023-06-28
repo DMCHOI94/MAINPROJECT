@@ -95,4 +95,3 @@ $(document).ready(function() {
 			<img class="img2" src="/resources/img/content3.png">
 	</div><br>
 </div>
-</body>

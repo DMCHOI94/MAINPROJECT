@@ -17,7 +17,6 @@
 </head>
 
 <!-- footer -->
-<hr style="margin-top: 50px;">
 <footer>
   <div class="footer">
 		<section class="CS">
@@ -69,27 +68,18 @@
 				</iframe>
 			</div>
 		</section>
-
+	<div class="border-bottom">&nbsp</div>
 		<!-- 이용 약관 -->
 		<div class="bottom">
-			<hr><br>
-			<p>고객님은 안전거래를 위해 결제시 저희 쇼핑몰에서 가입한 구매안전 서비스를 이용하실 수 있습니다.</p>
+			<br>
+			고객님은 안전거래를 위해 결제 시 저희 쇼핑몰에서 가입한 구매안전 서비스를 이용 하실 수 있습니다.
 		</div><br>
 		
 		<div class="btn">
-			<li>
-				<button>
-					<a href="javascript:none();" class="btn">이용약관</a>
-				</button>
-				
-				<button>
-					<a href="javascript:none();" class="btn">이용안내</a>
-				</button>
-				
-				<button>
-					<a href="javascript:none();" class="btn">개인정보처리방침</a>
-				</button>
-			</li><br><br><br>
+				<a href="javascript:none();" class="btn">이용약관</a>
+				<a href="javascript:none();" class="btn">이용안내</a>
+				<a href="javascript:none();" class="btn">개인정보처리방침</a>
+			<br><br><br>
 		</div>
 	</div>
 </footer>

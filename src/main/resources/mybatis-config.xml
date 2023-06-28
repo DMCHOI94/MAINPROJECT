@@ -23,7 +23,8 @@
 		<typeAlias type="com.shoppingmall.none.user.myPage.dao.UserMyPageDao" alias="userMyPageDao" />
 	<!-- withdrawal -->
 		<typeAlias type="com.shoppingmall.none.user.myPage.vo.UserWithdrawalVo" alias="userWithdrawalVo" />
-		
+	<!-- adminMain -->
+		<typeAlias type="com.shoppingmall.none.user.myPage.vo.UserWithdrawalVo" alias="userWithdrawalVo" />
 		
 	</typeAliases>
 </configuration>

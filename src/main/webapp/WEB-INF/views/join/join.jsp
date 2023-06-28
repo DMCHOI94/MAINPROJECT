@@ -358,4 +358,3 @@ function validation() {
 	</form>
 </div>
 <br>
-</body>

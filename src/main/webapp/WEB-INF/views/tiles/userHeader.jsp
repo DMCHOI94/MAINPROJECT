@@ -23,7 +23,7 @@
 		
 			<div class="tel">
 				<ul>
-					<li class="tel">C/S CENTER 070-0070-0070</li>
+					<li class="tel">C/S CENTER : 070-0070-0070</li>
 				</ul>
 			</div>
 		
@@ -61,7 +61,6 @@
 		    		</c:otherwise>
 					</c:choose>
 				</li>
-				
 			</ul>
 		</div>
 
@@ -72,8 +71,9 @@
 			</div>
 			<ul>
 				<li class="bread"><a href="product">빵보러가기</a></li>
-				<li class="board"><a href="/">게시판</a></li>
+				<li class="board"><a href="/">문의게시판</a></li>
 			</ul>
+			<div class="margin"></div>
 		</div>
 	</div>
 </body>
