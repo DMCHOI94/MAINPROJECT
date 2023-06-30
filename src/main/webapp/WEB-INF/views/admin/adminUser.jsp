@@ -1,6 +1,27 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+function adminUserInfo() {
+	alert("함수들어옴");
+	$.ajax({
+		type : 'POST',
+		url : '/adminUserInfo',
+		success: function(mav) {
+      if (mav) {
+          alert("정보조회 성공");
+      } else {
+          alert("정보가 일치하지 않습니다.");
+      }
+  	},
+ 	 	error : function(request,status,error) {
+ 	 	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+ 	 	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	});
+}
+</script>
 <!DOCTYPE html>
 <html lang="kor">
     <head>
@@ -61,7 +82,7 @@
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
                                 회원 정보
-                            </div>
+                            </div><button onclick="adminUserInfo()" style="width: 100px;" type="button">회원정보 조회</button>
                             <div class="card-body">
                                 <table id="datatablesSimple">
                                     <thead>
@@ -80,19 +101,19 @@
                                         </tr>
                                     </thead>
                                     <tfoot>
-                                        <tr>
-                                            <th>순서</th>
-                                            <th>아이디</th>
-                                            <th>비밀번호</th>
-                                            <th>이름</th>
-                                            <th>우편번호</th>
-                                            <th>주소</th>
-                                            <th>상세주소</th>
-                                            <th>성별</th>
-                                            <th>생년월일</th>
-                                            <th>회원탈퇴여부</th>
-                                            <th>관리자계정</th>
-                                        </tr>
+															        <tr>
+															            <td>ddd</td>
+															            <td>111</td>
+															            <th>1244</th>
+															            <td><c:out value="${user.userName}" /></td>
+															            <td><c:out value="${user.userAddrPostal}" /></td>
+															            <td><c:out value="${user.userAddr}" /></td>
+															            <td><c:out value="${user.userAddrDetail}" /></td>
+															            <td><c:out value="${user.userGender}" /></td>
+															            <td><c:out value="${user.userBirth}" /></td>
+															            <td><c:out value="${user.useYN}" /></td>
+															            <td><c:out value="${user.adminYN}" /></td>
+															        </tr>
                                     </tfoot>
                                     
                                 </table>

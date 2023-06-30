@@ -1,6 +1,24 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+function logout() {
+	alert("관리자 계정이 로그아웃 되었습니다.");
+	$.ajax({
+		method: "POST",
+	  url: "/adminLogout",
+    success: function() {
+    	alert("성공");
+    	window.location.href = 'adminLogin';
+    },
+    error: function(xhr, status, error) {
+    	alert("실패");
+    	return "#";
+    }
+	});
+}
+</script>
 <!DOCTYPE html>
 <html lang="kor">
     <head>
@@ -24,7 +42,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">로그아웃</a></li>
+                        <li><a class="dropdown-item" onclick="logout()">로그아웃</a></li>
                     </ul>
                 </li>
             </ul>
@@ -40,12 +58,12 @@
                                 회원관리
                             </a>
                             <div class="sb-sidenav-menu-heading">상품관리</div>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            <a class="nav-link collapsed" href="adminProduct" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                                 상품관리
                             </a>
                             <div class="sb-sidenav-menu-heading">게시판관리</div>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            <a class="nav-link collapsed" href="adminBoard" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                                 게시판관리
                             </a>

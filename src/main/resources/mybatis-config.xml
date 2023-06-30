@@ -3,28 +3,20 @@
 <configuration>
 	<typeAliases>
 	<!-- join -->
-		<typeAlias type="com.shoppingmall.none.user.join.controller.UserJoinController" alias="userJoinController" />
-		<typeAlias type="com.shoppingmall.none.user.join.service.UserJoinService" alias="userJoinService" />
 		<typeAlias type="com.shoppingmall.none.user.join.vo.UserJoinVo" alias="userJoinVo" />		
-		<typeAlias type="com.shoppingmall.none.user.join.dao.UserJoinDao" alias="userJoinDao" />
 	<!-- login -->	
-		<typeAlias type="com.shoppingmall.none.user.login.controller.UserLoginController" alias="userLoginController" />
-		<typeAlias type="com.shoppingmall.none.user.login.service.UserLoginService" alias="userLoginService" />
 		<typeAlias type="com.shoppingmall.none.user.login.vo.UserLoginVo" alias="userLoginVo" />		
-		<typeAlias type="com.shoppingmall.none.user.login.dao.UserLoginDao" alias="userLoginDao" />
 	<!-- findId -->	
 		<typeAlias type="com.shoppingmall.none.user.login.vo.UserLoginVo" alias="userFindIdVo" />
 	<!-- findPw -->
 		<typeAlias type="com.shoppingmall.none.user.login.vo.UserLoginVo" alias="userFindPwVo" />
 	<!-- myPage -->
-		<typeAlias type="com.shoppingmall.none.user.myPage.controller.UserMyPageController" alias="userMyPageController" />
-		<typeAlias type="com.shoppingmall.none.user.myPage.service.UserMyPageService" alias="userMyPageService" />
 		<typeAlias type="com.shoppingmall.none.user.myPage.vo.UserUpdateVo" alias="userUpdateVo" />
-		<typeAlias type="com.shoppingmall.none.user.myPage.dao.UserMyPageDao" alias="userMyPageDao" />
 	<!-- withdrawal -->
 		<typeAlias type="com.shoppingmall.none.user.myPage.vo.UserWithdrawalVo" alias="userWithdrawalVo" />
-	<!-- adminMain -->
-		<typeAlias type="com.shoppingmall.none.user.myPage.vo.UserWithdrawalVo" alias="userWithdrawalVo" />
-		
+	<!-- adminLogin -->
+		<typeAlias type="com.shoppingmall.none.admin.adminLogin.vo.AdminLoginVo" alias="adminLoginVo" />
+	<!-- adminUser -->
+		<typeAlias type="com.shoppingmall.none.admin.adminUser.vo.AdminUserVo" alias="adminUserVo" />
 	</typeAliases>
 </configuration>
