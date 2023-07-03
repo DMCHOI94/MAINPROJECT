@@ -12,8 +12,8 @@ $(document).keypress(function(e) {
 
 //밸리데이션 체크 및 ajax
 function validation() {
-	let userId = $('#inputEmail').val();
-	let userPw = $('#inputPassword').val();
+	let userId = $('#userId').val();
+	let userPw = $('#userPw').val();
 	let adminYN = $('#adminYN').val();
 	
 	if(userId == '') {
@@ -61,68 +61,82 @@ function validation() {
 	}
 }
 </script>
-	
+
 <!DOCTYPE html>
-<html lang="kor">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <link href="resources/bootstrap/css/styles.css" rel="stylesheet" />
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    </head>
-    <body class="bg-primary">
-        <div id="layoutAuthentication">
-            <div id="layoutAuthentication_content">
-                <main>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-5">
-                                <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">sikppang2 관리자 로그인</h3></div>
-                                    <div class="card-body">
-                                        <form>
-                                            <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputEmail" type="text" placeholder="Id" />
-                                                <label for="inputEmail">adminId</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputPassword" type="password" placeholder="Password" />
-                                                <label for="inputPassword">adminPw</label>
-                                            </div>
-                                            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                <a class="btn btn-primary" onclick="validation()">Login</a>
-                                            </div>
-                                        </form>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Custom fonts for this template-->
+    <link href="resources/bootstrap/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="resources/bootstrap/css/sb-admin-2.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
-                                    <div class="card-footer text-center py-3">
-                                        <div class="small"></div>
-                                    </div>
+                                    <form class="user">
+                                        <div class="form-group">
+                                            <input type="email" id="userId" class="form-control form-control-user"
+                                                id="exampleInputEmail" aria-describedby="emailHelp"
+                                                placeholder="관리자 아이디를 입력해주세요.">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" id="userPw" class="form-control form-control-user"
+                                                id="exampleInputPassword" placeholder="관리자 비밀번호를 입력해주세요.">
+                                        </div>
+                                        <div class="form-group">
+                                        </div>
+                                        <a onclick="validation()" class="btn btn-primary btn-user btn-block">
+                                            Login
+                                        </a>
+                                    </form>
+                                    <hr>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </main>
-            </div>
-            <div id="layoutAuthentication_footer">
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+                </div>
             </div>
         </div>
-        <input type="hidden" id="adminYN" name="adminYN" value="Y"/>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="resources/bootstrap/js/scripts.js"></script>
-    </body>
+    </div>
+    <input type="hidden" id="adminYN" name="adminYN" value="Y"/>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="resources/bootstrap/vendor/jquery/jquery.min.js"></script>
+    <script src="resources/bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="resources/bootstrap/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="resources/bootstrap/js/sb-admin-2.min.js"></script>
+
+</body>
+
 </html>
