@@ -20,7 +20,7 @@ public class AdminUserService {
 	public List<AdminUserVo> adminUserInfo(AdminUserVo adminUserVo) {
 		System.out.println("회원정보조회 service의 adminUserVo = " + adminUserVo);
 		List<AdminUserVo> userList = adminUserDao.adminUserInfo(adminUserVo);
-		System.out.println("userList : " + userList);
+		System.out.println("service에서의 userList : " + userList);
 		return userList;
 	}
 }

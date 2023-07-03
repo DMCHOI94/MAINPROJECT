@@ -12,6 +12,6 @@ public class AdminBoardController {
 	@GetMapping("adminBoard")
 	public String adminBoard() {
 		System.out.println("adminBoard 들어옴");
-		return "admin/adminBoard";
+		return "admin/board/adminBoard";
 	}
 }

@@ -17,10 +17,10 @@ public class AdminMainController {
 		System.out.println("관리자 메인페이지 들어옴");
 		String userId = (String) session.getAttribute("userId");
 		if (userId != null) {
-			return "admin/adminMain";
+			return "admin/main/adminMain";
 		} else {
 			System.out.println("로그인 후 이용이 가능합니다.");
-			return "admin/adminLogin";
+			return "admin/login/adminLogin";
 		}
 
 	}

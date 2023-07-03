@@ -1,5 +1,7 @@
 package com.shoppingmall.none.admin.adminUser.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shoppingmall.none.admin.adminLogin.vo.AdminLoginVo;
 import com.shoppingmall.none.admin.adminUser.service.AdminUserService;
 import com.shoppingmall.none.admin.adminUser.vo.AdminUserVo;
@@ -22,6 +25,7 @@ public class AdminUserController {
 	@Autowired
 	private AdminUserService adminUserService;
 	private AdminUserVo adminUserVo;
+	private ObjectMapper objectMapper = new ObjectMapper();
 
 	// 회원관리 페이지 들어옴
 	@GetMapping("/adminUser")
@@ -30,28 +34,31 @@ public class AdminUserController {
 		String userId = (String) session.getAttribute("userId");
 
 		if (userId != null && userId.equals("admin")) {
-			return "admin/adminUser";
+			return "admin/user/adminUser";
 		} else {
 			System.out.println("로그인 후 이용이 가능합니다.");
-			return "redirect:/adminLogin";
+			return "redirect:/login/adminLogin";
 		}
 	}
 
 	// 회원관리 페이지
-	@PostMapping("/adminUserInfo")
+	@PostMapping(value = "/adminUserInfo", produces = "application/text; charset=utf8")
 	@ResponseBody
-	public ModelAndView adminUserInfo(@ModelAttribute AdminLoginVo adminLoginVo, HttpSession session) {
+	public String adminUserInfo(@ModelAttribute AdminLoginVo adminLoginVo, HttpSession session)
+			throws JsonProcessingException {
 		System.out.println("관리자 회원관리 들어옴");
 		String userId = (String) session.getAttribute("userId");
 
 		if (userId != null && userId.equals("admin")) {
-			ModelAndView mav = new ModelAndView("admin/adminUser");
-			mav.addObject("userList", adminUserService.adminUserInfo(adminUserVo));
-			System.out.println("mav : " + mav);
-			return mav;
+			List<AdminUserVo> userList = adminUserService.adminUserInfo(adminUserVo);
+			System.out.println("controller에서의 userList : " + userList);
+
+			// Java 객체를 JSON 문자열로 변환
+			String json = objectMapper.writeValueAsString(userList);
+			return json;
 		} else {
 			System.out.println("로그인 후 이용이 가능합니다.");
-			return new ModelAndView("redirect:/adminLogin");
+			return null;
 		}
 	}
 

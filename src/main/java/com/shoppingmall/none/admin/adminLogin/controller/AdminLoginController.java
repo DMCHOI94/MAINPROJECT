@@ -25,7 +25,7 @@ public class AdminLoginController {
 	@GetMapping("/adminLogin")
 	public String adminLogin() {
 		System.out.println("관리자 로그인 들어옴");
-		return "admin/adminLogin";
+		return "admin/login/adminLogin";
 	}
 
 	// 로그인 정보 전달하는 메소드
@@ -53,6 +53,6 @@ public class AdminLoginController {
 	public String adminLogout(HttpSession session) {
 		System.out.println("관리자 로그아웃 들어옴");
 		session.invalidate();
-		return "admin/adminLogin";
+		return "admin/login/adminLogin";
 	}
 }
