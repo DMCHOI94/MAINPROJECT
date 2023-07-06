@@ -23,4 +23,5 @@ public class AdminUserService {
 		System.out.println("service에서의 userList : " + userList);
 		return userList;
 	}
+
 }

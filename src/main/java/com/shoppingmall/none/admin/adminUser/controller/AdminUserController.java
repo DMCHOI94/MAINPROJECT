@@ -37,7 +37,7 @@ public class AdminUserController {
 			return "admin/user/adminUser";
 		} else {
 			System.out.println("로그인 후 이용이 가능합니다.");
-			return "redirect:/login/adminLogin";
+			return "redirect:/adminLogin";
 		}
 	}
 
@@ -47,9 +47,10 @@ public class AdminUserController {
 	public String adminUserInfo(@ModelAttribute AdminLoginVo adminLoginVo, HttpSession session)
 			throws JsonProcessingException {
 		System.out.println("관리자 회원관리 들어옴");
-		String userId = (String) session.getAttribute("userId");
 
+		String userId = (String) session.getAttribute("userId");
 		if (userId != null && userId.equals("admin")) {
+
 			List<AdminUserVo> userList = adminUserService.adminUserInfo(adminUserVo);
 			System.out.println("controller에서의 userList : " + userList);
 

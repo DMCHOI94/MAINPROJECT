@@ -1,6 +1,8 @@
 package com.shoppingmall.none.admin.adminUser.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -24,6 +26,11 @@ public class AdminUserDao {
 	// 회원가입 정보 전달
 	public List<AdminUserVo> adminUserInfo(AdminUserVo adminUserVo) {
 		System.out.println("회원정보조회 dao의 adminUserVo = " + adminUserVo);
-		return sql.selectList("AdminLoginDao.adminUserInfo", adminUserVo);
+
+		Map<String, Object> params = new HashMap<>();
+		params.put("adminUserVo", adminUserVo);
+
+		return sql.selectList("AdminLoginDao.adminUserInfo", params);
 	}
+
 }
