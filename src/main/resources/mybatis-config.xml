@@ -18,5 +18,7 @@
 		<typeAlias type="com.shoppingmall.none.admin.adminLogin.vo.AdminLoginVo" alias="adminLoginVo" />
 	<!-- adminUser -->
 		<typeAlias type="com.shoppingmall.none.admin.adminUser.vo.AdminUserVo" alias="adminUserVo" />
+	<!-- adminPage -->
+		<typeAlias type="com.shoppingmall.none.admin.adminUser.vo.AdminPageVo" alias="adminPageVo" />
 	</typeAliases>
 </configuration>

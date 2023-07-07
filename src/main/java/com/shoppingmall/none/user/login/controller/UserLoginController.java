@@ -84,11 +84,13 @@ public class UserLoginController {
 	@PostMapping("/findIdConfirm")
 	@ResponseBody
 	public HashMap<String, String> findIdConfirm(@ModelAttribute UserFindIdVo userFindIdVo, HttpServletRequest request) {
+		System.out.println("아이디찾기에 필요한 이름 비밀번호 생년 전달");
 		HashMap<String, String> map = new HashMap<String, String>();
 
 		String userId = userLoginDao.findIdConfirm(userFindIdVo);
 		System.out.println("userId : " + userId);
 		map.put("findId", userId);
+		System.out.println("map : " + map);
 
 		return map;
 	}

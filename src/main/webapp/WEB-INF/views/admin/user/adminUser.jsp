@@ -11,34 +11,29 @@ $(document).ready(function() {
 function adminUserInfo() {
 	alert("함수들어옴");
 	
-	let userCount = '';
-	let userRow = '';
-	let userDbEx = '';
-	let userDb = '';
-	let params = '';
-	let pageSize = '';
-	let pageCount = '';
-	let curPage = '';
-	let startPage = '';
-	let endPage = '';
-	let startIndex = '';
-	let endIndex = '';
-	
 	$.ajax({
 		type : 'POST',
 		url : '/adminUserInfo',
 		success: function(data) {
-			if(data) {
-				console.log("ajax 안에 들어옴");
-				let userList = JSON.parse(data);
-				console.log("userList : " + userList);
-				else {
-					
-				}
-				
- 	 	error : function(request,status,error) {
- 	 	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
- 	 	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			console.log("ajax data : " + data);
+			/* console.log("data : " + data);
+			let userList = JSON.parse(data);
+			console.log("userList : " + userList); */
+			
+			// var findId = data.findId;
+			
+			/* let userList = response.userList;
+	    let userPage = response.userPage;
+	    console.log("userList : " + userList);
+	    console.log("userPage : " + userPage); */
+	    
+	    //console.log("data.userPage : " + data.userPage);
+	    //console.log("data.userList : " + data.userList);
+		},
+		
+ 	 	error: function(request,status,error) {
+	 	 	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	 	 	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 		}
 	});
 }
