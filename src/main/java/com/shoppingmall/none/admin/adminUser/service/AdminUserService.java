@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shoppingmall.none.admin.adminUser.dao.AdminUserDao;
+import com.shoppingmall.none.admin.adminUser.vo.AdminPageVo;
 import com.shoppingmall.none.admin.adminUser.vo.AdminUserVo;
 
 import lombok.RequiredArgsConstructor;
@@ -16,12 +17,19 @@ public class AdminUserService {
 	@Autowired
 	private final AdminUserDao adminUserDao;
 
+	// 회원 전체 수 조회
+	public int adminUserCount() {
+		System.out.println("회원 전체 수 조회하는 service");
+		int userCount = adminUserDao.adminUserCount();
+		System.out.println("회원 전체 수 조회하는 service userCount : " + userCount);
+		return userCount;
+	}
+
 	// 회원정보 조회
-	public List<AdminUserVo> adminUserInfo(AdminUserVo adminUserVo) {
+	public List<AdminUserVo> adminUserInfo(AdminUserVo adminUserVo, AdminPageVo adminPageVo) {
 		System.out.println("회원정보조회 service의 adminUserVo = " + adminUserVo);
-		List<AdminUserVo> userList = adminUserDao.adminUserInfo(adminUserVo);
+		List<AdminUserVo> userList = adminUserDao.adminUserInfo(adminUserVo, adminPageVo);
 		System.out.println("service에서의 userList : " + userList);
 		return userList;
 	}
-
 }

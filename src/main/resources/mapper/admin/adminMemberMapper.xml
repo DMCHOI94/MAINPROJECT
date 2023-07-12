@@ -7,8 +7,53 @@
   	SELECT * FROM member WHERE userId = #{userId} AND userPw = #{userPw} AND adminYN = #{adminYN}
 	</select>
 	
+<!-- 회원 전체 수 조회 -->
+	<select id="adminUserCount" resultType="int">
+		SELECT COUNT(*) FROM member
+	</select>	
+	
 <!-- 회원정보 조회 -->
-	<select id="adminUserInfo" resultType="adminLoginVo">
-	 	SELECT * FROM member
+	<select id="adminUserInfo" parameterType="adminPageVo" resultType="adminUserVo">
+		SELECT
+		    A.*
+		FROM
+		(
+		    SELECT
+		        ROW_NUMBER() OVER(ORDER BY M.USERSEQ) RNUM 
+		        , M.USERSEQ
+		        , M.USERID
+		        , M.USERPW
+		        , M.USERNAME
+		        , M.USERADDRPOSTAL
+						, M.USERADDR
+						, M.USERADDRDETAIL
+						, M.USERGENDER
+						, M.USERBIRTH
+						, M.USEYN
+						, M.ADMINYN
+				    FROM 
+				        MEMBER M
+		) A
+		WHERE
+		    A.RNUM BETWEEN #{startIndex} AND (${endIndex})
 	</select>
 </mapper>
+
+<!-- 	 	SELECT * 
+	 	FROM (SELECT m.*, 
+	 				ROW_NUMBER()
+	 			  OVER (ORDER BY userSeq)
+	 			  AS rownum
+    FROM member m
+) temp
+WHERE rownum BETWEEN :startIndex AND :endIndex;
+
+SELECT ROW_NUMBER() OVER(ORDER BY B.BOARDDATE DESC)
+AS RNUM, B.BOARDSEQ, B.MEMSEQ, B.BOARDTITLE, 
+B.BOARDCONTENT, B.BOARDDATE, B.BOARDHIT, 
+M.MEMID FROM BOARD B INNER JOIN MEMBER M ON B.MEMSEQ = M.MEMSEQ
+
+
+SELECT ROW_NUMBER() OVER (ORDER BY customer_name) 
+AS row_num, customer_name
+FROM Customers; -->

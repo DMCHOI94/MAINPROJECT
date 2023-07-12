@@ -12,6 +12,6 @@ public class AdminProductController {
 	@GetMapping("adminProduct")
 	public String adminProduct() {
 		System.out.println("adminProduct 들어옴");
-		return "admin/adminProduct";
+		return "admin/product/adminProduct";
 	}
 }

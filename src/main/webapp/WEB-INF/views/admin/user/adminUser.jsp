@@ -5,33 +5,174 @@
 <script>
 //페이지 로드 시 adminUserInfo 함수를 실행하여 초기 데이터를 가져옵니다.
 $(document).ready(function() {
-  adminUserInfo();
+	const urlParams = new URLSearchParams(window.location.search);
+	console.log("urlParams : " + urlParams);
+  const currentPage = urlParams.get('curPage'); // URL에서 curPage 파라미터 값을 얻어옴
+  console.log("currentPage : " + currentPage);
+  adminUserInfo(currentPage);
 });
 
-function adminUserInfo() {
-	alert("함수들어옴");
+function adminUserInfo(currentPage) {
+	//님이 여기다가 매개변수로 currentPage를 받고있짢아요
+	//1, 2, 3, 4, 5 번호를 누를때마다 currentPage를 받아와서 리스트 조회해서 뿌려주는 식으로 해야합니다 동적태그로 만들어서 append시키는거
+	// 아..
+	//너는 밑에 코드보면 href를 이용한거고 adminUserInfo이걸 이용안한거임. href를 이용했다는건 이해했는데
+	// onclick으로도 adminUserInfo함수를 호출했는데 이 부분만 볼 땐, adminUserInfo함수 이용 안한거임??
+	//a 태그 href 주면 그거 누르면 href를 타버리잖아 아 무시되는구나 onclick이?> ㅇㅇ 너는 ajax를 안태운거임 그냥 ㅇㅎ
+			//딱 최초 화면 실행할때만 ajax 탄거고 다른 번호 누를때부터는 그냥 ajax말고 화면 이동으로 된거임 아하 이해했습니당
+			//거기부분 수정하시면 됩니다. 무조건 누를떄마다 이 함수를 탈 수 있게 넵넵 ㄳㄳ 옙
+	console.log("currentPage : " + currentPage);
 	
 	$.ajax({
-		type : 'POST',
+		type : 'GET',
 		url : '/adminUserInfo',
-		success: function(data) {
-			console.log("ajax data : " + data);
-			/* console.log("data : " + data);
-			let userList = JSON.parse(data);
-			console.log("userList : " + userList); */
-			
-			// var findId = data.findId;
-			
-			/* let userList = response.userList;
-	    let userPage = response.userPage;
-	    console.log("userList : " + userList);
-	    console.log("userPage : " + userPage); */
-	    
-	    //console.log("data.userPage : " + data.userPage);
-	    //console.log("data.userList : " + data.userList);
+		dataType : 'json',
+		data : {
+			currentPage : currentPage
 		},
-		
- 	 	error: function(request,status,error) {
+		success: function(data) {
+			console.log("ㅎㅇ");
+			
+		  // 페이징 처리를 위한 변수
+			let pagePrevious = '';
+			let pageNumber = '';
+			let pageNext = '';
+			let userInfo = '';
+			// 서버에서 넘어온 페이징 처리 변수
+			let userCount = data[0][0].userCount;
+			let userSize = data[0][0].userSize;
+			let userRow = data[0][0].userRow;
+			let pageSize = data[0][0].pageSize;
+			let pageCount = data[0][0].pageCount;
+			let curPageStr = data[0][0].curPageStr;
+			let curPage = data[0][0].curPage;
+			let startPage = data[0][0].startPage;
+			let endPage = data[0][0].endPage;
+			let startIndex = data[0][0].startIndex;
+			let endIndex = data[0][0].endIndex;
+			// DB에서 넘어온 유저 데이터 변수
+			let selBox = '<input id="userCheck" type="checkbox">';
+			let userSeq = '';
+			let userId = '';
+			let userPw = '';
+			let userName = '';
+			let userAddrPostal = '';
+			let userAddr = '';
+			let userAddrDetail = '';
+			let userGender = '';
+			let userBirth = '';
+			let useYN = '';
+			let adminYN = '';
+			let btn = '<button id="userPList" onclick="userPList()">내역조회</button>';
+			let tr = '<tr>';
+			let tr_ = '</tr>';
+			let td = '<td>';
+			let td_ = '</td>';
+			console.log("userCount : " + userCount);
+			console.log("userSize : " + userSize);
+			console.log("userRow : " + userRow);
+			console.log("pageSize : " + pageSize);
+			console.log("pageCount : " + pageCount);
+			console.log("curPageStr : " + curPageStr);
+			console.log("curPage : " + curPage);
+			console.log("startPage : " + startPage);
+			console.log("endPage : " + endPage);
+			console.log("startIndex : " + startIndex);
+			console.log("endIndex : " + endIndex);
+			
+			$("#userTable").empty();
+			for(let i = 0; i < userRow; i++) {
+				// DB에서 넘어온 유저 데이터
+				userSeq = data[1][i].userSeq;
+				userId = data[1][i].userId;
+				userPw = data[1][i].userPw;
+				userName = data[1][i].userName;
+				userAddrPostal = data[1][i].userAddrPostal;
+				userAddr = data[1][i].userAddr;
+				userAddrDetail = data[1][i].userAddrDetail;
+				userGender = data[1][i].userGender;
+				userBirth = data[1][i].userBirth;
+				useYN = data[1][i].useYN;
+				adminYN = data[1][i].adminYN;
+				
+				console.log("userSeq : " + userSeq);
+				console.log("userId : " + userId);
+				console.log("userPw : " + userPw);
+				console.log("userName : " + userName);
+				console.log("userAddrPostal : " + userAddrPostal);
+				console.log("userAddr : " + userAddr);
+				console.log("userAddrDetail : " + userAddrDetail);
+				console.log("userGender : " + userGender);
+				console.log("userBirth : " + userBirth);
+				console.log("useYN : " + useYN);
+				console.log("adminYN : " + adminYN);
+				
+				// userInfo 변수에 데이터 담기
+				userInfo = tr +
+										td + selBox + td_ +
+										td + userSeq + td_ +
+										td + userId + td_ +
+										td + userPw + td_ +
+										td + userName + td_ +										
+										td + userAddrPostal + td_ +
+										td + userAddr + td_ +
+										td + userAddrDetail + td_ +
+										td + userGender + td_ +
+										td + userBirth + td_ +
+										td + useYN + td_ +
+										td + adminYN + td_ +
+										td + btn + td_ +
+										tr_;
+				console.log( i + " 번째 입니다.");
+
+				// html 코드 초기화 후 hide으로 불필요한 bootstrap 숨기기
+				$("#dataTable_length").empty();
+				$(".dataTables_empty").empty();
+        $("#dataTable_filter").empty();
+        $("#dataTable_info").empty();
+        $("#dataTable_previous").empty();
+        $("#dataTable_next").empty();
+        $('#dataTable_length').hide();
+        $(".dataTables_empty").hide();
+        $('#dataTable_filter').hide();
+        $("#dataTable_info").hide();
+        $('#dataTable_previous').hide();
+        $('#dataTable_next').hide();
+        $('#userTable').append(userInfo);
+			}
+			$("#pagePrevious").empty();
+			$("#pageNext").empty();
+			$("#pageNumber").empty();
+			// 페이징 처리 <
+			if(startPage > pageSize) {
+				console.log("페이징처리 <");
+				pagePrevious = '<a onclick="adminUserInfo(' + (startPage - 1) + ')"><</a>';
+				console.log("pagePrevious : " + pagePrevious);
+				$('#pagePrevious').append(pagePrevious);
+			}
+			
+			// 페이징 처리 숫자 
+			
+			for(let i = startPage; i <= endPage; i++) {
+				console.log("페이징처리 number");
+				if(i == curPage) {
+					pageNumber = '<a onclick="adminUserInfo(' + i + ')">[' + i + ']</a>';
+					console.log("pageNumber : " + pageNumber);
+					$('#pageNumber').append(pageNumber);
+				} else {
+					pageNumber = '<a onclick="adminUserInfo(' + i + ')">[' + i + ']</a>';
+					console.log("pageNumber : " + pageNumber);
+					$('#pageNumber').append(pageNumber);
+				}
+			}
+			// 페이징 처리 >
+			if(pageCount > endPage) {
+				console.log("페이징처리 >");
+				pageNext = '<a onclick="adminUserInfo(' + (endPage + 1) + ')">></a>';
+				$('#pageNext').append(pageNext);
+			}
+		},
+ 	 	error : function(request,status,error) {
 	 	 	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 	 	 	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 		}
@@ -354,14 +495,15 @@ function userPList() {
                                         </tr>
                                     </tfoot>
                                     <tbody id="userTable">
-                                        
+                                    	
                                     </tbody>
                                 </table>
                             </div>
-                            
-                            <div id="pagePrevious"></div>
-                            <div id="pageNumber"></div>
-                            <div id="pageNext"></div>
+                            <div class="page" style="display: flex; justify-content: center; cursor: pointer;">
+	                            <div id="pagePrevious" style="font-size: 12px; text-align: center; margin-left: 5px;"></div>
+	                            <div id="pageNumber" style="font-size: 12px; text-align: center; margin-left: 5px;"></div>
+	                            <div id="pageNext"style="font-size: 12px; text-align: center; margin-left: 5px;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>

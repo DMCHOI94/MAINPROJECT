@@ -6,6 +6,7 @@ import lombok.Data;
 public class AdminPageVo {
 	private int userCount;
 	private int userSize;
+	private int userRow;
 	private int pageSize;
 	private int pageCount;
 	private int curPageStr;

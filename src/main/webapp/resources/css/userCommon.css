@@ -261,7 +261,6 @@ footer .footer .map02 {
 .bottom {
 	padding-top: 8px;
 	text-align: center;
-	color: red;
 }
 
 footer .bottom {
@@ -527,7 +526,7 @@ select#day {
 	justify-content: center;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 70px;
+	margin-top: 110px;
 }
 
 .product1 a {
@@ -563,6 +562,22 @@ select#day {
 
 .product1 .text .text3 {
 	font-size: 15px;
+}
+
+.product1 .first {
+	cursor: pointer;
+}
+
+.product1 .second {
+	cursor: pointer;
+}
+
+.product1 .third {
+	cursor: pointer;
+}
+
+.product1 .fourth {
+	cursor: pointer;
 }
 
 .product2 {
