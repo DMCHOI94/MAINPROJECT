@@ -1,6 +1,7 @@
 package com.shoppingmall.none.admin.adminUser.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -151,6 +152,25 @@ public class AdminUserController {
 		} else {
 			System.out.println("로그인 후 이용이 가능합니다.");
 			return null;
+		}
+	}
+
+	// 회원관리 페이지 들어옴
+	@GetMapping(value = "/userDelete", produces = "application/json;charset=utf-8")
+	@ResponseBody
+	public int userDelete(HttpSession session, @RequestParam("selUserId") String selUserId) {
+		System.out.println("회원삭제 들어옴");
+		String userId = (String) session.getAttribute("userId");
+
+		if (userId != null && userId.equals("admin")) {
+			System.out.println("selUserId : " + selUserId);
+			List<String> selUserIds = Arrays.asList(selUserId.split(","));
+			System.out.println("--selUserIds : " + selUserIds);
+			int userDel = adminUserService.userDelete(selUserIds);
+			return userDel;
+		} else {
+			System.out.println("로그인 후 이용이 가능합니다.");
+			return 0;
 		}
 	}
 }

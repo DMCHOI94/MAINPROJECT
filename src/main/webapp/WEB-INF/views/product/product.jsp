@@ -33,7 +33,26 @@ function breadList() {
   );
 	
 	let breadList = 
-		`<div class="product1">
+	`<div class="product2">
+		<a class="first">
+		<img class="img" src="/resources/img/arrow3.png" style="transform: scale(0.5); margin-top: -50px;">
+		<div class="text">
+		</div>
+		</a>
+		<a class="second">
+		<div class="text">
+		</div>
+		</a>
+		<a class="third">
+		<div class="text">
+		</div>
+		</a>
+		<a class="fourth">
+		<div class="text">
+		</div>
+		</a>
+	</div>
+	<div class="product2" style="margin-top: 0;">
 	<a href="bread1" class="first">
 		<img class="img" src="/resources/img/bread1.png">
 		<div class="text">
@@ -60,14 +79,14 @@ function breadList() {
 			<p class="text3">3,900원</p>
 		</div>
 	</a>
-
+	
 	<a href="bread4" class="fourth">
-		<img class="img" src="/resources/img/bread4.png">
-		<div class="text">
-			<p class="text1">소라빵</p><br>
-			<p class="text2">소라를 넣어 고소하고 감칠맛이 나는<br>해산물 풍미가 가미된 빵</p><br>
-			<p class="text3">2,000원</p>
-		</div>
+	<img class="img" src="/resources/img/bread4.png">
+	<div class="text">
+		<p class="text1">소라빵</p><br>
+		<p class="text2">소라를 넣어 고소하고 감칠맛이 나는<br>해산물 풍미가 가미된 빵</p><br>
+		<p class="text3">2,000원</p>
+	</div>
 	</a>
 </div>
 	
@@ -127,16 +146,26 @@ function dessertList() {
   );
 	
 	let dessertList = 
-		`<div class="product1">
-	<a href="dessert1" class="first">
-		<img class="img" src="/resources/img/dessert1.png">
+		`<div class="product2">
+		<a class="first">
 		<div class="text">
-			<p class="text1">초코 머핀</p><br>
-			<p class="text2">달콤한 초코가 듬뿍 들어간 초코 머핀</p><br>
-			<p class="text3">3,300원</p>
 		</div>
-	</a>
-
+		</a>
+		<a class="second">
+		<img class="img" src="/resources/img/arrow3.png" style="transform: scale(0.5); margin-top: -50px;">
+		<div class="text">
+		</div>
+		</a>
+		<a class="third">
+		<div class="text">
+		</div>
+		</a>
+		<a class="fourth">
+		<div class="text">
+		</div>
+		</a>
+	</div>
+	<div class="product2" style="margin-top: 0;">
 	<a href="dessert2" class="second">
 		<img class="img" src="/resources/img/dessert2.png">
 		<div class="text">
@@ -144,6 +173,15 @@ function dessertList() {
 			<p class="text2">아로마틱하고 향긋한 뚱카롱</p><br>
 			<p class="text3">3,500원</p>
 		</div>
+	</a>
+	
+	<a href="dessert1" class="first">
+	<img class="img" src="/resources/img/dessert1.png">
+	<div class="text">
+		<p class="text1">초코 머핀</p><br>
+		<p class="text2">달콤한 초코가 듬뿍 들어간 초코 머핀</p><br>
+		<p class="text3">3,300원</p>
+	</div>
 	</a>
 
 	<a href="dessert3" class="third">
@@ -221,16 +259,26 @@ function jamList() {
   );
 	
 	let jamList = 
-		`<div class="product1">
-	<a href="jam1" class="first">
-		<img class="img" src="/resources/img/jam1.png">
+		`<div class="product2">
+		<a class="first">
 		<div class="text">
-			<p class="text1">수제 초코잼</p><br>
-			<p class="text2">진한 초콜릿 풍미와 달콤한 맛이 어우러져<br>입안에서 녹아내리는 수제 초코잼</p><br>
-			<p class="text3">6,900원</p>
 		</div>
-	</a>
-
+		</a>
+		<a class="second">
+		<div class="text">
+		</div>
+		</a>
+		<a class="third">
+		<img class="img" src="/resources/img/arrow3.png" style="transform: scale(0.5); margin-top: -50px;">
+		<div class="text">
+		</div>
+		</a>
+		<a class="fourth">
+		<div class="text">
+		</div>
+		</a>
+	</div>
+	<div class="product2" style="margin-top: 0;">
 	<a href="jam2" class="second">
 		<img class="img" src="/resources/img/jam2.png">
 		<div class="text">
@@ -247,6 +295,15 @@ function jamList() {
 			<p class="text2">싱그러운 사과의 신선한 맛과 과즙이<br>입안에 퍼지는 수제 사과잼</p><br>
 			<p class="text3">7,400원</p>
 		</div>
+	</a>
+	
+	<a href="jam1" class="first">
+	<img class="img" src="/resources/img/jam1.png">
+	<div class="text">
+		<p class="text1">수제 초코잼</p><br>
+		<p class="text2">진한 초콜릿 풍미와 달콤한 맛이 어우러져<br>입안에서 녹아내리는 수제 초코잼</p><br>
+		<p class="text3">6,900원</p>
+	</div>
 	</a>
 
 	<a href="jam4" class="fourth">
@@ -314,16 +371,26 @@ function snackList() {
   );
 	
 	let snackList = 
-		`<div class="product1">
-	<a href="snack1" class="first">
-		<img class="img" src="/resources/img/snack1.png">
+		`<div class="product2">
+		<a class="first">
 		<div class="text">
-			<p class="text1">캐릭터 쿠키</p><br>
-			<p class="text2">부드러운 쿠키 텍스처와 풍부한 초콜릿 맛이<br>어우러져 아이들에게 인기 있는 캐릭터 쿠키</p><br>
-			<p class="text3">2,900원</p>
 		</div>
-	</a>
-
+		</a>
+		<a class="second">
+		<div class="text">
+		</div>
+		</a>
+		<a class="third">
+		<div class="text">
+		</div>
+		</a>
+		<a class="fourth">
+		<img class="img" src="/resources/img/arrow3.png" style="transform: scale(0.5); margin-top: -50px;">
+		<div class="text">
+		</div>
+		</a>
+	</div>
+	<div class="product2" style="margin-top: 0;">
 	<a href="snack2" class="second">
 		<img class="img" src="/resources/img/snack2.png">
 		<div class="text">
@@ -349,6 +416,15 @@ function snackList() {
 			<p class="text2">상큼한 딸기 향과 달콤한 맛이 입안<br>가득 퍼지는 딸기맛 사탕</p><br>
 			<p class="text3">2,000원</p>
 		</div>
+	</a>
+	
+	<a href="snack1" class="first">
+	<img class="img" src="/resources/img/snack1.png">
+	<div class="text">
+		<p class="text1">캐릭터 쿠키</p><br>
+		<p class="text2">부드러운 쿠키 텍스처와 풍부한 초콜릿 맛이<br>어우러져 아이들에게 인기 있는 캐릭터 쿠키</p><br>
+		<p class="text3">2,900원</p>
+	</div>
 	</a>
 </div>
 	
@@ -382,7 +458,7 @@ function snackList() {
 		<a id="first" class="first" onclick="breadList()">
 			<img class="img" src="/resources/img/bread1.png">
 			<div class="text">
-				<p class="text1">bread</p>
+				<p class="text1">bread</p><br>
 				<p class="text2">겉은 바삭하고 속은 촉촉한 빵</p>
 			</div>
 		</a>
@@ -390,7 +466,7 @@ function snackList() {
 		<a id="second" class="second" onclick="dessertList()">
 			<img class="img" src="/resources/img/dessert1.png">
 			<div class="text">
-				<p class="text1">dessert</p>
+				<p class="text1">dessert</p><br>
 				<p class="text2">달콤하고 부드러운 디저트</p>
 			</div>
 		</a>
@@ -398,7 +474,7 @@ function snackList() {
 		<a id="third" class="third" onclick="jamList()">
 			<img class="img" src="/resources/img/jam1.png">
 			<div class="text">
-				<p class="text1">jam</p>
+				<p class="text1">jam</p><br>
 				<p class="text2">달콤하고 부드러운 잼</p>
 			</div>
 		</a>
@@ -406,7 +482,7 @@ function snackList() {
 		<a id="fourth" class="fourth" onclick="snackList()">
 			<img class="img" src="/resources/img/snack1.png">
 			<div class="text">
-				<p class="text1">snack</p>
+				<p class="text1">snack</p><br>
 				<p class="text2">달콤하고 부드러운 스낵</p>
 			</div>
 		</a>

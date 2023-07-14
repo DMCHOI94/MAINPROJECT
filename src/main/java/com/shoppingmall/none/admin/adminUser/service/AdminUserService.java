@@ -32,4 +32,12 @@ public class AdminUserService {
 		System.out.println("service에서의 userList : " + userList);
 		return userList;
 	}
+
+	// 관리자가 회원 삭제
+	public int userDelete(List<String> selUserIds) {
+		System.out.println("회원삭제 service의 selUserIds : " + selUserIds);
+		int result = adminUserDao.userDelete(selUserIds);
+		return result;
+	}
+
 }

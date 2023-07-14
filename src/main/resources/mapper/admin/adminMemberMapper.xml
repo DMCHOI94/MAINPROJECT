@@ -37,23 +37,13 @@
 		WHERE
 		    A.RNUM BETWEEN #{startIndex} AND (${endIndex})
 	</select>
+	
+	<!-- 회원 삭제 -->
+	<delete id="userDelete">
+	    DELETE FROM member WHERE userId IN
+	    <foreach collection="list" item="userId" open="(" close=")" separator=",">
+	        #{userId}
+	    </foreach>
+	</delete>
 </mapper>
 
-<!-- 	 	SELECT * 
-	 	FROM (SELECT m.*, 
-	 				ROW_NUMBER()
-	 			  OVER (ORDER BY userSeq)
-	 			  AS rownum
-    FROM member m
-) temp
-WHERE rownum BETWEEN :startIndex AND :endIndex;
-
-SELECT ROW_NUMBER() OVER(ORDER BY B.BOARDDATE DESC)
-AS RNUM, B.BOARDSEQ, B.MEMSEQ, B.BOARDTITLE, 
-B.BOARDCONTENT, B.BOARDDATE, B.BOARDHIT, 
-M.MEMID FROM BOARD B INNER JOIN MEMBER M ON B.MEMSEQ = M.MEMSEQ
-
-
-SELECT ROW_NUMBER() OVER (ORDER BY customer_name) 
-AS row_num, customer_name
-FROM Customers; -->

@@ -48,6 +48,8 @@
 	width: 1500px;
 	height: 100px;
 	border-bottom: 1px solid #ececec;
+	margin-top: 35px;
+	padding-bottom: 35px;
 }
 
 .nav .img .logo {
@@ -171,7 +173,7 @@ footer .footer {
 	margin-left: auto;
 	margin-right: auto;
 	align-items: center;
-	margin-top: 30px;
+	margin-top: 80px;
 }
 
 /* footer CS */
@@ -402,11 +404,20 @@ input#idButton {
 }
 
 input {
-	margin-top: -5px;
-	width: 180px;
-	height: 25px;
-	margin-bottom: 30px;
-	font-size: 13px;
+   margin-top: -5px;
+   width: 180px;
+   height: 25px;
+   margin-bottom: 40px;
+   font-size: 13px;
+}
+
+input#userAddr {
+   margin-bottom: 15px;
+   margin-top: -28px;
+}
+
+.userAddr {
+   margin-top: -15px;
 }
 
 input#postCode {
@@ -498,19 +509,33 @@ select#day {
 }
 
 /* myPage */
-.user a {
+.userPage {
+   display: flex;
+   justify-content: center;
+   margin-top: 30px;
+}
+
+.userPage .uadatePage {
+   margin-right: 60px;
+}
+
+.userPage .withdrawalPage {
+   margin-left: 60px;
+}
+
+.userPage a {
 	width: 100px;
 	height: 100px;
 }
 
-.user .img {
+.userPage .img {
 	width: 100px;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
 }
 
-.user .text {
+.userPage .text {
 	font-size: 12px;
 	display: flex;
 	justify-content: center;

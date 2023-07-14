@@ -331,8 +331,8 @@ function validation() {
 				<tr>
 					<th class="userGender"><span>성별</span></th>
 					<td id="userGender" name="userGender">
-						<input type="radio" id="gender" name="gender" value="man"><label>남자</label>&nbsp&nbsp
-						<input type="radio" id="gender" name="gender" value="woman"><label>여자</label>
+						<label><input type="radio" id="gender" name="gender" value="man">남자</label>&nbsp&nbsp
+						<label><input type="radio" id="gender" name="gender" value="woman">여자</label>
 					</td>
 				</tr>
 

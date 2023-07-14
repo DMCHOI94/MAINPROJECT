@@ -111,7 +111,7 @@ function adminUserInfo(currentPage) {
 				userInfo = tr +
 										td + selBox + td_ +
 										td + userSeq + td_ +
-										td + userId + td_ +
+										'<td id="selUserId">' + userId + '</td>' +
 										td + userPw + td_ +
 										td + userName + td_ +										
 										td + userAddrPostal + td_ +
@@ -156,11 +156,11 @@ function adminUserInfo(currentPage) {
 			for(let i = startPage; i <= endPage; i++) {
 				console.log("페이징처리 number");
 				if(i == curPage) {
-					pageNumber = '<a onclick="adminUserInfo(' + i + ')">[' + i + ']</a>';
+					pageNumber = '<a onclick="adminUserInfo(' + i + ')" style="border: 1px solid #ccc; color: red; font-weight: bold;">' + i + '</a>';
 					console.log("pageNumber : " + pageNumber);
 					$('#pageNumber').append(pageNumber);
 				} else {
-					pageNumber = '<a onclick="adminUserInfo(' + i + ')">[' + i + ']</a>';
+					pageNumber = '<a onclick="adminUserInfo(' + i + ')" style="border: 1px solid #ccc;">' + i + '</a>';
 					console.log("pageNumber : " + pageNumber);
 					$('#pageNumber').append(pageNumber);
 				}
@@ -182,6 +182,39 @@ function adminUserInfo(currentPage) {
 function userPList() {
 	alert("내역조회 버튼누름");
 	
+}
+
+function userDelete() {
+  let selUserId = [];
+  $('input[id="userCheck"]:checked').each(function() {
+  	selUserId.push($(this).closest('tr').find('#selUserId').text());
+    console.log("selUserId : " + selUserId);
+  });
+  console.log("222selUserId22 : " + selUserId);
+  
+  if(confirm("선택한 회원을 정말 삭제하시겠습니까?")) {
+    let selUserIdsStr = selUserId.join(',');
+    $.ajax({
+    	type : 'GET',
+  		url : '/userDelete',
+      data: { 
+      	selUserId: selUserIdsStr
+      },
+      success: function(data) {
+        console.log("data : " + data);
+        alert("회원이 삭제되었습니다");
+        location.reload();
+      },
+      error : function(request,status,error) {
+  	 	 	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+  	 	 	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+  		}
+    });
+  } else {
+  	alert("취소되었습니다.");
+  	location.reload();
+  }
+
 }
 </script>
 <!DOCTYPE html>
@@ -218,7 +251,7 @@ function userPList() {
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="adminMain">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -426,7 +459,7 @@ function userPList() {
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">관리자</span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -457,6 +490,11 @@ function userPList() {
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">회원정보 조회</h6>
                         </div>
+                        <div>
+                        	<input type="button" value="회원삭제" id="userDelete" class="userDelete" onclick="userDelete()"
+                        	style="margin-left: 12px; margin-top: 5px;">
+                        </div>
+                        
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -500,9 +538,9 @@ function userPList() {
                                 </table>
                             </div>
                             <div class="page" style="display: flex; justify-content: center; cursor: pointer;">
-	                            <div id="pagePrevious" style="font-size: 12px; text-align: center; margin-left: 5px;"></div>
-	                            <div id="pageNumber" style="font-size: 12px; text-align: center; margin-left: 5px;"></div>
-	                            <div id="pageNext"style="font-size: 12px; text-align: center; margin-left: 5px;"></div>
+	                            <a id="pagePrevious" style="font-size: 12px; text-align: center; margin-left: 5px;"></a>
+	                            <a id="pageNumber" style="font-size: 12px; text-align: center; margin-left: 5px;"></a>
+	                            <a id="pageNext"style="font-size: 12px; text-align: center; margin-left: 5px;"></a>
                             </div>
                         </div>
                     </div>
@@ -537,7 +575,7 @@ function userPList() {
                 <div class="modal-body">정말로 로그아웃 하시겠습니까?</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
-                    <a class="btn btn-primary" href="admin/login/adminLogin">로그아웃</a>
+                    <a class="btn btn-primary" href="adminLogin">로그아웃</a>
                 </div>
             </div>
         </div>

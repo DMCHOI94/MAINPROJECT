@@ -40,4 +40,10 @@ public class AdminUserDao {
 
 		return sql.selectList("AdminLoginDao.adminUserInfo", adminPageVo);
 	}
+
+	// 회원 삭제
+	public int userDelete(List<String> selUserIds) {
+		System.out.println("회원삭제 selUserIds : " + selUserIds);
+		return sql.delete("AdminLoginDao.userDelete", selUserIds);
+	}
 }
