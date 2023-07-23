@@ -15,4 +15,5 @@ public class AdminUserVo {
 	private String userBirth;
 	private String useYN;
 	private String adminYN;
+	private String rNum;
 }

@@ -31,7 +31,8 @@ function adminUserInfo(currentPage) {
 			currentPage : currentPage
 		},
 		success: function(data) {
-			console.log("ㅎㅇ");
+			console.log("------ data : " + data);
+			console.log("data: " + JSON.stringify(data));
 			
 		  // 페이징 처리를 위한 변수
 			let pagePrevious = '';
@@ -52,7 +53,6 @@ function adminUserInfo(currentPage) {
 			let endIndex = data[0][0].endIndex;
 			// DB에서 넘어온 유저 데이터 변수
 			let selBox = '<input id="userCheck" type="checkbox">';
-			let userSeq = '';
 			let userId = '';
 			let userPw = '';
 			let userName = '';
@@ -63,6 +63,7 @@ function adminUserInfo(currentPage) {
 			let userBirth = '';
 			let useYN = '';
 			let adminYN = '';
+			let rnum = '';
 			let btn = '<button id="userPList" onclick="userPList()">내역조회</button>';
 			let tr = '<tr>';
 			let tr_ = '</tr>';
@@ -83,7 +84,6 @@ function adminUserInfo(currentPage) {
 			$("#userTable").empty();
 			for(let i = 0; i < userRow; i++) {
 				// DB에서 넘어온 유저 데이터
-				userSeq = data[1][i].userSeq;
 				userId = data[1][i].userId;
 				userPw = data[1][i].userPw;
 				userName = data[1][i].userName;
@@ -94,8 +94,9 @@ function adminUserInfo(currentPage) {
 				userBirth = data[1][i].userBirth;
 				useYN = data[1][i].useYN;
 				adminYN = data[1][i].adminYN;
+				rnum = data[1][i].rnum;
 				
-				console.log("userSeq : " + userSeq);
+				
 				console.log("userId : " + userId);
 				console.log("userPw : " + userPw);
 				console.log("userName : " + userName);
@@ -106,11 +107,12 @@ function adminUserInfo(currentPage) {
 				console.log("userBirth : " + userBirth);
 				console.log("useYN : " + useYN);
 				console.log("adminYN : " + adminYN);
+				console.log("rnum : " + rnum);
 				
 				// userInfo 변수에 데이터 담기
 				userInfo = tr +
 										td + selBox + td_ +
-										td + userSeq + td_ +
+										td + rnum + td_ +
 										'<td id="selUserId">' + userId + '</td>' +
 										td + userPw + td_ +
 										td + userName + td_ +										
@@ -152,7 +154,6 @@ function adminUserInfo(currentPage) {
 			}
 			
 			// 페이징 처리 숫자 
-			
 			for(let i = startPage; i <= endPage; i++) {
 				console.log("페이징처리 number");
 				if(i == curPage) {

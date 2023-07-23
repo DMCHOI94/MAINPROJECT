@@ -13,30 +13,30 @@
 	</select>	
 	
 <!-- 회원정보 조회 -->
-	<select id="adminUserInfo" parameterType="adminPageVo" resultType="adminUserVo">
-		SELECT
-		    A.*
-		FROM
-		(
-		    SELECT
-		        ROW_NUMBER() OVER(ORDER BY M.USERSEQ) RNUM 
-		        , M.USERSEQ
-		        , M.USERID
-		        , M.USERPW
-		        , M.USERNAME
-		        , M.USERADDRPOSTAL
-						, M.USERADDR
-						, M.USERADDRDETAIL
-						, M.USERGENDER
-						, M.USERBIRTH
-						, M.USEYN
-						, M.ADMINYN
-				    FROM 
-				        MEMBER M
-		) A
-		WHERE
-		    A.RNUM BETWEEN #{startIndex} AND (${endIndex})
-	</select>
+   <select id="adminUserInfo" parameterType="adminPageVo" resultType="adminUserVo">
+      SELECT
+          A.*
+      FROM
+      (
+          SELECT
+              ROW_NUMBER() OVER(ORDER BY M.USERSEQ) rNum 
+              , M.USERSEQ
+              , M.USERID
+              , M.USERPW
+              , M.USERNAME
+              , M.USERADDRPOSTAL
+                  , M.USERADDR
+                  , M.USERADDRDETAIL
+                  , M.USERGENDER
+                  , M.USERBIRTH
+                  , M.USEYN
+                  , M.ADMINYN
+                FROM 
+                    MEMBER M
+      ) A
+      WHERE
+          A.RNUM BETWEEN #{startIndex} AND ${endIndex}
+   </select>
 	
 	<!-- 회원 삭제 -->
 	<delete id="userDelete">

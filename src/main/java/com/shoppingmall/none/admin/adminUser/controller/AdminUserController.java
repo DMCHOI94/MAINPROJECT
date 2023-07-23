@@ -108,6 +108,13 @@ public class AdminUserController {
 			// 마지막 인덱스 구하기
 			int endIndex = curPage * userSize - 1;
 
+			if (startIndex == 0) {
+				startIndex = 1;
+			}
+			if (endIndex == 9) {
+				endIndex = 10;
+			}
+
 			if (endPage > pageCount) {
 				endPage = pageCount;
 			}

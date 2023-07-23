@@ -382,12 +382,24 @@ footer .border-bottom {
 	margin-bottom: 23px;
 }
 
+#userPw {
+	position: relative;
+}
+
 #userPwError {
+	position: absolute;
+	margin-top: -35px;
 	display: none;
 	color: red;
 }
 
+#userConfirmPw {
+	position: relative;
+}
+
 #userConfirmPwE {
+	position: absolute;
+	margin-top: -35px;
 	display: none;
 	color: red;
 }

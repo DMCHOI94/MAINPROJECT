@@ -179,9 +179,14 @@ function adminUserInfo(currentPage) {
 	});
 }
 
-function userPList() {
-	alert("내역조회 버튼누름");
-	
+function productRegi() {
+  alert("상품등록 버튼 누름");
+  // 팝업 창의 URL
+  var popupUrl = "adminProductRegi";
+  // 팝업 창의 속성 설정
+  var popupFeatures = "width=1000,height=800,scrollbars=yes,resizable=yes";
+  // 팝업 창 열기
+  window.open(popupUrl, "상품등록", popupFeatures);
 }
 </script>
 <!DOCTYPE html>
@@ -458,7 +463,8 @@ function userPList() {
                             <h6 class="m-0 font-weight-bold text-primary">상품정보 조회</h6>
                         </div>
                         <div>
-                        	<input type="button" value="상품등록" id="productRegi" class="productRegi">
+                        	<input type="button" value="상품등록" id="productRegi" class="productRegi" onclick="productRegi()"
+                        	style="margin-left: 12px; margin-top: 5px;">
                         </div>
                         
                         <div class="card-body">
