@@ -45,5 +45,16 @@
 	        #{userId}
 	    </foreach>
 	</delete>
+	
+	<!-- 상품 등록 -->
+	<insert id="adminProductInfo" parameterType="adminProductVo">
+    INSERT INTO adminProduct (userSeq, productSeq, productName, productPrice, productQuantity, productContent)
+    VALUES (#{userSeq}, #{productSeq}, #{productName}, #{productPrice}, #{productQuantity}, #{productContent})
+	</insert>
+	
+	<!-- 파일 등록 -->
+	<insert id="adminFileInfo" parameterType="adminFileVo">
+    INSERT INTO adminFile (fileName, filePath)
+		VALUES (#{fileName}, #{filePath})
+	</insert>
 </mapper>
-

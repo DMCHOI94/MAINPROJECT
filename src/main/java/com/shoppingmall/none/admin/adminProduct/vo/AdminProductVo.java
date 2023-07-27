@@ -10,4 +10,5 @@ public class AdminProductVo {
 	private int productPrice;
 	private int productQuantity;
 	private String productContent;
+
 }

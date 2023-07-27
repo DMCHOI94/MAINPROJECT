@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.shoppingmall.none.admin.adminProduct.vo.AdminFileVo;
 import com.shoppingmall.none.admin.adminProduct.vo.AdminProductVo;
 
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,14 @@ public class AdminProductDao {
 	public int adminProductInfo(AdminProductVo adminProductVo) {
 		System.out.println("관리자 상품등록 dao 들어옴");
 		System.out.println("adminProductVo price : " + adminProductVo.getProductPrice());
-		return sql.selectOne("AdminLoginDao.adminUserCount");
+		return sql.selectOne("AdminLoginDao.adminProductInfo", adminProductVo);
+	}
+
+	// 관리자 파일등록
+	public int adminFileInfo(AdminFileVo adminFileVo) {
+		System.out.println("관리자 파일등록 dao 들어옴");
+		System.out.println("adminFileVo path : " + adminFileVo.getFilePath());
+		return sql.selectOne("AdminLoginDao.adminFileInfo", adminFileVo);
 	}
 
 }
