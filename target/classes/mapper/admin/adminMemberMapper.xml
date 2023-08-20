@@ -48,13 +48,37 @@
 	
 	<!-- 상품 등록 -->
 	<insert id="adminProductInfo" parameterType="adminProductVo">
-    INSERT INTO adminProduct (userSeq, productSeq, productName, productPrice, productQuantity, productContent)
-    VALUES (#{userSeq}, #{productSeq}, #{productName}, #{productPrice}, #{productQuantity}, #{productContent})
+    INSERT INTO adminProduct (productSeq, productName, productPrice, productQuantity, productContent, productClassification)
+    VALUES (productSeq.NEXTVAL, #{productName}, #{productPrice}, #{productQuantity}, #{productContent}, #{productClassification})
 	</insert>
+	
+	<!-- 상품명 중복체크 -->
+	<select id="adminProductNameCheck" parameterType="String" resultType="java.lang.String">
+  	SELECT productName FROM adminProduct WHERE productName = #{productName}
+	</select>
+	
+	
+	<!-- 등록된 상품의 productSeq 조회 -->
+	<select id="getProductSeq" resultType="int">
+    SELECT productSeq
+    FROM adminProduct
+    WHERE ROWNUM = 1
+    ORDER BY productSeq DESC
+	</select>
 	
 	<!-- 파일 등록 -->
 	<insert id="adminFileInfo" parameterType="adminFileVo">
-    INSERT INTO adminFile (fileName, filePath)
-		VALUES (#{fileName}, #{filePath})
+    INSERT INTO adminFile (productSeq, fileName, filePath)
+		VALUES (#{productSeq}, #{fileName}, #{filePath})
 	</insert>
+	
+	<!-- 상품 전체 수 조회 -->
+	<select id="adminProductCount" resultType="int">
+		SELECT COUNT(*) FROM adminProduct
+	</select>	
+	
+	<!-- 상품 목록 조회 -->
+   <select id="adminProductList" parameterType="adminProductVo" resultType="adminProductVo">
+    SELECT * FROM adminProduct
+   </select>
 </mapper>

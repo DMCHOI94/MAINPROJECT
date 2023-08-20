@@ -2,9 +2,11 @@ package com.shoppingmall.none.admin.adminProduct.controller;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,21 +14,22 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.JsonObject;
 import com.shoppingmall.none.admin.adminProduct.dao.AdminProductDao;
 import com.shoppingmall.none.admin.adminProduct.service.AdminProductService;
 import com.shoppingmall.none.admin.adminProduct.vo.AdminFileVo;
+import com.shoppingmall.none.admin.adminProduct.vo.AdminProductListVo;
 import com.shoppingmall.none.admin.adminProduct.vo.AdminProductVo;
 
 import lombok.RequiredArgsConstructor;
@@ -39,7 +42,6 @@ public class AdminProductController {
 	private AdminProductService adminProductService;
 	private AdminProductVo adminProductVo;
 	private AdminProductDao adminProductDao;
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	// 상품관리 페이지 들어옴
 	@GetMapping("/adminProduct")
@@ -62,6 +64,7 @@ public class AdminProductController {
 		String userId = (String) session.getAttribute("userId");
 
 		if (userId != null && userId.equals("admin")) {
+			System.out.println("팝업창 true");
 			return "admin/product/adminProductRegi";
 		} else {
 			System.out.println("로그인 후 이용이 가능합니다.");
@@ -69,107 +72,80 @@ public class AdminProductController {
 		}
 	}
 
-	// 내용 및 이미지 등록하는 메소드
-	@PostMapping(value = "/adminProductInfo")
-	@ResponseBody
-	public String adminProductInfo(HttpSession session, HttpServletRequest request, HttpServletResponse response,
-			@RequestParam("productName") String productName, @RequestParam("productPrice") int productPrice,
-			@RequestParam("productQuantity") int productQuantity, @RequestParam("productContent") String productContent,
-			@RequestParam("fileName") String fileName, @RequestParam("filePath") String filePath,
-			MultipartHttpServletRequest multiFile, AdminProductVo adminProductVo, AdminFileVo adminFileVo) throws Exception {
-		// 받아온 데이터를 처리하는 로직을 구현합니다.
-		// 이 예제에서는 단순히 받은 데이터를 로그에 출력합니다.
-
-		String userId = (String) session.getAttribute("userId");
-
-		if (userId != null && userId.equals("admin")) {
-
-			System.out.println("상품명: " + productName);
-			System.out.println("상품가격: " + productPrice);
-			System.out.println("상품수량: " + productQuantity);
-			System.out.println("상품내용: " + productContent);
-			System.out.println("파일이름: " + fileName);
-			System.out.println("파일경로: " + filePath);
-			adminProductVo.setProductName(productName);
-			adminProductVo.setProductPrice(productPrice);
-			adminProductVo.setProductQuantity(productQuantity);
-			adminProductVo.setProductContent(productContent);
-
-			adminFileVo.setFileName(fileName);
-			adminFileVo.setFilePath(filePath);
-			System.out.println("adminFileVo getName " + adminFileVo.getFileName());
-			System.out.println("adminFileVo filePath " + adminFileVo.getFilePath());
-
-			System.out.println("adminProductVo. name : " + adminProductVo.getProductName());
-			System.out.println("adminProductVo. productPrice : " + adminProductVo.getProductPrice());
-			int productResult = adminProductService.adminProductInfo(adminProductVo);
-			int fileResult = adminProductService.adminFileInfo(adminFileVo);
-//			System.out.println("이미지 : " + productImage);
-//			AdminProductController.adminProductImg(request, response, multiFile);
-//			System.out.println("request : " + request);
-//			System.out.println("response : " + response);
-//			System.out.println("multiFile : " + multiFile);
-
-			return "admin/product/adminProductRegi";
-		} else {
-			System.out.println("로그인 후 이용이 가능합니다.");
-			return "redirect:/adminLogin";
-		}
-	}
-
+	// 이미지 폴더 저장 및 파일생성, 업로드
 	@PostMapping(value = "/adminProductImg")
 	@ResponseBody
-	public static void adminProductImg(HttpServletRequest request, HttpServletResponse response,
-			MultipartHttpServletRequest multiFile) throws IOException {
-		System.out.println("IMG 들어옴");
-		// Json 객체 생성
+	public String adminProductImg(HttpServletRequest request, HttpServletResponse response,
+			MultipartHttpServletRequest multiFile) throws Exception {
+
+		System.out.println("adminProductImg 들어옴");
 		JsonObject json = new JsonObject();
-		// Json 객체를 출력하기 위해 PrintWriter 생성
-		PrintWriter printWriter = null;
+		UUID uid = UUID.randomUUID();
 		OutputStream out = null;
-		// 파일을 가져오기 위해 MultipartHttpServletRequest 의 getFile 메서드 사용
+		PrintWriter printWriter = null;
 		MultipartFile file = multiFile.getFile("upload");
-		// 파일이 비어있지 않고(비어 있다면 null 반환)
+		System.out.println("multiFile : " + multiFile);
+		System.out.println("file : " + file);
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=utf-8");
+		System.out.println("---if중첩 시작");
+
 		if (file != null) {
-			// 파일 사이즈가 0보다 크고, 파일이름이 공백이 아닐때
 			if (file.getSize() > 0 && StringUtils.isNotBlank(file.getName())) {
 				if (file.getContentType().toLowerCase().startsWith("image/")) {
-
 					try {
-						// 파일 이름 설정
-						String originalFileName = file.getOriginalFilename();
-						String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-						String fileName = UUID.randomUUID().toString() + fileExtension;
+						System.out.println("---try 들어옴");
+						// 파일 이름 가져오기
+						String fileName = file.getOriginalFilename();
+						byte[] bytes = file.getBytes();
 
-						// 바이트 타입설정
-						byte[] bytes;
-						// 파일을 바이트 타입으로 변경
-						bytes = file.getBytes();
-						// 파일이 실제로 저장되는 경로
-						String uploadPath = request.getServletContext().getRealPath("/resources/ckUpload/");
-						// 저장되는 파일에 경로 설정
-						File uploadFile = new File(uploadPath);
-						if (!uploadFile.exists()) {
-							uploadFile.mkdirs();
+						// 파일 경로 생성
+						String filePath = request.getServletContext().getRealPath("/resources/ckUpload");
+						System.out.println("filePath : " + filePath);
+						String ckUploadPath = filePath + uid + fileName;
+						System.out.println("ckUploadPath : " + ckUploadPath);
+						String fileUrl = request.getContextPath() + "\\resources\\ckUpload\\" + uid + fileName;
+						System.out.println("fileUrl : " + fileUrl);
+						String fileSava = "C:\\Users\\asc12\\portfolio\\sikppang2\\src\\main\\webapp\\resources\\ckUpload\\" + uid
+								+ fileName;
+						System.out.println("fileSava : " + fileSava);
+
+						// 폴더 생성
+						File folder = new File("C:\\Users\\asc12\\portfolio\\sikppang2\\src\\main\\webapp\\resources\\ckUpload");
+						System.out.println("folder : " + folder);
+						if (!folder.exists()) {
+							try {
+								folder.mkdirs(); // 폴더 생성
+								System.out.println("폴더생성!!");
+							} catch (Exception e) {
+								e.getStackTrace();
+							}
 						}
-						// 업로드 경로 + 파일이름을 줘서 데이터를 서버에 전송
-						uploadPath = uploadPath + "/" + fileName;
-						out = new FileOutputStream(new File(uploadPath));
-						out.write(bytes);
 
-						// 클라이언트에 이벤트 추가
+						// 파일 생성
+						out = new FileOutputStream(new File(fileSava));
+						System.out.println("out 1 ");
+						out.write(bytes);
+						System.out.println("out 2 ");
+
 						printWriter = response.getWriter();
 						response.setContentType("text/html");
 
-						// 파일이 연결되는 Url 주소 설정
-						String fileUrl = request.getContextPath() + "/resources/ckUpload/" + fileName;
-
-						// 생성된 json 객체를 이용해 파일 업로드 + 이름 + 주소를 CkEditor에 전송
+						System.out.println("out : " + out);
+						System.out.println("printWriter : " + printWriter);
+						System.out.println("fileUrl : " + fileUrl);
+						System.out.println("uid : " + uid);
+						System.out.println("fileName : " + fileName);
+						System.out.println("folder : " + folder);
+						System.out.println("ckUploadPath : " + ckUploadPath);
+						System.out.println("out : " + out);
 						json.addProperty("uploaded", 1);
-						json.addProperty("fileName", fileName);
+						json.addProperty("fileName", uid + fileName);
 						json.addProperty("url", fileUrl);
 						printWriter.println(json);
-					} catch (IOException e) {
+						System.out.println("fileName : " + uid + fileName);
+						System.out.println("url : " + fileUrl);
+					} catch (Exception e) {
 						e.printStackTrace();
 					} finally {
 						if (out != null) {
@@ -181,6 +157,173 @@ public class AdminProductController {
 					}
 				}
 			}
+		}
+		return null;
+	}
+
+	// 상품 정보 등록
+	@PostMapping(value = "/adminProductInfo")
+	@ResponseBody
+	public String adminProductInfo(HttpSession session, @ModelAttribute AdminProductVo adminProductVo,
+			@ModelAttribute AdminFileVo adminFileVo, Integer productSeq) {
+		System.out.println("adminProductInfo 들어옴");
+
+		String userId = (String) session.getAttribute("userId");
+
+		if (userId != null && userId.equals("admin")) {
+			String productNameCheck = adminProductVo.getProductName();
+			String result = adminProductService.adminProductNameCheck(adminProductVo);
+			System.out.println("--------------------");
+			System.out.println(productNameCheck);
+			System.out.println(result);
+			System.out.println("productNameCheck의 타입: " + productNameCheck.getClass().getName());
+			System.out.println("result의 타입: " + result.getClass().getName());
+			System.out.println("--------------------");
+			if (productNameCheck.equals(result)) {
+				System.out.println("name이 중복되었습니다");
+				return "redirect:/adminLogin";
+			} else {
+				System.out.println("---adminFileVo getName " + adminFileVo.getFileName());
+				System.out.println("---adminFileVo filePath " + adminFileVo.getFilePath());
+
+				System.out.println("adminProductVo. name : " + adminProductVo.getProductName());
+				System.out.println("adminProductVo. productPrice : " + adminProductVo.getProductPrice());
+				System.out.println("adminProductVo. productQuantity : " + adminProductVo.getProductQuantity());
+				System.out.println("adminProductVo. productContent : " + adminProductVo.getProductContent());
+				System.out.println("adminProductVo. productClassification  : " + adminProductVo.getProductClassification());
+
+				int productResult = adminProductService.adminProductInfo(adminProductVo, productSeq);
+				productSeq = adminProductVo.getProductSeq();
+				System.out.println("productSeq : " + productSeq);
+				int fileResult = adminProductService.adminFileInfo(adminFileVo, productSeq);
+				System.out.println("fileResult : " + fileResult);
+
+				return "상품등록 성공!";
+			}
+
+		} else {
+			System.out.println("로그인 후 이용이 가능합니다.");
+			return "redirect:/adminLogin";
+		}
+	}
+
+	// 상품 리스트 조회 페이징
+	@GetMapping(value = "/adminProductList", produces = "application/json;charset=utf-8")
+	@ResponseBody
+	public List<Object> adminProductList(@ModelAttribute AdminProductListVo adminProductListVo,
+			AdminProductVo adminProductVo, AdminFileVo adminFileVo, HttpSession session,
+			@RequestParam(value = "currentPage", required = false, defaultValue = "1") String currentPage)
+			throws JsonProcessingException {
+		System.out.println("currentPage : " + currentPage);
+		System.out.println("관리자 상품관리 들어옴1");
+
+		String userId = (String) session.getAttribute("userId");
+		if (userId != null && userId.contentEquals("admin")) {
+			System.out.println("괸리자 상품 페이징 들어옴");
+			// 상품 총 개수
+			int productCount = adminProductService.adminProductCount();
+			System.out.println("productCount : " + productCount);
+			// 화면에 보여지는 상품 개수
+			int productSize = 10;
+			// 화면에 보여지는 페이지 개수
+			int pageSize = 5;
+			// 페이지 총 개수
+			int pageCount = (productCount / productSize) + (productCount % productSize == 0 ? 0 : 1);
+			// 현재 페이지 구하기
+			String curPageStr = currentPage;
+			if (curPageStr == null) {
+				curPageStr = "1";
+			}
+			int curPage = Integer.parseInt(curPageStr);
+
+			// 시작 페이지 구하기
+			int startPage = 1;
+			if (curPage % pageSize == 0) {
+				startPage = ((curPage / pageSize) - 1) * pageSize + 1;
+			} else {
+				startPage = (curPage / pageSize) * pageSize + 1;
+			}
+
+			// 끝 페이지 구하기
+			int endPage = startPage + pageSize - 1;
+
+			// 시작 인덱스 구하기
+			int startIndex = (curPage - 1) * productSize;
+
+			// 마지막 인덱스 구하기
+			int endIndex = curPage * productSize - 1;
+
+			if (startIndex == 0) {
+				startIndex = 1;
+			}
+			if (endIndex == 9) {
+				endIndex = 10;
+			}
+
+			if (endPage > pageCount) {
+				endPage = pageCount;
+			}
+			if (endIndex > productCount) {
+				endIndex = productCount;
+			}
+
+			adminProductListVo.setProductCount(productCount);
+			adminProductListVo.setProductSize(productSize);
+			adminProductListVo.setPageSize(pageSize);
+			adminProductListVo.setPageCount(pageCount);
+			adminProductListVo.setCurPage(curPage);
+			adminProductListVo.setStartPage(startPage);
+			adminProductListVo.setEndPage(endPage);
+			adminProductListVo.setStartIndex(startIndex);
+			adminProductListVo.setEndIndex(endIndex);
+
+			List<AdminProductListVo> productList = adminProductService.adminProductList(adminProductVo);
+			// DB에 뽑히는 리스트 만큼의 정수
+			System.out.println("test productList : " + productList);
+			int productRow = productList.size();
+			adminProductListVo.setProductRow(productRow);
+			List<AdminProductListVo> productPage = new ArrayList<>();
+			List<Object> resultList = new ArrayList<>();
+			productPage.add(adminProductListVo);
+			resultList.add(productPage);
+			resultList.add(productList);
+
+			System.out.println("productCount : " + productCount);
+			System.out.println("productSize : " + productSize);
+			System.out.println("productRow : " + productRow);
+			System.out.println("pageSize : " + pageSize);
+			System.out.println("pageCount : " + pageCount);
+			System.out.println("curPageStr : " + curPageStr);
+			System.out.println("curPage : " + curPage);
+			System.out.println("startPage : " + startPage);
+			System.out.println("endPage : " + endPage);
+			System.out.println("startIndex : " + startIndex);
+			System.out.println("endIndex : " + endIndex);
+			System.out.println("return resultList : " + resultList);
+			return resultList;
+		} else {
+			System.out.println("로그인 후 이용이 가능합니다.");
+			return null;
+		}
+	}
+
+	// 상품 삭제 버튼
+	@GetMapping(value = "/productDel", produces = "application/json;charset=utf-8")
+	@ResponseBody
+	public int productDel(HttpSession session, @RequestParam("selProduct") String selProduct) {
+		System.out.println("상품 삭제 들어옴");
+		String userId = (String) session.getAttribute("userId");
+
+		if (userId != null && userId.equals("admin")) {
+			System.out.println("selProduct : " + selProduct);
+			List<String> selProducts = Arrays.asList(selProduct.split(","));
+			System.out.println("--selProducts : " + selProducts);
+			// int productDelete = adminProductService.productDel(selProduct);
+			// return productDelete;
+			return 1;
+		} else {
+			System.out.println("로그인 후 이용이 가능합니다.");
+			return 0;
 		}
 	}
 

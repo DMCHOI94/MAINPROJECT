@@ -54,9 +54,6 @@ public class AdminUserController {
 			throws JsonProcessingException {
 		System.out.println("currentPage : " + currentPage);
 		System.out.println("관리자 회원관리 들어옴1");
-		System.out.println("관리자 회원관리 들어옴2");
-		System.out.println("관리자 회원관리 들어옴3");
-		System.out.println("관리자 회원관리 들어옴4");
 
 		String userId = (String) session.getAttribute("userId");
 		if (userId != null && userId.equals("admin")) {
@@ -162,7 +159,7 @@ public class AdminUserController {
 		}
 	}
 
-	// 회원관리 페이지 들어옴
+	// 회원 삭제 버튼
 	@GetMapping(value = "/userDelete", produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public int userDelete(HttpSession session, @RequestParam("selUserId") String selUserId) {

@@ -3,29 +3,20 @@
 	pageEncoding="UTF-8"%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-//페이지 로드 시 adminUserInfo 함수를 실행하여 초기 데이터를 가져옵니다.
+//페이지 로드 시 adminProductList 함수를 실행하여 초기 데이터를 가져옵니다.
 $(document).ready(function() {
 	const urlParams = new URLSearchParams(window.location.search);
 	console.log("urlParams : " + urlParams);
   const currentPage = urlParams.get('curPage'); // URL에서 curPage 파라미터 값을 얻어옴
   console.log("currentPage : " + currentPage);
-  adminUserInfo(currentPage);
+  adminProductList(currentPage);
 });
 
-function adminUserInfo(currentPage) {
-	//님이 여기다가 매개변수로 currentPage를 받고있짢아요
-	//1, 2, 3, 4, 5 번호를 누를때마다 currentPage를 받아와서 리스트 조회해서 뿌려주는 식으로 해야합니다 동적태그로 만들어서 append시키는거
-	// 아..
-	//너는 밑에 코드보면 href를 이용한거고 adminUserInfo이걸 이용안한거임. href를 이용했다는건 이해했는데
-	// onclick으로도 adminUserInfo함수를 호출했는데 이 부분만 볼 땐, adminUserInfo함수 이용 안한거임??
-	//a 태그 href 주면 그거 누르면 href를 타버리잖아 아 무시되는구나 onclick이?> ㅇㅇ 너는 ajax를 안태운거임 그냥 ㅇㅎ
-			//딱 최초 화면 실행할때만 ajax 탄거고 다른 번호 누를때부터는 그냥 ajax말고 화면 이동으로 된거임 아하 이해했습니당
-			//거기부분 수정하시면 됩니다. 무조건 누를떄마다 이 함수를 탈 수 있게 넵넵 ㄳㄳ 옙
+function adminProductList(currentPage) {
 	console.log("currentPage : " + currentPage);
-	
 	$.ajax({
 		type : 'GET',
-		url : '/adminUserInfo',
+		url : '/adminProductList',
 		dataType : 'json',
 		data : {
 			currentPage : currentPage
@@ -37,11 +28,11 @@ function adminUserInfo(currentPage) {
 			let pagePrevious = '';
 			let pageNumber = '';
 			let pageNext = '';
-			let userInfo = '';
+			let productInfo = '';
 			// 서버에서 넘어온 페이징 처리 변수
-			let userCount = data[0][0].userCount;
-			let userSize = data[0][0].userSize;
-			let userRow = data[0][0].userRow;
+			let productCount = data[0][0].productCount;
+			let productSize = data[0][0].productSize;
+			let productRow = data[0][0].productRow;
 			let pageSize = data[0][0].pageSize;
 			let pageCount = data[0][0].pageCount;
 			let curPageStr = data[0][0].curPageStr;
@@ -51,26 +42,20 @@ function adminUserInfo(currentPage) {
 			let startIndex = data[0][0].startIndex;
 			let endIndex = data[0][0].endIndex;
 			// DB에서 넘어온 유저 데이터 변수
-			let selBox = '<input id="userCheck" type="checkbox">';
-			let userSeq = '';
-			let userId = '';
-			let userPw = '';
-			let userName = '';
-			let userAddrPostal = '';
-			let userAddr = '';
-			let userAddrDetail = '';
-			let userGender = '';
-			let userBirth = '';
-			let useYN = '';
-			let adminYN = '';
-			let btn = '<button id="userPList" onclick="userPList()">내역조회</button>';
+			let selBox = '<input id="productCheck" type="checkbox">';
+			let productSeq = '';
+			let productName = '';
+			let productPrice = '';
+			let productQuantity = '';
+			// let productContent = '';
+			let productClassification = '';
 			let tr = '<tr>';
 			let tr_ = '</tr>';
 			let td = '<td>';
 			let td_ = '</td>';
-			console.log("userCount : " + userCount);
-			console.log("userSize : " + userSize);
-			console.log("userRow : " + userRow);
+			console.log("productCount : " + productCount);
+			console.log("productSize : " + productSize);
+			console.log("productRow : " + productRow);
 			console.log("pageSize : " + pageSize);
 			console.log("pageCount : " + pageCount);
 			console.log("curPageStr : " + curPageStr);
@@ -81,47 +66,31 @@ function adminUserInfo(currentPage) {
 			console.log("endIndex : " + endIndex);
 			
 			$("#userTable").empty();
-			for(let i = 0; i < userRow; i++) {
+			for(let i = 0; i < productRow; i++) {
 				// DB에서 넘어온 유저 데이터
-				userSeq = data[1][i].userSeq;
-				userId = data[1][i].userId;
-				userPw = data[1][i].userPw;
-				userName = data[1][i].userName;
-				userAddrPostal = data[1][i].userAddrPostal;
-				userAddr = data[1][i].userAddr;
-				userAddrDetail = data[1][i].userAddrDetail;
-				userGender = data[1][i].userGender;
-				userBirth = data[1][i].userBirth;
-				useYN = data[1][i].useYN;
-				adminYN = data[1][i].adminYN;
+				productSeq = data[1][i].productSeq;
+				productName = data[1][i].productName;
+				productPrice = data[1][i].productPrice;
+				productQuantity = data[1][i].productQuantity;
+				// productContent = data[1][i].productContent;
+				productClassification = data[1][i].productClassification;
 				
-				console.log("userSeq : " + userSeq);
-				console.log("userId : " + userId);
-				console.log("userPw : " + userPw);
-				console.log("userName : " + userName);
-				console.log("userAddrPostal : " + userAddrPostal);
-				console.log("userAddr : " + userAddr);
-				console.log("userAddrDetail : " + userAddrDetail);
-				console.log("userGender : " + userGender);
-				console.log("userBirth : " + userBirth);
-				console.log("useYN : " + useYN);
-				console.log("adminYN : " + adminYN);
+				console.log("productSeq : " + productSeq);
+				console.log("productName : " + productName);
+				console.log("productPrice : " + productPrice);
+				console.log("productQuantity : " + productQuantity);
+				// console.log("productContent : " + productContent);
+				console.log("productClassification : " + productClassification);
 				
 				// userInfo 변수에 데이터 담기
 				userInfo = tr +
 										td + selBox + td_ +
-										td + userSeq + td_ +
-										td + userId + td_ +
-										td + userPw + td_ +
-										td + userName + td_ +										
-										td + userAddrPostal + td_ +
-										td + userAddr + td_ +
-										td + userAddrDetail + td_ +
-										td + userGender + td_ +
-										td + userBirth + td_ +
-										td + useYN + td_ +
-										td + adminYN + td_ +
-										td + btn + td_ +
+										td + productSeq + td_ +
+										td + productClassification + td_ +
+										'<td id="productName">' + productName + '</td>' +
+										td + productPrice + td_ +
+										td + productQuantity + td_ +										
+										// td + productContent + td_ +
 										tr_;
 				console.log( i + " 번째 입니다.");
 
@@ -146,7 +115,7 @@ function adminUserInfo(currentPage) {
 			// 페이징 처리 <
 			if(startPage > pageSize) {
 				console.log("페이징처리 <");
-				pagePrevious = '<a onclick="adminUserInfo(' + (startPage - 1) + ')"><</a>';
+				pagePrevious = '<a onclick="adminProductList(' + (startPage - 1) + ')"><</a>';
 				console.log("pagePrevious : " + pagePrevious);
 				$('#pagePrevious').append(pagePrevious);
 			}
@@ -156,11 +125,11 @@ function adminUserInfo(currentPage) {
 			for(let i = startPage; i <= endPage; i++) {
 				console.log("페이징처리 number");
 				if(i == curPage) {
-					pageNumber = '<a onclick="adminUserInfo(' + i + ')" style="border: 1px solid #ccc; color: red; font-weight: bold;">' + i + '</a>';
+					pageNumber = '<a onclick="adminProductList(' + i + ')" style="border: 1px solid #ccc; color: red; font-weight: bold;">' + i + '</a>';
 					console.log("pageNumber : " + pageNumber);
 					$('#pageNumber').append(pageNumber);
 				} else {
-					pageNumber = '<a onclick="adminUserInfo(' + i + ')" style="border: 1px solid #ccc;">' + i + '</a>';
+					pageNumber = '<a onclick="adminProductList(' + i + ')" style="border: 1px solid #ccc;">' + i + '</a>';
 					console.log("pageNumber : " + pageNumber);
 					$('#pageNumber').append(pageNumber);
 				}
@@ -168,7 +137,7 @@ function adminUserInfo(currentPage) {
 			// 페이징 처리 >
 			if(pageCount > endPage) {
 				console.log("페이징처리 >");
-				pageNext = '<a onclick="adminUserInfo(' + (endPage + 1) + ')">></a>';
+				pageNext = '<a onclick="adminProductList(' + (endPage + 1) + ')">></a>';
 				$('#pageNext').append(pageNext);
 			}
 		},
@@ -182,11 +151,44 @@ function adminUserInfo(currentPage) {
 function productRegi() {
   alert("상품등록 버튼 누름");
   // 팝업 창의 URL
-  var popupUrl = "adminProductRegi";
+  let popupUrl = "adminProductRegi";
   // 팝업 창의 속성 설정
-  var popupFeatures = "width=1000,height=800,scrollbars=yes,resizable=yes";
+  let popupFeatures = "width=1000,height=800,scrollbars=yes,resizable=yes";
   // 팝업 창 열기
   window.open(popupUrl, "상품등록", popupFeatures);
+}
+
+function productDel() {
+  let selProducts = [];
+  $('input[id="productCheck"]:checked').each(function() {
+  	selProducts.push($(this).closest('tr').find('#productName').text());
+    console.log("selProducts : " + selProducts);
+  });
+  console.log("-_-selProducts-_- : " + selProducts);
+  
+  if(confirm("선택한 회원을 정말 삭제하시겠습니까?")) {
+    let selProduct = selProducts.join(',');
+    $.ajax({
+    	type : 'GET',
+  		url : '/productDel',
+      data: { 
+      	selProduct: selProduct
+      },
+      success: function(data) {
+        console.log("data : " + data);
+        alert("회원이 삭제되었습니다");
+        location.reload();
+      },
+      error : function(request,status,error) {
+  	 	 	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+  	 	 	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+  		}
+    });
+  } else {
+  	alert("취소되었습니다.");
+  	location.reload();
+  }
+
 }
 </script>
 <!DOCTYPE html>
@@ -258,24 +260,21 @@ function productRegi() {
                     <span>상품관리</span></a>
             </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
 
-            <!-- Heading -->
+            <hr class="sidebar-divider">
+<!--
             <div class="sidebar-heading">
                 게시판관리
             </div>
 
-            <!-- Nav Item - Tables -->
             <li class="nav-item active">
                 <a class="nav-link" href="adminBoard">
                     <i class="fas fa-fw fa-table"></i>
                     <span>게시판관리</span></a>
             </li>
 
-            <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
-
+ -->
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -465,6 +464,8 @@ function productRegi() {
                         <div>
                         	<input type="button" value="상품등록" id="productRegi" class="productRegi" onclick="productRegi()"
                         	style="margin-left: 12px; margin-top: 5px;">
+                        	<input type="button" value="상품삭제" id="productDel" class="productDel" onclick="productDel()"
+                        	style="margin-left: 12px; margin-top: 5px;">
                         </div>
                         
                         <div class="card-body">
@@ -474,36 +475,13 @@ function productRegi() {
                                         <tr>
                                         		<th>선택</th>
                                             <th>순서</th>
-                                            <th>아이디</th>
-                                            <th>비밀번호</th>
-                                            <th>이름</th>
-                                            <th>우편번호</th>
-                                            <th>주소</th>
-                                            <th>상세주소</th>
-                                            <th>성별</th>
-                                            <th>생년월일</th>
-                                            <th>회원탈퇴여부</th>
-                                            <th>관리자계정</th>
-                                            <th>구매내역</th>
+                                            <th>상품분류</th>
+                                            <th>상품명</th>
+                                            <th>상품가격</th>
+                                            <th>상품수량</th>
+                                            <!-- <th>상품내용</th>  -->
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                        		<th>선택</th>
-                                            <th>순서</th>
-                                            <th>아이디</th>
-                                            <th>비밀번호</th>
-                                            <th>이름</th>
-                                            <th>우편번호</th>
-                                            <th>주소</th>
-                                            <th>상세주소</th>
-                                            <th>성별</th>
-                                            <th>생년월일</th>
-                                            <th>회원탈퇴여부</th>
-                                            <th>관리자계정</th>
-                                            <th>구매내역</th>
-                                        </tr>
-                                    </tfoot>
                                     <tbody id="userTable">
                                     	
                                     </tbody>
