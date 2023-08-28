@@ -50,25 +50,8 @@
 		AND userPw = #{userPw} AND userName = #{userName}
 	</update>
 
-<!-- 
-	<select id="login" parameterType="userJoinVo" resultType="userJoinVo">
-		select *
-		from MEMBER where 
-		userSeq=#{userSeq} and
-		userId=#{userId} and 
-		userPw=#{userPw} and
-		userName=#{userName} and 
-		userAddr=#{userAddr} and
-		userAddrDetail=#{userAddrDetail} and 
-		userAddrPostal=#{userAddrPostal} and
-		userGender=#{userGender} and 
-		userBirth=#{userBirth} and
-		useYN=#{useYN}
+<!-- 상품 조회 -->
+	<select id="userProduct" resultType="userProductVo">
+		SELECT * FROM adminProduct WHERE productClassification = #{bread}
 	</select>
-
-	<select id="checkid" parameterType="String" resultType="int">
-		SELECT
-		COUNT(*) FROM member WHERE userId=#{userId}
-	</select>
- -->
 </mapper>

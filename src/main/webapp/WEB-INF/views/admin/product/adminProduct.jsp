@@ -91,6 +91,7 @@ function adminProductList(currentPage) {
 										td + productPrice + td_ +
 										td + productQuantity + td_ +										
 										// td + productContent + td_ +
+										td + "<button>수정</button>" + "&nbsp;<button>삭제</button>" + td_ +
 										tr_;
 				console.log( i + " 번째 입니다.");
 
@@ -479,6 +480,7 @@ function productDel() {
                                             <th>상품명</th>
                                             <th>상품가격</th>
                                             <th>상품수량</th>
+                                            <th>버튼</th>
                                             <!-- <th>상품내용</th>  -->
                                         </tr>
                                     </thead>

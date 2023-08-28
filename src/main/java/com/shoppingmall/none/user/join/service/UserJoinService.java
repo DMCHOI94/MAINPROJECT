@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 public class UserJoinService {
 	private final UserJoinDao userJoinDao;
 
+	// 회원가입 정보 전달
 	public int userInfo(UserJoinVo userJoinVo) {
 		System.out.println("회원가입 service의 userJoinVo = " + userJoinVo);
 		return userJoinDao.userInfo(userJoinVo);

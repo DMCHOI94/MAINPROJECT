@@ -24,5 +24,7 @@
 		<typeAlias type="com.shoppingmall.none.admin.adminProduct.vo.AdminProductVo" alias="adminProductVo" />
 	<!-- adminFile -->
 		<typeAlias type="com.shoppingmall.none.admin.adminProduct.vo.AdminFileVo" alias="adminFileVo" />
+	<!-- userProduct -->
+		<typeAlias type="com.shoppingmall.none.user.product.vo.UserProductVo" alias="userProductVo" />
 	</typeAliases>
 </configuration>

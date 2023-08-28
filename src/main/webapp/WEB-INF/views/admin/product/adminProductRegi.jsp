@@ -15,6 +15,8 @@ let ckeditor_config = {
   filebrowserUploadUrl: "/adminProductImg"
 };
 
+
+
 function count(type)  {
 	console.log("count 들어옴");
 	console.log("에디터 버전 : " + CKEDITOR.version);

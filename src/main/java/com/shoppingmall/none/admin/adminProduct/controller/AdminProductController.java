@@ -100,18 +100,9 @@ public class AdminProductController {
 						byte[] bytes = file.getBytes();
 
 						// 파일 경로 생성
-						String filePath = request.getServletContext().getRealPath("/resources/ckUpload");
-						System.out.println("filePath : " + filePath);
-						String ckUploadPath = filePath + uid + fileName;
-						System.out.println("ckUploadPath : " + ckUploadPath);
-						String fileUrl = request.getContextPath() + "\\resources\\ckUpload\\" + uid + fileName;
-						System.out.println("fileUrl : " + fileUrl);
-						String fileSava = "C:\\Users\\asc12\\portfolio\\sikppang2\\src\\main\\webapp\\resources\\ckUpload\\" + uid
-								+ fileName;
-						System.out.println("fileSava : " + fileSava);
-
+						String uploadPath = request.getServletContext().getRealPath("/resources/ckUpload/");
 						// 폴더 생성
-						File folder = new File("C:\\Users\\asc12\\portfolio\\sikppang2\\src\\main\\webapp\\resources\\ckUpload");
+						File folder = new File(uploadPath);
 						System.out.println("folder : " + folder);
 						if (!folder.exists()) {
 							try {
@@ -121,9 +112,37 @@ public class AdminProductController {
 								e.getStackTrace();
 							}
 						}
+						String fileSave = uploadPath + uid + fileName;
+						System.out.println("fileSave : " + fileSave);
+
+						String targetString = "sikppang2";
+
+						int startIndex = fileSave.indexOf(targetString);
+						System.out.println("startIndex : " + startIndex);
+						String temp = "";
+						if (startIndex != -1) {
+							startIndex += targetString.length(); // 찾은 문자열 뒤에서부터 추출
+							temp = fileSave.substring(startIndex);
+							System.out.println("temp: " + temp);
+						} else {
+							System.out.println("대상 문자열을 찾을 수 없습니다.");
+						}
+
+//						String filePath = request.getServletContext().getRealPath("/resources/ckUpload");
+//						System.out.println("filePath : " + filePath);
+//						String ckUploadPath = filePath + uid + fileName;
+//						System.out.println("ckUploadPath : " + ckUploadPath);
+//						String fileUrl = request.getContextPath() + "\\resources\\ckUpload\\" + uid + fileName;
+//						System.out.println("fileUrl : " + fileUrl);
+//						String fileSava = "C:/Users/asc12/portfolio/sikppang2/src/main\\webapp\\resources\\ckUpload\\" + uid
+//								+ fileName;
+//						System.out.println("fileSava : " + fileSava);
 
 						// 파일 생성
-						out = new FileOutputStream(new File(fileSava));
+						fileSave = temp.replace("\\", "/");
+						System.out.println("fileSave : " + fileSave);
+
+						out = new FileOutputStream(new File(fileSave));
 						System.out.println("out 1 ");
 						out.write(bytes);
 						System.out.println("out 2 ");
@@ -131,20 +150,10 @@ public class AdminProductController {
 						printWriter = response.getWriter();
 						response.setContentType("text/html");
 
-						System.out.println("out : " + out);
-						System.out.println("printWriter : " + printWriter);
-						System.out.println("fileUrl : " + fileUrl);
-						System.out.println("uid : " + uid);
-						System.out.println("fileName : " + fileName);
-						System.out.println("folder : " + folder);
-						System.out.println("ckUploadPath : " + ckUploadPath);
-						System.out.println("out : " + out);
 						json.addProperty("uploaded", 1);
 						json.addProperty("fileName", uid + fileName);
-						json.addProperty("url", fileUrl);
+						json.addProperty("url", fileSave);
 						printWriter.println(json);
-						System.out.println("fileName : " + uid + fileName);
-						System.out.println("url : " + fileUrl);
 					} catch (Exception e) {
 						e.printStackTrace();
 					} finally {

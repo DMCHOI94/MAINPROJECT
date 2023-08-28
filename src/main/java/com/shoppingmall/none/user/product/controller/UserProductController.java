@@ -1,38 +1,51 @@
 package com.shoppingmall.none.user.product.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.shoppingmall.none.user.product.service.UserProductService;
+import com.shoppingmall.none.user.product.vo.UserProductVo;
+
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class UserProductController {
+
+	private final UserProductService userProductService;
+
 	@GetMapping("/product")
 	public String product() {
 		return "product/product.user";
 	}
 
-	@GetMapping("/breadList")
-	public String breadList() {
-		return "product/breadList.user";
-	}
-
-	@GetMapping("/dessertList")
-	public String dessertList() {
-		return "product/dessertList.user";
-	}
-
-	@GetMapping("/jamList")
-	public String jamList() {
-		return "product/jamList.user";
-	}
-
-	@GetMapping("/snackList")
-	public String snackList() {
-		return "product/snackList.user";
-	}
-
 	@GetMapping("/bread1")
-	public String bread1() {
-		return "product/bread1.user";
+	public UserProductVo bread1(String bread) {
+		System.out.println("bread1에 들어옴");
+		bread = "bread";
+		List<UserProductVo> result = userProductService.bread1(bread);
+		UserProductVo userProductVo = result.get(0);
+		System.out.println("controller result : " + result);
+
+		if (!result.isEmpty()) {
+
+			System.out.println("controller result : " + result);
+			System.out.println("seq : " + userProductVo.getProductSeq());
+			System.out.println("name : " + userProductVo.getProductName());
+			System.out.println("classfi : " + userProductVo.getProductClassification());
+
+			if (userProductVo.getProductClassification() != "bread") {
+				System.out.println("성공");
+				return userProductVo;
+			} else {
+				System.out.println("실패");
+				return userProductVo;
+			}
+		}
+		System.out.println("result 비어있음");
+		return userProductVo;
 	}
 
 	@GetMapping("/bread2")

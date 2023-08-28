@@ -64,7 +64,7 @@ function adminUserInfo(currentPage) {
 			let useYN = '';
 			let adminYN = '';
 			let rnum = '';
-			let btn = '<button id="userPList" onclick="userPList()">내역조회</button>';
+			let btn = '<button id="userPList" class="btn btn-secondary" onclick="userPList()">내역조회</button>';
 			let tr = '<tr>';
 			let tr_ = '</tr>';
 			let td = '<td>';
