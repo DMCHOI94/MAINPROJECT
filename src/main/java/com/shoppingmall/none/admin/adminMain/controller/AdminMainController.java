@@ -16,7 +16,7 @@ public class AdminMainController {
 	public String adminMain(HttpSession session) {
 		System.out.println("관리자 메인페이지 들어옴");
 		String userId = (String) session.getAttribute("userId");
-		if (userId != null) {
+		if (userId != null && userId.equals("admin")) {
 			return "admin/main/adminMain";
 		} else {
 			System.out.println("로그인 후 이용이 가능합니다.");

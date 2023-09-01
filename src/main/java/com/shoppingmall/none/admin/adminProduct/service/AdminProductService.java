@@ -18,6 +18,14 @@ public class AdminProductService {
 	@Autowired
 	private final AdminProductDao adminProductDao;
 
+	// 파일 이름 중복검사
+	public String adminProductNameCheck(AdminProductVo adminProductVo) {
+		System.out.println("adminProductNameCheck name : " + adminProductVo.getProductName());
+		String result = adminProductDao.adminProductNameCheck(adminProductVo);
+		System.out.println("파일이름 중복검사 result : " + result);
+		return result;
+	}
+
 	// 관리자 상품 등록
 	public int adminProductInfo(AdminProductVo adminProductVo, Integer productSeq) {
 		System.out.println("관리자 service 상품 등록");
@@ -36,15 +44,6 @@ public class AdminProductService {
 		return result;
 	}
 
-	// 파일 이름 중복검사
-	public String adminProductNameCheck(AdminProductVo adminProductVo) {
-		System.out.println("adminProductNameCheck name : " + adminProductVo.getProductName());
-		String result = adminProductDao.adminProductNameCheck(adminProductVo);
-		System.out.println("파일이름 중복검사 result : " + result);
-
-		return result;
-	}
-
 	// 상품 전체 수 조회
 	public int adminProductCount() {
 		System.out.println("상품 전체 수 조회하는 service");
@@ -58,6 +57,12 @@ public class AdminProductService {
 		System.out.println("상품 정보 조회 service의 adminProductVo : " + adminProductVo);
 		List<AdminProductListVo> productList = adminProductDao.adminProductList(adminProductVo);
 		return productList;
+	}
+
+	// 상품 삭제
+	public int productDel(String selProduct) {
+		System.out.println("상품삭제 service의 selProduct : " + selProduct);
+		return adminProductDao.productDel(selProduct);
 	}
 
 }

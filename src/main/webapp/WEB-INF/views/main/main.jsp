@@ -33,7 +33,7 @@ $(document).ready(function() {
 				<a href="#">
 					<div class="number">1 / 6</div>
 					<img src="/resources/img/banner1.png">
-					<div class="text">[추천] 지친 당신을 위한 달콤함 한조각</div>
+					<div class="text">[추천] 식빵의 부드러움과 고소함, 건강한 맛을 만나보세요!</div>
 				</a>
 			</div>
 				
@@ -41,7 +41,7 @@ $(document).ready(function() {
 				<a href="#">
 					<div class="number">2 / 6</div>
 					<img src="/resources/img/banner2.png">
-					<div class="text">222</div>
+					<div class="text">[신메뉴] 진짜 마늘의 풍미를 느껴보세요. 007빵의 새로운 신메뉴!</div>
 				</a>
 			</div>
 				
@@ -49,7 +49,7 @@ $(document).ready(function() {
 				<a href="#">
 					<div class="number">3 / 6</div>
 					<img src="/resources/img/banner3.png">
-					<div class="text">333</div>
+					<div class="text">달콤한 초코머핀으로 당신의 아침을 기분좋게 시작해보세요 :)</div>
 				</a>
 			</div>
 				
@@ -57,7 +57,7 @@ $(document).ready(function() {
 				<a href="#">
 					<div class="number">4 / 6</div>
 					<img src="/resources/img/banner4.png">
-					<div class="text">444</div>
+					<div class="text">마카롱의 매력적인 색과 맛을 한 번에 만나보세요, 완벽한 디저트!</div>
 				</a>
 			</div>
 				
@@ -65,7 +65,7 @@ $(document).ready(function() {
 				<a href="#">
 					<div class="number">5 / 6</div> 
 					<img src="/resources/img/banner5.png">
-					<div class="text">555</div>
+					<div class="text">상큼한 오렌지잼이 빵과 어울리는 맛의 조합, 매일의 일상에 활력을 더해줍니다.</div>
 				</a>
 			</div>
 				
@@ -73,7 +73,7 @@ $(document).ready(function() {
 				<a href="#">
 					<div class="number">6 / 6</div> 
 					<img	src="/resources/img/banner6.png">
-					<div class="text">666</div>
+					<div class="text">딸기잼의 달콤함이 느껴지는, 건강하고 맛있는 딸기잼을 즐겨보세요!</div>
 				</a>
 			</div>
 		</div>

@@ -44,6 +44,11 @@
 		WHERE userId = #{userId}
 	</update>
 	
+<!-- 수정된 정보 조회 -->
+	<select id="updateComplete" resultType="userUpdateVo">
+		SELECT * FROM member WHERE userId = #{userId}
+	</select>
+	
 <!-- 회원탈퇴 / useYN 을 N으로 수정 -->
 	<update id="withdrawalInfo" parameterType="userWithdrawalVo">
 		UPDATE member SET useYN = #{useYN} WHERE userId = #{userId}

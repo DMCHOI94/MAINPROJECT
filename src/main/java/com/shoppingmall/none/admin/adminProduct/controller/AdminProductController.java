@@ -81,6 +81,7 @@ public class AdminProductController {
 		System.out.println("adminProductImg 들어옴");
 		JsonObject json = new JsonObject();
 		UUID uid = UUID.randomUUID();
+		UUID uid2 = UUID.randomUUID();
 		OutputStream out = null;
 		PrintWriter printWriter = null;
 		MultipartFile file = multiFile.getFile("upload");
@@ -89,6 +90,8 @@ public class AdminProductController {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
 		System.out.println("---if중첩 시작");
+		System.out.println("--uid : " + uid);
+		System.out.println("--uid2 : " + uid2);
 
 		if (file != null) {
 			if (file.getSize() > 0 && StringUtils.isNotBlank(file.getName())) {
@@ -100,7 +103,7 @@ public class AdminProductController {
 						byte[] bytes = file.getBytes();
 
 						// 파일 경로 생성
-						String uploadPath = request.getServletContext().getRealPath("/resources/ckUpload/");
+						String uploadPath = request.getSession().getServletContext().getRealPath("/resources/ckUpload/");
 						// 폴더 생성
 						File folder = new File(uploadPath);
 						System.out.println("folder : " + folder);
@@ -113,46 +116,23 @@ public class AdminProductController {
 							}
 						}
 						String fileSave = uploadPath + uid + fileName;
-						System.out.println("fileSave : " + fileSave);
 
-						String targetString = "sikppang2";
-
-						int startIndex = fileSave.indexOf(targetString);
-						System.out.println("startIndex : " + startIndex);
-						String temp = "";
-						if (startIndex != -1) {
-							startIndex += targetString.length(); // 찾은 문자열 뒤에서부터 추출
-							temp = fileSave.substring(startIndex);
-							System.out.println("temp: " + temp);
-						} else {
-							System.out.println("대상 문자열을 찾을 수 없습니다.");
-						}
-
-//						String filePath = request.getServletContext().getRealPath("/resources/ckUpload");
-//						System.out.println("filePath : " + filePath);
-//						String ckUploadPath = filePath + uid + fileName;
-//						System.out.println("ckUploadPath : " + ckUploadPath);
-//						String fileUrl = request.getContextPath() + "\\resources\\ckUpload\\" + uid + fileName;
-//						System.out.println("fileUrl : " + fileUrl);
-//						String fileSava = "C:/Users/asc12/portfolio/sikppang2/src/main\\webapp\\resources\\ckUpload\\" + uid
-//								+ fileName;
-//						System.out.println("fileSava : " + fileSava);
-
-						// 파일 생성
-						fileSave = temp.replace("\\", "/");
 						System.out.println("fileSave : " + fileSave);
 
 						out = new FileOutputStream(new File(fileSave));
-						System.out.println("out 1 ");
 						out.write(bytes);
-						System.out.println("out 2 ");
+
+						// 파일 생성
+						String test = "";
+						test = request.getContextPath() + "/resources/ckUpload/" + uid + fileName;
+						System.out.println("test : " + test);
 
 						printWriter = response.getWriter();
 						response.setContentType("text/html");
 
 						json.addProperty("uploaded", 1);
 						json.addProperty("fileName", uid + fileName);
-						json.addProperty("url", fileSave);
+						json.addProperty("url", test);
 						printWriter.println(json);
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -180,13 +160,15 @@ public class AdminProductController {
 		String userId = (String) session.getAttribute("userId");
 
 		if (userId != null && userId.equals("admin")) {
-			String productNameCheck = adminProductVo.getProductName();
+			// 상품명 중복 체크
 			String result = adminProductService.adminProductNameCheck(adminProductVo);
+			System.out.println("상품명 중복체크 result : " + result);
+
 			System.out.println("--------------------");
-			System.out.println(productNameCheck);
-			System.out.println(result);
+			String productNameCheck = adminProductVo.getProductName();
+			System.out.println("productNameCheck : " + productNameCheck);
+
 			System.out.println("productNameCheck의 타입: " + productNameCheck.getClass().getName());
-			System.out.println("result의 타입: " + result.getClass().getName());
 			System.out.println("--------------------");
 			if (productNameCheck.equals(result)) {
 				System.out.println("name이 중복되었습니다");
@@ -327,9 +309,10 @@ public class AdminProductController {
 			System.out.println("selProduct : " + selProduct);
 			List<String> selProducts = Arrays.asList(selProduct.split(","));
 			System.out.println("--selProducts : " + selProducts);
-			// int productDelete = adminProductService.productDel(selProduct);
+			int productDel = adminProductService.productDel(selProduct);
+			System.out.println("productDel : " + productDel);
 			// return productDelete;
-			return 1;
+			return productDel;
 		} else {
 			System.out.println("로그인 후 이용이 가능합니다.");
 			return 0;

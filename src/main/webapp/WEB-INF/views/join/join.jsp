@@ -151,7 +151,7 @@ function validation() {
 	} else {
 		userIdTxt.style.color = "black";
 	}
-	
+
 	if(userPw == '') {
 		alert('비밀번호를 입력하세요.');
 		userPwTxt.style.color = "red";

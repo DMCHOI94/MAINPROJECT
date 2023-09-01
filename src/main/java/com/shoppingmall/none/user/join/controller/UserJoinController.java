@@ -23,14 +23,6 @@ public class UserJoinController {
 	private final UserJoinService userJoinService;
 	private final Logger logger = LoggerFactory.getLogger(UserJoinController.class);
 
-	// RequestVo역할
-	// 1. 페이지에서 넘어간 데이터를 담는 용도로 하는 Vo가 RequestVo로 선언함
-	// 2. 검색이나 그 외에 필요한 데이터를 담는 용도로 하는 Vo
-//	@RequestMapping(value = "/user/join.do")
-//	public void doInsertUser(@ModelAttribute UserRequestVo) {
-//		
-//	}
-
 	// 회원 가입 페이지
 	@GetMapping("/join")
 	public String joinForm() {
@@ -59,8 +51,6 @@ public class UserJoinController {
 	};
 
 	// 회원가입 전 아이디 중복체크
-	// join.jsp(ajax)->controller->service->dao->mapper->
-	// dao->service->controller(service의 결과를 변수에 담음)->join.jsp(ajax)
 	@PostMapping("/userIdCheck")
 	@ResponseBody
 	public String userIdCheck(@RequestParam("userId") String userId) {
@@ -69,12 +59,4 @@ public class UserJoinController {
 		System.out.println("controller의 userIdChecking = " + userIdChecking);
 		return userIdChecking;
 	}
-
-//	@ResponseBody
-//	@RequestMapping(value = "idCheck.do", method = RequestMethod.GET)
-//	public void idCheck(String userId, UserJoinVo userJoinVo, HttpServletRequest request) {
-//		System.out.println("idCheck 들어옴");
-//		System.out.println(request.getParameter("userId = " + userId));
-//	}
-
 }

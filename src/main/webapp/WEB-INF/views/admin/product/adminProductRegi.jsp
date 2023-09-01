@@ -15,8 +15,6 @@ let ckeditor_config = {
   filebrowserUploadUrl: "/adminProductImg"
 };
 
-
-
 function count(type)  {
 	console.log("count 들어옴");
 	console.log("에디터 버전 : " + CKEDITOR.version);
@@ -48,6 +46,7 @@ function productRegi() {
   let name = document.getElementById('productName');
   let price = document.getElementById('productPrice');
   let quantity = document.getElementById('productQuantity');
+  let img = document.getElementById('productRepImg');
   console.log("choice : " + choice);
   
   let productClassification = choice.value;
@@ -55,11 +54,13 @@ function productRegi() {
   let productName = name.value;
   let productPrice = price.value;
   let productQuantity = quantity.value;
+  let productRepImg = img.value;
   console.log("productClassification : " + productClassification);
   console.log("productContent : " + productContent);
   console.log("productName : " + productName);
   console.log("productPrice : " + productPrice);
   console.log("productQuantity : " + productQuantity);
+  console.log("productRepImg : " + productRepImg);
   
   if(productChoice === '') {
   	alert("상품 분류를 선택해주세요");
@@ -75,6 +76,10 @@ function productRegi() {
   }
   if(productQuantity == '0') {
   	alert("상품수량를 입력해주세요");
+  	return false;
+  }
+  if(productRepImg === undefined) {
+  	alert("대표 이미지를 선택해주세요");
   	return false;
   }
   if(productContent == '') {
@@ -107,6 +112,7 @@ function productRegi() {
   console.log(" 내용 : " + productContent);
   console.log(" 경로 : " + filePaths);
   console.log(" 이름 : " + fileNames);
+  console.log(" 대표이미지 : " + productRepImg);
   
   // FormData 객체 생성
   let formData = new FormData();
@@ -115,11 +121,10 @@ function productRegi() {
   formData.append("productPrice", productPrice);
   formData.append("productQuantity", productQuantity);
   formData.append("productContent", productContent);
+  formData.append("productRepImg", productRepImg);
   formData.append("filePath", filePaths);
   formData.append("fileName", fileNames);
-  // formData.append("upload", dataURItoBlob(productContent));
-  // formData.append("productImage", productImage);
-	
+ 	
   $.ajax({
     url: "/adminProductInfo",
     type: "POST",
@@ -154,30 +159,35 @@ function productRegi() {
 		  <option value="jam">jam</option>
 		  <option value="snack">snack</option>
 		</select>
-  </div>
+  </div><br>
   
   <div id="productNameDiv">
   	<div>상품명</div>
     <input id="productName" type="text">
-  </div>
+  </div><br>
    
   <div id="productPriceDiv">
    	<div>상품가격</div>
    	<input id="productPrice" type="text">
-  </div>
+  </div><br>
    
   <div id="productQuantityDiv">
    	<div>상품수량</div>
    	<input id="quantityMinus" type="button" onclick='count("quantityMinus")' value="-"/>
    	<input id="productQuantity" type="text" readonly="readonly" value="0"/>
 		<input id="quantityPlus" type="button" onclick='count("quantityPlus")' value="+"/>
-  </div>
+  </div><br>
+  
+  <div id="productRepImg">
+   	<div>상품 대표이미지</div>
+   	<input id="productRepImg" type="file" name="file">
+  </div><br>
 	
 	<div>상품내용</div>
 	<textarea name="productContent" id="productContent"></textarea>
 	<script>
 		CKEDITOR.replace("productContent", ckeditor_config);
-	</script>
+	</script><br>
 	<input type="button" value="등록" id="productRegiBtn" onclick="productRegi()">
 	
 </body>

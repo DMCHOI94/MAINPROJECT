@@ -22,6 +22,12 @@ public class AdminProductDao {
 	private DataSource dataSource;
 	private final SqlSessionTemplate sql;
 
+	// 상품 이름 중복체크
+	public String adminProductNameCheck(AdminProductVo adminProductVo) {
+		System.out.println("상품이름 중복체크 dao 들어옴");
+		return sql.selectOne("AdminLoginDao.adminProductNameCheck", adminProductVo);
+	}
+
 	// 관리자 상품등록
 	public int adminProductInfo(AdminProductVo adminProductVo, Integer productSeq) {
 		System.out.println("관리자 상품등록 dao 들어옴");
@@ -42,12 +48,6 @@ public class AdminProductDao {
 		return sql.insert("AdminLoginDao.adminFileInfo", adminFileVo);
 	}
 
-	// 상품 이름 중복체크
-	public String adminProductNameCheck(AdminProductVo adminProductVo) {
-		System.out.println("상품이름 중복체크 dao 들어옴");
-		return sql.selectOne("AdminLoginDao.adminProductNameCheck", adminProductVo);
-	}
-
 	// 상품 전체 수 조회하는 dao
 	public int adminProductCount() {
 		System.out.println("상품 전체 수 조회");
@@ -59,6 +59,19 @@ public class AdminProductDao {
 		System.out.println("상품 정보 조회 dao의 adminProductVo : " + adminProductVo);
 
 		return sql.selectList("AdminLoginDao.adminProductList", adminProductVo);
+	}
+
+	// 상품 삭제
+	public int productDel(String selProduct) {
+		System.out.println("상품삭제 dao selProduct : " + selProduct);
+		int result = 0;
+		// adminFile 테이블에서 레코드 삭제
+		result += sql.delete("AdminLoginDao.fileDel", selProduct);
+		System.out.println("file result : " + result);
+		// adminProduct 테이블에서 레코드 삭제
+		result += sql.delete("AdminLoginDao.productDel", selProduct);
+		System.out.println("누적된 product result : " + result);
+		return result;
 	}
 
 }

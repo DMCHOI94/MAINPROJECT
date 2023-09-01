@@ -150,7 +150,8 @@ function validation() {
     		success: function(result) {
     			console.log(result);
           if (result) {
-              alert("정보수정 완료");
+              alert("정보수정 완료 : " + result.userUpdateVo.userId);
+              
               window.location.href = '/myPage';
           } else {
               alert("전송된 값 없음");
@@ -174,7 +175,7 @@ function validation() {
 		alert("회원가입이 불가합니다.");
 		return false;
 	} 
-}
+}	
 </script>
 <div class="container">
 	<form method="POST">
@@ -184,7 +185,7 @@ function validation() {
 			<tr>
 					<th class="userId"><span>아이디</span></th>
 					<td>
-						<input id="userId" name="userId" type="text" value="${sessionScope.userId}" readonly>
+						<input id="userId" name="userId" type="text" value="${userUpdateVo.userId}" readonly>
 					</td>
 				</tr>
 			
@@ -207,14 +208,14 @@ function validation() {
 				<tr>
 					<th class="userName"><span>이름</span></th>
 					<td>
-						<input id="userName" name="userName" value="${sessionScope.userName}" type="text">
+						<input id="userName" name="userName" value="${userUpdateVo.userName}" type="text">
 					</td>
 				</tr><br>
 
 				<tr>
 					<th class="userAddrPostal"><span>우편번호</span></th>
 					<td>
-						<input id="userAddrPostal" type="text" value="${sessionScope.userAddrPostal}" name="userAddrPostal" readonly />
+						<input id="userAddrPostal" type="text" value="${userUpdateVo.userAddrPostal}" name="userAddrPostal" readonly />
 					</td>
 					<td>
 						<input type='button' id='postCode' value="주소입력" onclick="execDaumPostcode()">
@@ -224,14 +225,14 @@ function validation() {
 				<tr>
 					<th class="userAddr"><span>주소</span></th>
 					<td>
-						<input id="userAddr" type="text" value="${sessionScope.userAddr}" name="userAddr" readonly />
+						<input id="userAddr" type="text" value="${userUpdateVo.userAddr}" name="userAddr" readonly />
 					</td>
 				</tr>
 				
 				<tr>
 					<th class="userAddrDetail"><span>상세 주소</span></th>
 					<td>
-						<input id="userAddrDetail" type="text" value="${sessionScope.userAddrDetail}" name="userAddrDetail" />
+						<input id="userAddrDetail" type="text" value="${userUpdateVo.userAddrDetail}" name="userAddrDetail" />
 					</td>
 				</tr>
 

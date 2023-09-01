@@ -70,8 +70,8 @@
 				<a href="/"> <img class="logo" src="/resources/img/logo.png"></a>
 			</div>
 			<ul>
-				<li class="bread"><a href="product">빵보러가기</a></li>
-				<li class="board"><a href="/">문의게시판</a></li>
+				<li class="bread"><a href="product">007빵 메뉴판</a></li>
+				<!-- <li class="board"><a href="/">문의게시판</a></li> -->
 			</ul>
 			<div class="margin"></div>
 		</div>

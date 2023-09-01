@@ -87,11 +87,11 @@ function adminProductList(currentPage) {
 										td + selBox + td_ +
 										td + productSeq + td_ +
 										td + productClassification + td_ +
-										'<td id="productName">' + productName + '</td>' +
+										'<td id="selProducts">' + productName + '</td>' +
 										td + productPrice + td_ +
 										td + productQuantity + td_ +										
-										// td + productContent + td_ +
-										td + "<button>수정</button>" + "&nbsp;<button>삭제</button>" + td_ +
+										td + '<button id="userModify" class="btn btn-secondary" onclick="" style="cursor: pointer;">내용수정</button>' + td_ +
+										td + '<button id="userDelete" class="btn btn-secondary" onclick="productDel()" style="cursor: pointer;">상품삭제</button>' + td_ +
 										tr_;
 				console.log( i + " 번째 입니다.");
 
@@ -154,7 +154,7 @@ function productRegi() {
   // 팝업 창의 URL
   let popupUrl = "adminProductRegi";
   // 팝업 창의 속성 설정
-  let popupFeatures = "width=1000,height=800,scrollbars=yes,resizable=yes";
+  let popupFeatures = "width=800,height=700,scrollbars=yes,resizable=yes";
   // 팝업 창 열기
   window.open(popupUrl, "상품등록", popupFeatures);
 }
@@ -162,32 +162,38 @@ function productRegi() {
 function productDel() {
   let selProducts = [];
   $('input[id="productCheck"]:checked').each(function() {
-  	selProducts.push($(this).closest('tr').find('#productName').text());
+  	selProducts.push($(this).closest('tr').find('#selProducts').text());
     console.log("selProducts : " + selProducts);
   });
   console.log("-_-selProducts-_- : " + selProducts);
   
-  if(confirm("선택한 회원을 정말 삭제하시겠습니까?")) {
-    let selProduct = selProducts.join(',');
-    $.ajax({
-    	type : 'GET',
-  		url : '/productDel',
-      data: { 
-      	selProduct: selProduct
-      },
-      success: function(data) {
-        console.log("data : " + data);
-        alert("회원이 삭제되었습니다");
-        location.reload();
-      },
-      error : function(request,status,error) {
-  	 	 	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-  	 	 	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-  		}
-    });
+  if(selProducts != '') {
+	  if(confirm("선택한 상품을 정말 삭제하시겠습니까?")) {
+	    let selProduct = selProducts.join(',');
+	    console.log("selProduct : " + selProduct);
+	    $.ajax({
+	    	type : 'GET',
+	  		url : '/productDel',
+	      data: { 
+	      	selProduct: selProduct
+	      },
+	      success: function(data) {
+	        console.log("data : " + data);
+	        alert("상품이 삭제되었습니다");
+	        location.reload();
+	      },
+	      error : function(request,status,error) {
+	  	 	 	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	  	 	 	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	  		}
+	    });
+	  } else {
+	  	alert("취소되었습니다.");
+	  	location.reload();
+	  }
   } else {
-  	alert("취소되었습니다.");
-  	location.reload();
+  	alert("삭제하실 상품을 선택해주세요.");
+		return false;
   }
 
 }
@@ -433,7 +439,7 @@ function productDel() {
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">관리자</span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="/resources/img/admin.png">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -464,9 +470,7 @@ function productDel() {
                         </div>
                         <div>
                         	<input type="button" value="상품등록" id="productRegi" class="productRegi" onclick="productRegi()"
-                        	style="margin-left: 12px; margin-top: 5px;">
-                        	<input type="button" value="상품삭제" id="productDel" class="productDel" onclick="productDel()"
-                        	style="margin-left: 12px; margin-top: 5px;">
+                        	style="float: right; margin-right: 12px; margin-top: 8px;">
                         </div>
                         
                         <div class="card-body">
@@ -480,7 +484,8 @@ function productDel() {
                                             <th>상품명</th>
                                             <th>상품가격</th>
                                             <th>상품수량</th>
-                                            <th>버튼</th>
+                                            <th>상품내용수정</th>
+                                            <th>상품삭제</th>
                                             <!-- <th>상품내용</th>  -->
                                         </tr>
                                     </thead>

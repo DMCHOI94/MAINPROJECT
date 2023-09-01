@@ -76,21 +76,21 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <!-- Heading -->
+            <!-- Heading
             <div class="sidebar-heading">
                 게시판관리
             </div>
 
-            <!-- Nav Item - Tables -->
+            Nav Item - Tables
             <li class="nav-item active">
                 <a class="nav-link" href="adminBoard">
                     <i class="fas fa-fw fa-table"></i>
                     <span>게시판관리</span></a>
             </li>
 
-            <!-- Divider -->
+            Divider 
             <hr class="sidebar-divider d-none d-md-block">
-
+-->
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -248,7 +248,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">관리자</span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="/resources/img/admin.png">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

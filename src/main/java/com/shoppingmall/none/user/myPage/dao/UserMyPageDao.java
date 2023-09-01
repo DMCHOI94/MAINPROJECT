@@ -14,20 +14,27 @@ import lombok.RequiredArgsConstructor;
 @Repository
 @RequiredArgsConstructor // 의존성 주입 받는다. sqlSessionTemplate
 public class UserMyPageDao {
-	// UserJoinDao 는 DB와 연관된 클래스다. 중간의 프레임워크는 mybatis를 사용
-	// mybatis의 쿼리들을 호출해주고 매개변수가 있다면 넘겨주고, 리턴값이 있다면 리턴해주는 게 userJoinDao의 역할이다.
 	@Autowired
 	private DataSource dataSource;
 
 	private final SqlSessionTemplate sql;
 
 	// 회원정보 수정 전달
-	public int updateInfo(UserUpdateVo userUpdateVo) {
+	public UserUpdateVo updateInfo(UserUpdateVo userUpdateVo) {
 		System.out.println("정보전달 dao의 userUpdateVo : " + userUpdateVo);
 		System.out.println("------updateDAo 중간점검 --------");
-		return sql.update("UserJoinDao.updateInfo", userUpdateVo);
+		sql.update("UserJoinDao.updateInfo", userUpdateVo);
+		return userUpdateVo;
 	}
 
+	// 수정된 회원정보 조회
+	public UserUpdateVo updateComplete(String userId) {
+		System.out.println("dao 에서 updateComplete");
+		System.out.println("user id : " + userId);
+		return sql.selectOne("UserJoinDao.updateComplete", userId);
+	}
+
+	// 회원탈퇴
 	public int withdrawalInfo(UserWithdrawalVo userWithdrawalVo) {
 		System.out.println("회원탈퇴의 dao에 들어옴");
 		return sql.delete("UserJoinDao.withdrawalInfo", userWithdrawalVo);

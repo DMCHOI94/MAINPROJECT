@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.shoppingmall.none.user.myPage.service.UserMyPageService;
 import com.shoppingmall.none.user.myPage.vo.UserUpdateVo;
@@ -25,29 +26,30 @@ public class UserMyPageController {
 
 	// 마이페이지
 	@GetMapping("/myPage")
-	public String myPage() {
+	public String myPage(UserUpdateVo userUpdateVo) {
+		System.out.println(" 여기는 mypage 입니다");
+
 		return "myPage/myPage.user";
 	}
 
 	// 정보수정
 	@GetMapping("/update")
-	public String update(UserUpdateVo userUpdateeVo, HttpSession session) {
+	public ModelAndView update(HttpSession session) {
 		System.out.println("----------------update-----------------");
-		String userId = (String) session.getAttribute("userId");
-		String userPw = (String) session.getAttribute("userPw");
-		String userName = (String) session.getAttribute("userName");
-		String userAddrPostal = (String) session.getAttribute("userAddrPostal");
-		String userAddr = (String) session.getAttribute("userAddr");
-		String userAddrDetail = (String) session.getAttribute("userAddrDetail");
-		System.out.println("userId : " + userId);
-		System.out.println("userPw : " + userPw);
-		System.out.println("userName : " + userName);
-		System.out.println("userAddrPostal : " + userAddrPostal);
-		System.out.println("userAddr : " + userAddr);
-		System.out.println("userAddrDetail : " + userAddrDetail);
 		System.out.println("----update페이지로이동한다----");
+		// update에서 db의 정보를 조회해서 jsp로 보내줘여 한다
+		String userId = (String) session.getAttribute("userId");
+		System.out.println("session id : " + userId);
+		UserUpdateVo userUpdateVo = new UserUpdateVo();
+		userUpdateVo = userMyPageService.updateComplete(userId);
+		System.out.println("id : " + userUpdateVo.getUserId());
+		System.out.println("name : " + userUpdateVo.getUserName());
 
-		return "myPage/update.user";
+		ModelAndView update = new ModelAndView();
+		update.setViewName("myPage/update.user"); // 뷰의 이름
+		update.addObject("userUpdateVo", userUpdateVo); // 뷰로 보낼 데이터 값
+
+		return update;
 	}
 
 	// 정보수정 정보 전달
@@ -57,12 +59,14 @@ public class UserMyPageController {
 		System.out.println("userMyPageVo / userPw : " + userUpdateVo.getUserPw() + "userName : "
 				+ userUpdateVo.getUserName() + "userAddrPostal : " + userUpdateVo.getUserAddrPostal() + "userAddr : "
 				+ userUpdateVo.getUserAddr() + "userAddrDetail : " + userUpdateVo.getUserAddrDetail());
-
-		int updateResult = userMyPageService.updateInfo(userUpdateVo);
-		System.out.println("--거의다왔다 updateResult : " + updateResult);
+		System.out.println("updateInfo 들어왔당");
+		userUpdateVo = userMyPageService.updateInfo(userUpdateVo);
+		System.out.println("--거의다왔다 updateResult : " + userUpdateVo);
+		System.out.println("updateVo name : " + userUpdateVo.getUserName());
+		System.out.println("updateVo id : " + userUpdateVo.getUserId());
 
 		Map<String, Object> result = new HashMap<>();
-		result.put("updateResult", updateResult);
+		result.put("userUpdateVo", userUpdateVo);
 		System.out.println("controller result : " + result);
 		return result;
 	}

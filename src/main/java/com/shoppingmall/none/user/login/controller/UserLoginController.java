@@ -136,15 +136,4 @@ public class UserLoginController {
 		return mav;
 	}
 
-//	@ResponseBody
-//	@RequestMapping("/loginIn")
-//	public Object loginIn(HttpServletRequest request) {
-//		String name = "aa";
-//
-//		Map<String, String> map = new HashMap<String, String>();
-//		map.put("aa", name);
-//
-//		return map;
-//	}
-
 }

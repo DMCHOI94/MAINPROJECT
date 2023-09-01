@@ -31,7 +31,7 @@ public class AdminUserController {
 	private AdminUserDao adminUserDao;
 	private ObjectMapper objectMapper = new ObjectMapper();
 
-	// 회원관리 페이지 들어옴
+	// 회원관리 페이지
 	@GetMapping("/adminUser")
 	public String adminUser(HttpSession session) {
 		System.out.println("회원관리 페이지 들어옴");
@@ -45,31 +45,15 @@ public class AdminUserController {
 		}
 	}
 
-	// 회원관리 페이지
+	// 회원조회 페이징 처리
 	@GetMapping(value = "/adminUserInfo", produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public List<Object> adminUserInfo(@ModelAttribute AdminUserVo adminUserVo, AdminPageVo adminPageVo,
 			HttpSession session,
 			@RequestParam(value = "currentPage", required = false, defaultValue = "1") String currentPage)
 			throws JsonProcessingException {
-		System.out.println("currentPage : " + currentPage);
-		System.out.println("관리자 회원관리 들어옴1");
-
 		String userId = (String) session.getAttribute("userId");
 		if (userId != null && userId.equals("admin")) {
-
-			// 그래서 요놈은 계산한 파라미터를 넣은 뒤에 나와야함 순서가 잘못된거지
-			// 이 부분은 해결됐습니다 ;; 쓰다보니 해결되네
-			// 뭐든 자동은 없음 어디선가 쓴거지 ㅇㅎ.
-			// 그러면 LIST 저놈을 밑으로 내려야겟네
-			// 밑으로 내린다고 생각하지말고 순서를 맞춰야한다고 생각해야지
-			// 계산부터 하고 그 계산된 변수를 파라미터로 넣어야 하니까
-			// 1. 페이징에 필요한 변수를 계산한다.
-			// 2. 그 계산된 변수를 SERVICE 파라미터로 넣는다
-			// 3. 그 파라미터를 이용하여 SQL문을 작성한다.ㅇㅋ?ㅇㅋㅇㅋ
-
-			System.out.println("관리자 회원관리 들어옴5");
-			System.out.println("관리자 회원관리 들어옴6");
 			// 회원 총 인원
 			int userCount = adminUserService.adminUserCount();
 			System.out.println("------------ userCount : " + userCount);
@@ -87,7 +71,6 @@ public class AdminUserController {
 				curPageStr = "1";
 			}
 			int curPage = Integer.parseInt(curPageStr);
-
 			// 시작 페이지 구하기
 			int startPage = 1;
 			if (curPage % pageSize == 0) {
@@ -95,26 +78,25 @@ public class AdminUserController {
 			} else {
 				startPage = (curPage / pageSize) * pageSize + 1;
 			}
-
 			// 끝 페이지 구하기
 			int endPage = startPage + pageSize - 1;
-
 			// 시작 인덱스 구하기
 			int startIndex = (curPage - 1) * userSize;
-
 			// 마지막 인덱스 구하기
 			int endIndex = curPage * userSize - 1;
-
+			// 시작 인덱스 제한
 			if (startIndex == 0) {
 				startIndex = 1;
 			}
+			// 마지막 인덱스 제한
 			if (endIndex == 9) {
 				endIndex = 10;
 			}
-
+			// 마지막 페이지 제한
 			if (endPage > pageCount) {
 				endPage = pageCount;
 			}
+			// 마지막 인덱스 제한
 			if (endIndex > userCount) {
 				endIndex = userCount;
 			}

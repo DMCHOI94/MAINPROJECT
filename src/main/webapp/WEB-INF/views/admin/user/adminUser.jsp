@@ -64,7 +64,8 @@ function adminUserInfo(currentPage) {
 			let useYN = '';
 			let adminYN = '';
 			let rnum = '';
-			let btn = '<button id="userPList" class="btn btn-secondary" onclick="userPList()">내역조회</button>';
+			let btnPList = '<button id="userPList" class="btn btn-secondary" onclick="userPList()" style="cursor: pointer;">내역조회</button>';
+			let btnUserDelete = '<button id="userDelete" class="btn btn-secondary" onclick="userDelete()" style="cursor: pointer;">회원삭제</button>';
 			let tr = '<tr>';
 			let tr_ = '</tr>';
 			let td = '<td>';
@@ -123,7 +124,8 @@ function adminUserInfo(currentPage) {
 										td + userBirth + td_ +
 										td + useYN + td_ +
 										td + adminYN + td_ +
-										td + btn + td_ +
+										td + btnPList + td_ +
+										td + btnUserDelete + td_ +
 										tr_;
 				console.log( i + " 번째 입니다.");
 
@@ -193,28 +195,34 @@ function userDelete() {
   });
   console.log("222selUserId22 : " + selUserId);
   
-  if(confirm("선택한 회원을 정말 삭제하시겠습니까?")) {
-    let selUserIdsStr = selUserId.join(',');
-    $.ajax({
-    	type : 'GET',
-  		url : '/userDelete',
-      data: { 
-      	selUserId: selUserIdsStr
-      },
-      success: function(data) {
-        console.log("data : " + data);
-        alert("회원이 삭제되었습니다");
-        location.reload();
-      },
-      error : function(request,status,error) {
-  	 	 	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-  	 	 	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-  		}
-    });
-  } else {
-  	alert("취소되었습니다.");
-  	location.reload();
-  }
+	if(selUserId != '') {
+		if(confirm("선택한 회원을 정말 삭제하시겠습니까?")) {
+	    let selUserIdsStr = selUserId.join(',');
+	    $.ajax({
+	    	type : 'GET',
+	  		url : '/userDelete',
+	      data: { 
+	      	selUserId: selUserIdsStr
+	      },
+	      success: function(data) {
+	        console.log("data : " + data);
+	        alert("회원이 삭제되었습니다");
+	        location.reload();
+	      },
+	      error : function(request,status,error) {
+	  	 	 	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	  	 	 	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	  		}
+	    });
+	  } else {
+	  	alert("취소되었습니다.");
+	  	location.reload();
+	  }
+	} else {
+		alert("삭제하실 회원을 선택해주세요.");
+		return false;
+	}
+  
 
 }
 </script>
@@ -290,21 +298,21 @@ function userDelete() {
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <!-- Heading -->
+            <!-- Heading 
             <div class="sidebar-heading">
                 게시판관리
             </div>
 
-            <!-- Nav Item - Tables -->
+            Nav Item - Tables
             <li class="nav-item active">
                 <a class="nav-link" href="adminBoard">
                     <i class="fas fa-fw fa-table"></i>
                     <span>게시판관리</span></a>
             </li>
-
-            <!-- Divider -->
+						
+            Divider
             <hr class="sidebar-divider d-none d-md-block">
-
+-->
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -462,7 +470,7 @@ function userDelete() {
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">관리자</span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="/resources/img/admin.png">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -491,11 +499,6 @@ function userDelete() {
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">회원정보 조회</h6>
                         </div>
-                        <div>
-                        	<input type="button" value="회원삭제" id="userDelete" class="userDelete" onclick="userDelete()"
-                        	style="margin-left: 12px; margin-top: 5px;">
-                        </div>
-                        
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -514,25 +517,9 @@ function userDelete() {
                                             <th>회원탈퇴여부</th>
                                             <th>관리자계정</th>
                                             <th>구매내역</th>
+                                            <th>회원삭제</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                        		<th>선택</th>
-                                            <th>순서</th>
-                                            <th>아이디</th>
-                                            <th>비밀번호</th>
-                                            <th>이름</th>
-                                            <th>우편번호</th>
-                                            <th>주소</th>
-                                            <th>상세주소</th>
-                                            <th>성별</th>
-                                            <th>생년월일</th>
-                                            <th>회원탈퇴여부</th>
-                                            <th>관리자계정</th>
-                                            <th>구매내역</th>
-                                        </tr>
-                                    </tfoot>
                                     <tbody id="userTable">
                                     	
                                     </tbody>

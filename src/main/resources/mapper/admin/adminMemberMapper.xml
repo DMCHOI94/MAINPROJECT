@@ -81,4 +81,19 @@
    <select id="adminProductList" parameterType="adminProductVo" resultType="adminProductVo">
     SELECT * FROM adminProduct
    </select>
+  
+  <!-- 상품 삭제 -->
+	  <!-- adminFile 테이블에서 레코드 삭제 -->
+		<delete id="fileDel" parameterType="string">
+	    DELETE FROM adminFile
+	    WHERE productSeq IN 
+	    (SELECT productSeq FROM adminProduct 
+	    WHERE productName = #{selProduct})
+		</delete>
+	
+		<!-- adminProduct 테이블에서 레코드 삭제 -->
+		<delete id="productDel" parameterType="string">
+	    DELETE FROM adminProduct 
+	    WHERE productName = #{selProduct}
+		</delete>
 </mapper>
