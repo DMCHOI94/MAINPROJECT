@@ -81,7 +81,6 @@ public class AdminProductController {
 		System.out.println("adminProductImg 들어옴");
 		JsonObject json = new JsonObject();
 		UUID uid = UUID.randomUUID();
-		UUID uid2 = UUID.randomUUID();
 		OutputStream out = null;
 		PrintWriter printWriter = null;
 		MultipartFile file = multiFile.getFile("upload");
@@ -91,7 +90,6 @@ public class AdminProductController {
 		response.setContentType("text/html;charset=utf-8");
 		System.out.println("---if중첩 시작");
 		System.out.println("--uid : " + uid);
-		System.out.println("--uid2 : " + uid2);
 
 		if (file != null) {
 			if (file.getSize() > 0 && StringUtils.isNotBlank(file.getName())) {
@@ -161,13 +159,12 @@ public class AdminProductController {
 
 		if (userId != null && userId.equals("admin")) {
 			// 상품명 중복 체크
+			System.out.println("adminFileVo img : " + adminFileVo.getProductRepImg());
 			String result = adminProductService.adminProductNameCheck(adminProductVo);
 			System.out.println("상품명 중복체크 result : " + result);
-
 			System.out.println("--------------------");
 			String productNameCheck = adminProductVo.getProductName();
 			System.out.println("productNameCheck : " + productNameCheck);
-
 			System.out.println("productNameCheck의 타입: " + productNameCheck.getClass().getName());
 			System.out.println("--------------------");
 			if (productNameCheck.equals(result)) {
