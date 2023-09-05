@@ -74,8 +74,24 @@
 	
 	<!-- 상품 전체 수 조회 -->
 	<select id="adminProductCount" resultType="int">
-		SELECT COUNT(*) FROM adminProduct
-	</select>	
+		      SELECT
+          A.*
+      FROM
+      (
+          SELECT
+              ROW_ADMINPRODUCT() OVER(ORDER BY M.PRODUCTSEQ) rNum 
+              , P.PRODUCTSEQ
+              , P.PRODUCTNAME
+              , P.PRODUCTPRICE
+              , P.PRODUCTQUANTITY
+              , P.PRODUCTCONTENT
+                  , P.PRODUCTCLASSFICATION
+                FROM 
+                    ADMINPRODUCT P
+      ) A
+      WHERE
+          A.RNUM BETWEEN #{startIndex} AND ${endIndex}
+	</select>
 	
 	<!-- 상품 목록 조회 -->
    <select id="adminProductList" parameterType="adminProductVo" resultType="adminProductVo">

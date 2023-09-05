@@ -150,7 +150,7 @@ function validation() {
     		success: function(result) {
     			console.log(result);
           if (result) {
-              alert("정보수정 완료 : " + result.userUpdateVo.userId);
+              alert(result.userUpdateVo.userId + " 님의 정보가 수정되었습니다.");
               
               window.location.href = '/myPage';
           } else {

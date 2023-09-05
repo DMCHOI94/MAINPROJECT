@@ -148,11 +148,87 @@ public class AdminProductController {
 		return null;
 	}
 
+	// 상품 대표이미지 폴더에 저장
+	@PostMapping(value = "/productRepImg")
+	@ResponseBody
+	public String productRepImg(HttpServletRequest request, HttpServletResponse response,
+			MultipartHttpServletRequest productRepImg) throws Exception {
+		System.out.println("대표이미지로gdgdgdgdgdgdgd");
+		System.out.println("productRepImg : " + productRepImg);
+		JsonObject json = new JsonObject();
+		UUID uid = UUID.randomUUID();
+		OutputStream out = null;
+		PrintWriter printWriter = null;
+		MultipartFile file = productRepImg.getFile("file");
+		System.out.println("대표이미지로multiFile : " + productRepImg);
+		System.out.println("file : " + file);
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=utf-8");
+		System.out.println("-대표이미지로-if중첩 시작");
+		System.out.println("--uid : " + uid);
+
+		if (file != null) {
+			if (file.getSize() > 0 && StringUtils.isNotBlank(file.getName())) {
+				if (file.getContentType().toLowerCase().startsWith("image/")) {
+					try {
+						System.out.println("대표이미지로 들어옴");
+						// 파일 이름 가져오기
+						String fileName = file.getOriginalFilename();
+						byte[] bytes = file.getBytes();
+
+						// 파일 경로 생성
+						String uploadPath = request.getSession().getServletContext().getRealPath("/resources/ckUpload/");
+						// 폴더 생성
+						File folder = new File(uploadPath);
+						System.out.println("대표이미지로 folder : " + folder);
+						if (!folder.exists()) {
+							try {
+								folder.mkdirs(); // 폴더 생성
+								System.out.println("대표이미지로 폴더생성!!");
+							} catch (Exception e) {
+								e.getStackTrace();
+							}
+						}
+						String fileSave = uploadPath + uid + fileName;
+
+						System.out.println("대표이미지로 fileSave : " + fileSave);
+
+						out = new FileOutputStream(new File(fileSave));
+						out.write(bytes);
+
+						// 파일 생성
+						String test = "";
+						test = request.getContextPath() + "/resources/ckUpload/" + uid + fileName;
+						System.out.println("test : " + test);
+
+						printWriter = response.getWriter();
+						response.setContentType("text/html");
+
+						json.addProperty("uploaded", 1);
+						json.addProperty("fileName", uid + fileName);
+						json.addProperty("url", test);
+						printWriter.println(json);
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+						if (out != null) {
+							out.close();
+						}
+						if (printWriter != null) {
+							printWriter.close();
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
 	// 상품 정보 등록
 	@PostMapping(value = "/adminProductInfo")
 	@ResponseBody
 	public String adminProductInfo(HttpSession session, @ModelAttribute AdminProductVo adminProductVo,
-			@ModelAttribute AdminFileVo adminFileVo, Integer productSeq) {
+			@ModelAttribute AdminFileVo adminFileVo, MultipartHttpServletRequest multiFile, Integer productSeq) {
 		System.out.println("adminProductInfo 들어옴");
 
 		String userId = (String) session.getAttribute("userId");
@@ -173,6 +249,8 @@ public class AdminProductController {
 			} else {
 				System.out.println("---adminFileVo getName " + adminFileVo.getFileName());
 				System.out.println("---adminFileVo filePath " + adminFileVo.getFilePath());
+				System.out.println("---!!adminFileVo productRepImg " + adminFileVo.getProductRepImg());
+				UUID uuid = UUID.randomUUID();
 
 				System.out.println("adminProductVo. name : " + adminProductVo.getProductName());
 				System.out.println("adminProductVo. productPrice : " + adminProductVo.getProductPrice());
@@ -180,6 +258,8 @@ public class AdminProductController {
 				System.out.println("adminProductVo. productContent : " + adminProductVo.getProductContent());
 				System.out.println("adminProductVo. productClassification  : " + adminProductVo.getProductClassification());
 
+				System.out.println("adminFileVo.getProductRepImg() : " + adminFileVo.getProductRepImg());
+				System.out.println("uuid : " + uuid);
 				int productResult = adminProductService.adminProductInfo(adminProductVo, productSeq);
 				productSeq = adminProductVo.getProductSeq();
 				System.out.println("productSeq : " + productSeq);
@@ -236,17 +316,17 @@ public class AdminProductController {
 			int endPage = startPage + pageSize - 1;
 
 			// 시작 인덱스 구하기
-			int startIndex = (curPage - 1) * productSize;
+			int startIndex = (curPage - 1) * productSize + 1;
 
 			// 마지막 인덱스 구하기
-			int endIndex = curPage * productSize - 1;
+			int endIndex = curPage * productSize;
 
 			if (startIndex == 0) {
 				startIndex = 1;
 			}
-			if (endIndex == 9) {
-				endIndex = 10;
-			}
+//			if (endIndex == 9) {
+//				endIndex = 10;
+//			}
 
 			if (endPage > pageCount) {
 				endPage = pageCount;

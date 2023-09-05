@@ -54,7 +54,7 @@ function validation() {
 	    		success: function(result) {
 	    			console.log(result);
 	          if (result) {
-	              alert("회원탈퇴 완료");
+	              alert("회원탈퇴가 완료되었습니다.");
 	              window.location.href = '/';
 	          } else {
 	              alert("잘못된 정보입니다. 다시 확인해주세요.");

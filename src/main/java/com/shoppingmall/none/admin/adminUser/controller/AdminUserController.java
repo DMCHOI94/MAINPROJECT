@@ -64,10 +64,8 @@ public class AdminUserController {
 			// 페이지 총 개수
 			int pageCount = (userCount / userSize) + (userCount % userSize == 0 ? 0 : 1);
 			// 현재 페이지 구하기
-			System.out.println(" test : " + currentPage);
 			String curPageStr = currentPage;
 			if (curPageStr == null) {
-				System.out.println("들어옴");
 				curPageStr = "1";
 			}
 			int curPage = Integer.parseInt(curPageStr);
@@ -81,17 +79,17 @@ public class AdminUserController {
 			// 끝 페이지 구하기
 			int endPage = startPage + pageSize - 1;
 			// 시작 인덱스 구하기
-			int startIndex = (curPage - 1) * userSize;
+			int startIndex = (curPage - 1) * userSize + 1;
 			// 마지막 인덱스 구하기
-			int endIndex = curPage * userSize - 1;
+			int endIndex = curPage * userSize;
 			// 시작 인덱스 제한
 			if (startIndex == 0) {
 				startIndex = 1;
 			}
-			// 마지막 인덱스 제한
-			if (endIndex == 9) {
-				endIndex = 10;
-			}
+//			// 마지막 인덱스 제한
+//			if (endIndex == 9) {
+//				endIndex = 10;
+//			}
 			// 마지막 페이지 제한
 			if (endPage > pageCount) {
 				endPage = pageCount;
