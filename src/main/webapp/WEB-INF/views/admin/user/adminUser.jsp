@@ -8,6 +8,8 @@ $(document).ready(function() {
 	const urlParams = new URLSearchParams(window.location.search);
 	console.log("urlParams : " + urlParams);
   const currentPage = urlParams.get('curPage'); // URL에서 curPage 파라미터 값을 얻어옴
+  let curPage = '1';
+  console.log("curPage : " + curPage);
   console.log("currentPage : " + currentPage);
   adminUserInfo(currentPage);
 });

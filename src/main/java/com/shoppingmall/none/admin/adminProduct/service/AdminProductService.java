@@ -53,9 +53,9 @@ public class AdminProductService {
 	}
 
 	// 상품 목록 조회
-	public List<AdminProductListVo> adminProductList(AdminProductVo adminProductVo) {
+	public List<AdminProductVo> adminProductList(AdminProductVo adminProductVo, AdminProductListVo adminProductListVo) {
 		System.out.println("상품 정보 조회 service의 adminProductVo : " + adminProductVo);
-		List<AdminProductListVo> productList = adminProductDao.adminProductList(adminProductVo);
+		List<AdminProductVo> productList = adminProductDao.adminProductList(adminProductVo, adminProductListVo);
 		return productList;
 	}
 

@@ -28,7 +28,7 @@ public class AdminUserDao {
 		return sql.selectOne("AdminLoginDao.adminUserCount");
 	}
 
-	// 회원가입 정보 전달
+	// 회원 정보 조회
 	public List<AdminUserVo> adminUserInfo(AdminUserVo adminUserVo, AdminPageVo adminPageVo) {
 		System.out.println("회원정보조회 dao의 adminUserVo = " + adminUserVo);
 

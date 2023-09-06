@@ -55,10 +55,10 @@ public class AdminProductDao {
 	}
 
 	// 상품 목록 조회
-	public List<AdminProductListVo> adminProductList(AdminProductVo adminProductVo) {
+	public List<AdminProductVo> adminProductList(AdminProductVo adminProductVo, AdminProductListVo adminProductListVo) {
 		System.out.println("상품 정보 조회 dao의 adminProductVo : " + adminProductVo);
 
-		return sql.selectList("AdminLoginDao.adminProductList", adminProductVo);
+		return sql.selectList("AdminLoginDao.adminProductList", adminProductListVo);
 	}
 
 	// 상품 삭제

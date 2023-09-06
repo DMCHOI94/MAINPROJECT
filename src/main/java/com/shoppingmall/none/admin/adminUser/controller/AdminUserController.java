@@ -50,8 +50,7 @@ public class AdminUserController {
 	@ResponseBody
 	public List<Object> adminUserInfo(@ModelAttribute AdminUserVo adminUserVo, AdminPageVo adminPageVo,
 			HttpSession session,
-			@RequestParam(value = "currentPage", required = false, defaultValue = "1") String currentPage)
-			throws JsonProcessingException {
+			@RequestParam(value = "currentPage", required = false, defaultValue = "1") String currentPage) {
 		String userId = (String) session.getAttribute("userId");
 		if (userId != null && userId.equals("admin")) {
 			// 회원 총 인원

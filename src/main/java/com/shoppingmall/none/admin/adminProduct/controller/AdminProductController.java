@@ -345,7 +345,7 @@ public class AdminProductController {
 			adminProductListVo.setStartIndex(startIndex);
 			adminProductListVo.setEndIndex(endIndex);
 
-			List<AdminProductListVo> productList = adminProductService.adminProductList(adminProductVo);
+			List<AdminProductVo> productList = adminProductService.adminProductList(adminProductVo, adminProductListVo);
 			// DB에 뽑히는 리스트 만큼의 정수
 			System.out.println("test productList : " + productList);
 			int productRow = productList.size();
