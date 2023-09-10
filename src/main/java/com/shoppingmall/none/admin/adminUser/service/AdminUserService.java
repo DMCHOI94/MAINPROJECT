@@ -40,4 +40,10 @@ public class AdminUserService {
 		return result;
 	}
 
+	// 회원정보 수정
+	public List<AdminUserVo> adminProductRegi() {
+		System.out.println("회원정보 수정 service");
+		return null;
+	}
+
 }

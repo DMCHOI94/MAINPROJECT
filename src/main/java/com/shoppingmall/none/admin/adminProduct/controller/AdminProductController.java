@@ -245,7 +245,7 @@ public class AdminProductController {
 			System.out.println("--------------------");
 			if (productNameCheck.equals(result)) {
 				System.out.println("name이 중복되었습니다");
-				return "redirect:/adminLogin";
+				return null;
 			} else {
 				System.out.println("---adminFileVo getName " + adminFileVo.getFileName());
 				System.out.println("---adminFileVo filePath " + adminFileVo.getFilePath());

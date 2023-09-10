@@ -6,51 +6,14 @@
 //엔터 키 이벤트 처리
 $(document).keypress(function(e) {
   if (e.which === 13) { // 엔터 키 코드
-      validation(); // 확인 버튼 작동
+  	alert("엔터누름");
+		validation(); // 확인 버튼 작동
   }
 });
 
 // 밸리데이션 관련된 변수 선언
 let pwCheck = 'N';
 let pwConfirmCheck = 'N';
-let idCheck = 'N';
-
-//아이디 중복체크
-function userIdCheck() {
-	let userId = $('#userId').val();
-	const userIdTxt = document.querySelector(".userId span");
-	
-	if(userId == '') {
-		alert('아이디를 입력하세요.');
-		userIdTxt.style.color = "red";
-		return false;
-	} else {
-		userIdTxt.style.color = "black";
-	}
-	
-	let params = {
-      userId: userId
-  };
-	
-	$.ajax({
-    type: 'POST',
-    url: '/userIdCheck',
-    data: params,
-    success: function(response) {
-    	console.log("response : " + response);
-      if (response == '') {
-      	alert('사용 가능한 아이디입니다.');
-      	idCheck = 'Y';
-      } else {
-      	alert('이미 사용 중인 아이디입니다.');
-      	idCheck = 'N';
-      }
-    },
-    error: function(response) {
-      alert('아이디 중복 체크에 실패했습니다.');
-    }
-  });
-}
 
 // 비밀번호 정규식
 function userPwCheck() {
@@ -103,23 +66,9 @@ function execDaumPostcode() {
 	});
 }
 
-// 생년월일
-$(document).ready(
-    function () {
-        for (let i = 2023; i > 1920; i--) {
-            $('#year').append('<option value="' + i + '">' + i + '</option>');
-        }
-        for (let i = 1; i < 13; i++) {
-            $('#month').append('<option value="' + i + '">' + i + '</option>');
-        }
-        for (let i = 1; i < 32; i++) {
-            $('#day').append('<option value="' + i + '">' + i + '</option>');
-        }
-    }
-);
-
 // 밸리데이션 체크 및 ajax
 function validation() {
+	alert("밸리데이션 들어옴");
 	let userId = $('#userId').val();
 	let userPw = $('#userPw').val();
 	let userConfirmPw = $('#userConfirmPw').val();
@@ -127,31 +76,13 @@ function validation() {
 	let userAddrPostal = $('#userAddrPostal').val();
 	let userAddr = $('#userAddr').val();
 	let userAddrDetail = $('#userAddrDetail').val();
-	let userGender = $('#userGender input:checked').val();
-	let year = $('#year').val();
-	let month = $('#month').val();
-	let day = $('#day').val();
-	let userBirth = year + '-' + month + '-' + day;
-	let useYN = $('#useYN').val();
-	let adminYN = $('#adminYN').val();
-	
-	const userIdTxt = document.querySelector(".userId span");
+
 	const userPwTxt = document.querySelector(".userPw span");
 	const userConfirmPwTxt = document.querySelector(".userConfirmPw span");
 	const userNameTxt = document.querySelector(".userName span");
 	const userAddrPostalTxt = document.querySelector(".userAddrPostal span");
 	const userAddrTxt = document.querySelector(".userAddr span");
 	const userAddrDetailTxt = document.querySelector(".userAddrDetail span");
-	const userGenderTxt = document.querySelector(".userGender span");
-	const userBirthTxt = document.querySelector(".userBirth span");
-	
-	if(userId == '') {
-		alert('아이디를 입력하세요.');
-		userIdTxt.style.color = "red";
-		return false;
-	} else {
-		userIdTxt.style.color = "black";
-	}
 
 	if(userPw == '') {
 		alert('비밀번호를 입력하세요.');
@@ -200,45 +131,28 @@ function validation() {
 	} else {
 		userAddrDetailTxt.style.color = "black";
 	}
-	
-	if($('#userGender input:checked').length === 0) {
-		alert('성별을 선택하세요.');
-		userGenderTxt.style.color = "red";
-		return false;
-	} else {
-		userGenderTxt.style.color = "black";
-	}
-	
-	if(year == '----' || month == '--' || day == '--') {
-		alert('생년월일을 선택하세요.');
-		userBirthTxt.style.color = "red";
-		return false;
-	} else {
-		userBirthTxt.style.color = "black";
-	}
-	
-	if(idCheck === 'Y' && pwCheck === 'Y' && pwConfirmCheck === 'Y') {
+	console.log("pwCheck : " + pwCheck + "--- / " + "pwConfirmCheck : " + pwConfirmCheck	)
+	if(pwCheck === 'Y' && pwConfirmCheck === 'Y') {
 		let params = {
-        userId: userId,
+				userId: userId,
         userPw: userPw,
         userName: userName,
         userAddrPostal: userAddrPostal,
         userAddr: userAddr,
         userAddrDetail: userAddrDetail,
-        userGender: userGender,
-        userBirth: userBirth,
-        useYN: useYN,
-        adminYN: adminYN
       };
 		
     	$.ajax({
     		type : 'POST',
-    		url : '/joinInfo',
-    		data : params,	
+    		url : '/updateInfo',
+    		data : params,
+    		dataType: 'json',
     		success: function(result) {
+    			console.log(result);
           if (result) {
-              alert("회원가입 완료");
-              window.location.href = '/login';
+              alert(result.userUpdateVo.userId + " 님의 정보가 수정되었습니다.");
+              
+              window.location.href = '/myPage';
           } else {
               alert("전송된 값 없음");
           }
@@ -257,31 +171,24 @@ function validation() {
 		alert("비밀번호를 확인해주세요!");
 		return false;
 		
-	} else if(idCheck === 'N') {
-		alert("아이디를 확인해주세요!");
-		return false;
-		
 	} else {
 		alert("회원가입이 불가합니다.");
 		return false;
-	}
-}
+	} 
+}	
 </script>
 <div class="container">
-	<form action="join" method="POST">
-		<h2>회 원 가 입</h2>
+	<form method="POST">
+		<h2>정 보 수 정</h2>
 		<div class="user">
 			<table class="userTable">
-				<tr>
+			<tr>
 					<th class="userId"><span>아이디</span></th>
 					<td>
-						<input id="userId" name="userId" type="text">
-					</td>
-					<td>
-						<input type='button' id='idButton' value="아이디 중복체크" onclick="userIdCheck()">
+						<input id="userId" name="userId" type="text" value="${userUpdateVo.userId}" readonly>
 					</td>
 				</tr>
-				
+			
 				<tr>
 					<th class="userPw"><span>비밀번호</span></th>
 					<td>
@@ -301,14 +208,14 @@ function validation() {
 				<tr>
 					<th class="userName"><span>이름</span></th>
 					<td>
-						<input id="userName" name="userName" type="text">
+						<input id="userName" name="userName" value="${userUpdateVo.userName}" type="text">
 					</td>
 				</tr><br>
 
 				<tr>
 					<th class="userAddrPostal"><span>우편번호</span></th>
 					<td>
-						<input id="userAddrPostal" type="text" name="userAddrPostal" readonly />
+						<input id="userAddrPostal" type="text" value="${userUpdateVo.userAddrPostal}" name="userAddrPostal" readonly />
 					</td>
 					<td>
 						<input type='button' id='postCode' value="주소입력" onclick="execDaumPostcode()">
@@ -318,44 +225,21 @@ function validation() {
 				<tr>
 					<th class="userAddr"><span>주소</span></th>
 					<td>
-						<input id="userAddr" type="text" name="userAddr" readonly />
+						<input id="userAddr" type="text" value="${userUpdateVo.userAddr}" name="userAddr" readonly />
 					</td>
 				</tr>
 				
 				<tr>
 					<th class="userAddrDetail"><span>상세 주소</span></th>
 					<td>
-						<input id="userAddrDetail" type="text" name="userAddrDetail" />
-					</td>
-				</tr>
-				
-				<tr>
-					<th class="userGender"><span>성별</span></th>
-					<td id="userGender" name="userGender">
-						<label><input type="radio" id="gender" name="gender" value="man">남자</label>&nbsp&nbsp
-						<label><input type="radio" id="gender" name="gender" value="woman">여자</label>
+						<input id="userAddrDetail" type="text" value="${userUpdateVo.userAddrDetail}" name="userAddrDetail" />
 					</td>
 				</tr>
 
-				<tr>
-					<th class="userBirth"><span>생년월일</span></th>
-					<td>
-						<select id="year">
-							<option>----</option>
-						</select>년&nbsp
-						<select id="month">
-							<option>--</option>
-						</select>월&nbsp
-						<select id="day">
-							<option>--</option>
-						</select>일
-					</td>
-				</tr>
 			</table>
 		</div>
-		<input type="hidden" id="useYN" name="useYN" value="Y"/>
-		<input type="hidden" id="adminYN" name="adminYN" value="N"/>
-		<button type="button" id="request" class="form-group" onclick="validation()">제출하기</button>
+		<button type="button" id="request" class="form-group" onclick="validation()">수정하기</button>
 	</form>
 </div>
 <br>
+</body>

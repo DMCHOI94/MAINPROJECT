@@ -161,9 +161,16 @@ function productRegi() {
     processData: false,
     success: function (data) {
       console.log("이미지 업로드 성공: " + data);
-      alert('등록되었습니다'); 
-      window.close();
-      window.opener.location.reload();
+      
+      if (data != '') {
+        alert('등록되었습니다'); 
+        window.close();
+        window.opener.location.reload();
+      } else {
+      	alert('이미 사용 중인 아이디입니다.');
+      	return false;
+      }
+
     },
     error: function (request, status, error) {
       alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);

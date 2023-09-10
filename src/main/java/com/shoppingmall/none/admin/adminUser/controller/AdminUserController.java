@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shoppingmall.none.admin.adminUser.dao.AdminUserDao;
 import com.shoppingmall.none.admin.adminUser.service.AdminUserService;
@@ -154,6 +154,24 @@ public class AdminUserController {
 		} else {
 			System.out.println("로그인 후 이용이 가능합니다.");
 			return 0;
+		}
+	}
+
+	// 회원 정보수정 버튼
+	@GetMapping(value = "/adminUserInfoRegi") // ModelAndView
+	public String adminProductRegi(HttpSession session, @RequestParam("selUserId") String selUserId) {
+		System.out.println("회원수정 페이지 들어옴");
+		String userId = (String) session.getAttribute("userId");
+		ModelAndView mav = new ModelAndView();
+
+		if (userId != null && userId.equals("admin")) {
+			System.out.println("팝업창 true");
+			System.out.println("controller selUserId : " + selUserId);
+			List<AdminUserVo> result = adminUserService.adminProductRegi();
+			return "admin/user/adminUserInfoRegi";
+		} else {
+			System.out.println("로그인 후 이용이 가능합니다.");
+			return "redirect:/adminLogin";
 		}
 	}
 }

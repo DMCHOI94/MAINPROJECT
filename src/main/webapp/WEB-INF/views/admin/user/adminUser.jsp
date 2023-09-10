@@ -67,6 +67,7 @@ function adminUserInfo(currentPage) {
 			let adminYN = '';
 			let rnum = '';
 			let btnPList = '<button id="userPList" class="btn btn-secondary" onclick="userPList()" style="cursor: pointer;">내역조회</button>';
+			let btnUserSelInfo = '<button id="userSelInfo" class="btn btn-secondary" onclick="userSelInfo()" style="cursor: pointer;">정보수정</button>';
 			let btnUserDelete = '<button id="userDelete" class="btn btn-secondary" onclick="userDelete()" style="cursor: pointer;">회원삭제</button>';
 			let tr = '<tr>';
 			let tr_ = '</tr>';
@@ -127,6 +128,7 @@ function adminUserInfo(currentPage) {
 										td + useYN + td_ +
 										td + adminYN + td_ +
 										td + btnPList + td_ +
+										td + btnUserSelInfo + td_ +
 										td + btnUserDelete + td_ +
 										tr_;
 				console.log( i + " 번째 입니다.");
@@ -189,6 +191,38 @@ function userPList() {
 	
 }
 
+function userSelInfo() {
+  let selUserId = [];
+  $('input[id="userCheck"]:checked').each(function() {
+  	selUserId.push($(this).closest('tr').find('#selUserId').text());
+    console.log("selUserId : " + selUserId);
+  });
+  console.log("222selUserId22 : " + selUserId);
+  
+	if(selUserId != '') {
+		$.ajax({
+    	type : 'GET',
+  		url : '/adminUserInfoRegi',
+      data: { 
+      	selUserId: selUserIdsStr
+      },
+      success: function(data) {
+        console.log("data : " + data);
+        alert("회원이 삭제되었습니다");
+        location.reload();
+      },
+      error : function(request,status,error) {
+  	 	 	alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+  	 	 	console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+  		}
+    });
+
+	} else {
+		alert("수정하실 회원을 선택해주세요.");
+		return false;
+	}
+}
+
 function userDelete() {
   let selUserId = [];
   $('input[id="userCheck"]:checked').each(function() {
@@ -224,8 +258,6 @@ function userDelete() {
 		alert("삭제하실 회원을 선택해주세요.");
 		return false;
 	}
-  
-
 }
 </script>
 <!DOCTYPE html>
@@ -501,6 +533,10 @@ function userDelete() {
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">회원정보 조회</h6>
                         </div>
+                        <div>
+                        	<input type="button" value="회원등록" id="productRegi" class="productRegi" onclick="productRegi()"
+                        	style="float: right; margin-right: 12px; margin-top: 8px;">
+                        </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -519,6 +555,7 @@ function userDelete() {
                                             <th>회원탈퇴여부</th>
                                             <th>관리자계정</th>
                                             <th>구매내역</th>
+                                            <th>정보수정</th>
                                             <th>회원삭제</th>
                                         </tr>
                                     </thead>
